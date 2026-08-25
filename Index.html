@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Menu UI</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #333;
+        }
+
+        .screen {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: #e8e8e8;
+            /* Creates the horizontal scanline effect */
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* --- Channel Grid --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 12px;
+            padding: 40px;
+            height: 480px;
+        }
+
+        .channel {
+            background: #f0f0f0;
+            border-radius: 15px;
+            border: 2px solid rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .channel:hover { transform: scale(1.05); }
+
+        .channel.empty::after {
+            content: "Wii";
+            font-size: 2rem;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+        }
+
+        /* Mock images for active channels */
+        .channel img { width: 100%; height: 100%; object-fit: cover; }
+        .ch-1 { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+        .ch-2 { background: #000; }
+        .ch-3 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+        .ch-4 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+
+        /* --- Bottom Bar --- */
+        .bottom-bar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to bottom, #f5f5f5, #d0d0d0);
+        }
+
+        /* The iconic blue curve */
+        .bottom-bar::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -10%;
+            width: 120%;
+            height: 60px;
+            background: #f5f5f5;
+            border-top: 3px solid #5ce1e6; /* Cyan border */
+            border-radius: 50% 50% 0 0;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 40px 20px 40px;
+            height: 100%;
+        }
+
+        /* Bottom Buttons */
+        .round-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            border-radius: 50%;
+            border: 3px solid #5ce1e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #888;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 -3px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .msg-badge {
+            position: absolute;
+            bottom: -5px;
+            right: 20px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Clock and Date */
+        .time-date { text-align: center; color: #666; margin-bottom: 5px; }
+        .time {
+            font-family: 'Courier New', monospace; /* Mimics digital clock */
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+        }
+        .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
+        .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
+    </style>
+</head>
+<body>
+
+    <div class="screen">
+        <div class="grid">
+            <div class="channel ch-1"></div>
+            <div class="channel ch-2"></div>
+            <div class="channel ch-3"></div>
+            <div class="channel ch-4"></div>
+            <!-- Generating 8 empty channels -->
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+            <div class="channel empty"></div>
+        </div>
+
+        <div class="bottom-bar">
+            <div class="footer-content">
+                <div class="round-btn">Wii</div>
+                
+                <div class="time-date">
+                    <div class="time">6 31 <span class="am">AM</span></div>
+                    <div class="date">Wed 2/22</div>
+                </div>
+
+                <div class="round-btn">
+                    ✉️
+                    <span class="msg-badge">1</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
