@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console Menu UI</title>
+    <title>Console Menu UI - Paginated</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         
@@ -25,17 +25,54 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
+        /* --- Pagination Arrows --- */
+        .arrow {
+            position: absolute;
+            top: 40%;
+            transform: translateY(-50%);
+            width: 0; 
+            height: 0; 
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s, filter 0.2s;
+            filter: drop-shadow(0 0 5px rgba(92, 225, 230, 0.8));
+        }
+
+        .arrow:hover { transform: translateY(-50%) scale(1.1); filter: drop-shadow(0 0 10px rgba(92, 225, 230, 1)); }
+
+        .arrow-left {
+            left: 10px;
+            border-right: 35px solid #5ce1e6; /* Cyan */
+            display: none; /* Hidden on page 1 */
+        }
+
+        .arrow-right {
+            right: 10px;
+            border-left: 35px solid #5ce1e6; /* Cyan */
+        }
+
         /* --- Channel Grid --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 12px;
-            padding: 40px;
+        .pages-container {
+            position: relative;
+            width: 100%;
             height: 480px;
         }
 
-        /* UPDATED: Added text-decoration: none and color: inherit for link styling */
+        .grid {
+            display: none; /* Hidden by default, JS reveals the active one */
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 12px;
+            padding: 40px 60px; /* Extra horizontal padding for arrows */
+            height: 100%;
+        }
+
+        .grid.active {
+            display: grid;
+        }
+
         .channel {
             background: #f0f0f0;
             border-radius: 15px;
@@ -44,28 +81,31 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            text-align: center;
+            padding: 10px;
             position: relative;
             overflow: hidden;
             transition: transform 0.2s;
             cursor: pointer;
             text-decoration: none; 
-            color: inherit;
-        }
-
-        .channel:hover { transform: scale(1.05); }
-
-        .channel.empty::after {
-            content: "Wii";
-            font-size: 2rem;
-            color: rgba(0,0,0,0.05);
+            color: #555;
+            font-size: 0.85rem;
             font-weight: bold;
         }
 
-        .channel img { width: 100%; height: 100%; object-fit: cover; }
-        .ch-1 { background: linear-gradient(135deg, #1e3c72, #2a5298); }
-        .ch-2 { background: #000; }
-        .ch-3 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
-        .ch-4 { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+        .channel:hover { 
+            transform: scale(1.05); 
+            background: #fff;
+            color: #000;
+        }
+
+        .channel.empty {
+            cursor: default;
+        }
+        .channel.empty:hover {
+            transform: none;
+            background: #f0f0f0;
+        }
 
         /* --- Bottom Bar --- */
         .bottom-bar {
@@ -74,6 +114,7 @@
             width: 100%;
             height: 120px;
             background: linear-gradient(to bottom, #f5f5f5, #d0d0d0);
+            pointer-events: none;
         }
 
         .bottom-bar::before {
@@ -96,6 +137,7 @@
             align-items: flex-end;
             padding: 0 40px 20px 40px;
             height: 100%;
+            pointer-events: auto;
         }
 
         .round-btn {
@@ -132,34 +174,68 @@
 <body>
 
     <div class="screen">
-        <div class="grid">
-            <!-- UPDATED: Replaced <div> with <a> and added href destinations -->
-            <a href="/smash-bros.html" class="channel ch-1"></a>
-            <a href="/mario-64.html" class="channel ch-2"></a>
-            <a href="/uno.html" class="channel ch-3"></a>
-            <a href="/pool-revolution.html" class="channel ch-4"></a>
-            
-            <!-- Empty channels can also be links, or you can switch them back to <div> if they shouldn't be clickable -->
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
-            <a href="#" class="channel empty"></a>
+        
+        <!-- Navigation Arrows -->
+        <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
+        <div class="arrow arrow-right" id="next-btn" onclick="changePage(1)"></div>
+
+        <div class="pages-container">
+            <!-- PAGE 1 (Games 1-12) -->
+            <div class="grid page active" id="page-0">
+                <a href="/games/60 Seconds! Reatomized.html" class="channel">60 Seconds! Reatomized</a>
+                <a href="/games/Bad Piggies.html" class="channel">Bad Piggies</a>
+                <a href="/games/Balatro.html" class="channel">Balatro</a>
+                <a href="/games/BeatBlock.html" class="channel">BeatBlock</a>
+                <a href="/games/FISH.html" class="channel">FISH</a>
+                <a href="/games/Grand Theft Auto 3.html" class="channel">Grand Theft Auto 3</a>
+                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel">GTA Vice City</a>
+                <a href="/games/Hollow Knight.html" class="channel">Hollow Knight</a>
+                <a href="/games/Hollow Knight_ Silksong.html" class="channel">Hollow Knight Silksong</a>
+                <a href="/games/In Stars and Time.html" class="channel">In Stars and Time</a>
+                <a href="/games/Kirby ~ Soft & Wet.html" class="channel">Kirby Soft & Wet</a>
+                <a href="/games/OMORI.html" class="channel">OMORI</a>
+            </div>
+
+            <!-- PAGE 2 (Games 13-24) -->
+            <div class="grid page" id="page-1">
+                <a href="/games/Off.html" class="channel">Off</a>
+                <a href="/games/One Shot_ World Machine edition.html" class="channel">One Shot World Machine</a>
+                <a href="/games/PikuNiku.html" class="channel">PikuNiku</a>
+                <a href="/games/PvZ.html" class="channel">PvZ</a>
+                <a href="/games/Stardew Valley.html" class="channel">Stardew Valley</a>
+                <a href="/games/Terraria.html" class="channel">Terraria</a>
+                <a href="/games/WebFishing.html" class="channel">WebFishing</a>
+                <a href="/games/clbindingofisaccsheeptime.html" class="channel">Binding of Isaac</a>
+                <a href="/games/clcavestory.html" class="channel">Cave Story</a>
+                <a href="/games/clmetalslug.html" class="channel">Metal Slug</a>
+                <a href="/games/clmetalslug2.html" class="channel">Metal Slug 2</a>
+                <a href="/games/clsolatrobo.html" class="channel">Solatorobo</a>
+            </div>
+
+            <!-- PAGE 3 (Game 25 + 11 Empty Slots) -->
+            <div class="grid page" id="page-2">
+                <a href="/games/clundertale.html" class="channel">Undertale</a>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+            </div>
         </div>
 
         <div class="bottom-bar">
             <div class="footer-content">
-                <!-- Made the bottom buttons links as well -->
                 <a href="/settings.html" class="round-btn">Wii</a>
-                
                 <div class="time-date">
                     <div class="time">6 31 <span class="am">AM</span></div>
                     <div class="date">Wed 2/22</div>
                 </div>
-
                 <a href="/messages.html" class="round-btn">
                     ✉️
                     <span class="msg-badge">1</span>
@@ -168,5 +244,35 @@
         </div>
     </div>
 
+    <!-- JavaScript to handle page switching -->
+    <script>
+        let currentPage = 0;
+        const totalPages = 3;
+
+        function changePage(direction) {
+            // Remove active class from current page
+            document.getElementById(`page-${currentPage}`).classList.remove('active');
+            
+            // Update page index
+            currentPage += direction;
+            
+            // Add active class to new page
+            document.getElementById(`page-${currentPage}`).classList.add('active');
+            
+            // Show/Hide Left Arrow
+            if (currentPage === 0) {
+                document.getElementById('prev-btn').style.display = 'none';
+            } else {
+                document.getElementById('prev-btn').style.display = 'block';
+            }
+
+            // Show/Hide Right Arrow
+            if (currentPage === totalPages - 1) {
+                document.getElementById('next-btn').style.display = 'none';
+            } else {
+                document.getElementById('next-btn').style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
