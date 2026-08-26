@@ -15,6 +15,45 @@
             background-color: #333;
         }
 
+        /* --- Preloader Styles --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid #5ce1e6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: #5ce1e6;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- Main App Styles --- */
         .screen {
             position: relative;
             width: 800px;
@@ -97,7 +136,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover; 
-            border-radius: 13px; /* Keeps it inside the 15px border of the container */
+            border-radius: 13px;
         }
 
         .channel:hover { 
@@ -163,14 +202,7 @@
             position: relative;
             cursor: pointer;
             text-decoration: none;
-        }
-
-        .msg-badge {
-            position: absolute;
-            bottom: -5px;
-            right: 20px;
-            font-size: 0.8rem;
-            color: #888;
+            font-size: 1.5rem;
         }
 
         .time-date { text-align: center; color: #666; margin-bottom: 5px; }
@@ -258,13 +290,15 @@
         body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .time-date .am, body.theme-dark .time-date .date { color: #ddd; }
         body.theme-dark .channel { background: #444; border-color: rgba(255,255,255,0.1); color: #ddd; }
         body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; }
-
-        /* Light Theme */
-        body.theme-light { background-color: #ccc; }
-        body.theme-light .screen { background: #ffffff; }
     </style>
 </head>
 <body>
+
+    <!-- Preloader Overlay -->
+    <div id="preloader">
+        <div class="spinner"></div>
+        <div class="loading-text">LOADING...</div>
+    </div>
 
     <div class="screen">
         
@@ -380,18 +414,12 @@
             <div class="menu-options">
                 <button onclick="setTheme('default')">Classic Wii</button>
                 <button onclick="setTheme('dark')">Dark Mode</button>
-                <button onclick="setTheme('light')">Light Mode</button>
             </div>
             
             <h4>Cursors</h4>
             <div class="menu-options">
-                <button onclick="setCursor('default')">Default</button>
-                <button onclick="setCursor('crosshair')">Crosshair</button>
-                <button onclick="setCursor('help')">Help</button>
-                <button onclick="setCursor('Chiikawa')">Chiikawa</button>
-                <button onclick="setCursor('Hachiware')">Hachiware</button>
-                <button onclick="setCursor('Momonga')">Momonga</button>
-                <button onclick="setCursor('Usagi')">Usagi</button>
+                <button onclick="setCursor('default')">System Default</button>
+                <button onclick="setCursor('Custom')">Custom Cursor</button>
             </div>
             
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
@@ -399,23 +427,33 @@
 
         <div class="bottom-bar">
             <div class="footer-content">
-                <!-- Changed to Theme Menu Button -->
-                <div class="round-btn" onclick="toggleThemeMenu()" style="cursor: pointer; font-size: 1.5rem;">🎨</div>
+                <!-- Theme Menu Button -->
+                <div class="round-btn" onclick="toggleThemeMenu()">🎨</div>
                 
                 <div class="time-date">
                     <div class="time">6 31 <span class="am">AM</span></div>
                     <div class="date">Wed 2/22</div>
                 </div>
-                <a href="/messages.html" class="round-btn">
-                    ✉️
-                    <span class="msg-badge">1</span>
-                </a>
+
+                <!-- Music Button -->
+                <a href="/music.html" class="round-btn">🎵</a>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript to handle page switching, themes, and cursors -->
+    <!-- JavaScript to handle preloader, page switching, themes, and cursors -->
     <script>
+        // Handle Preloader Fade Out
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            
+            // Wait for transition to finish before hiding completely
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500); // 500ms matches the CSS transition time
+        });
+
         let currentPage = 0;
         const totalPages = 3;
 
@@ -446,7 +484,7 @@
         // Handle Theme Switching
         function setTheme(themeName) {
             // Remove all existing theme classes first
-            document.body.classList.remove('theme-dark', 'theme-light');
+            document.body.classList.remove('theme-dark');
             
             // Add new theme class if it's not the default
             if (themeName !== 'default') {
@@ -459,13 +497,10 @@
             let defaultCursor = cursorType;
             let pointerCursor = cursorType === 'default' ? 'pointer' : cursorType;
 
-            // List of custom characters to map to URLs
-            const customCursors = ['Chiikawa', 'Hachiware', 'Momonga', 'Usagi'];
-            
-            if (customCursors.includes(cursorType)) {
-                // Constructs paths like url('/cursor/Chiikawa.ani'), auto
-                defaultCursor = `url('/cursor/${cursorType}.ani'), auto`;
-                pointerCursor = `url('/cursor/${cursorType} Link.ani'), pointer`;
+            if (cursorType === 'Custom') {
+                // Construct path for the .cur files
+                defaultCursor = `url('/cursor/Normal Select.cur'), auto`;
+                pointerCursor = `url('/cursor/Link Select.cur'), pointer`;
             }
 
             // Apply cursor to the whole body
