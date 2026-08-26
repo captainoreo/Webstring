@@ -177,6 +177,91 @@
         .time { font-family: 'Courier New', monospace; font-size: 2.5rem; letter-spacing: 5px; }
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
+
+        /* --- Theme Menu Styles --- */
+        .theme-menu {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            background: linear-gradient(to bottom, #ffffff, #e6e6e6);
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #5ce1e6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            z-index: 100;
+            text-align: center;
+        }
+
+        .theme-menu.active {
+            display: block;
+        }
+
+        .theme-menu h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .theme-menu h4 {
+            color: #666;
+            margin: 10px 0 5px 0;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .menu-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .theme-menu button {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .theme-menu button:hover {
+            background: #5ce1e6;
+            color: white;
+            border-color: #3bbcc1;
+        }
+
+        .close-btn {
+            background: #ff6b6b !important;
+            color: white !important;
+            border-color: #ee5252 !important;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* --- Theme Classes --- */
+        /* Dark Theme */
+        body.theme-dark { background-color: #111; }
+        body.theme-dark .screen { 
+            background: #2a2a2a; 
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px);
+        }
+        body.theme-dark .bottom-bar { background: linear-gradient(to bottom, #333, #1a1a1a); }
+        body.theme-dark .bottom-bar::before { background: #333; }
+        body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .time-date .am, body.theme-dark .time-date .date { color: #ddd; }
+        body.theme-dark .channel { background: #444; border-color: rgba(255,255,255,0.1); color: #ddd; }
+        body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; }
+
+        /* Light Theme */
+        body.theme-light { background-color: #ccc; }
+        body.theme-light .screen { background: #ffffff; }
     </style>
 </head>
 <body>
@@ -287,9 +372,36 @@
             </div>
         </div>
 
+        <!-- Theme & Cursor Menu -->
+        <div id="theme-menu" class="theme-menu">
+            <h3>Customization</h3>
+            
+            <h4>Themes</h4>
+            <div class="menu-options">
+                <button onclick="setTheme('default')">Classic Wii</button>
+                <button onclick="setTheme('dark')">Dark Mode</button>
+                <button onclick="setTheme('light')">Light Mode</button>
+            </div>
+            
+            <h4>Cursors</h4>
+            <div class="menu-options">
+                <button onclick="setCursor('default')">Default</button>
+                <button onclick="setCursor('crosshair')">Crosshair</button>
+                <button onclick="setCursor('help')">Help</button>
+                <button onclick="setCursor('Chiikawa')">Chiikawa</button>
+                <button onclick="setCursor('Hachiware')">Hachiware</button>
+                <button onclick="setCursor('Momonga')">Momonga</button>
+                <button onclick="setCursor('Usagi')">Usagi</button>
+            </div>
+            
+            <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
+        </div>
+
         <div class="bottom-bar">
             <div class="footer-content">
-                <a href="/settings.html" class="round-btn">Wii</a>
+                <!-- Changed to Theme Menu Button -->
+                <div class="round-btn" onclick="toggleThemeMenu()" style="cursor: pointer; font-size: 1.5rem;">🎨</div>
+                
                 <div class="time-date">
                     <div class="time">6 31 <span class="am">AM</span></div>
                     <div class="date">Wed 2/22</div>
@@ -302,7 +414,7 @@
         </div>
     </div>
 
-    <!-- JavaScript to handle page switching -->
+    <!-- JavaScript to handle page switching, themes, and cursors -->
     <script>
         let currentPage = 0;
         const totalPages = 3;
@@ -323,6 +435,48 @@
             } else {
                 document.getElementById('next-btn').style.display = 'block';
             }
+        }
+
+        // Toggle Menu Visibility
+        function toggleThemeMenu() {
+            const menu = document.getElementById('theme-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Handle Theme Switching
+        function setTheme(themeName) {
+            // Remove all existing theme classes first
+            document.body.classList.remove('theme-dark', 'theme-light');
+            
+            // Add new theme class if it's not the default
+            if (themeName !== 'default') {
+                document.body.classList.add(`theme-${themeName}`);
+            }
+        }
+
+        // Handle Cursor Switching
+        function setCursor(cursorType) {
+            let defaultCursor = cursorType;
+            let pointerCursor = cursorType === 'default' ? 'pointer' : cursorType;
+
+            // List of custom characters to map to URLs
+            const customCursors = ['Chiikawa', 'Hachiware', 'Momonga', 'Usagi'];
+            
+            if (customCursors.includes(cursorType)) {
+                // Constructs paths like url('/cursor/Chiikawa.ani'), auto
+                defaultCursor = `url('/cursor/${cursorType}.ani'), auto`;
+                pointerCursor = `url('/cursor/${cursorType} Link.ani'), pointer`;
+            }
+
+            // Apply cursor to the whole body
+            document.body.style.cursor = defaultCursor;
+            
+            // Ensure all clickable elements inherit the new cursor
+            const interactables = document.querySelectorAll('.channel:not(.empty), .round-btn, .arrow, button');
+            
+            interactables.forEach(el => {
+                el.style.cursor = pointerCursor; 
+            });
         }
     </script>
 </body>
