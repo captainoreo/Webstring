@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console Menu UI - Paginated</title>
+    <title>Console Menu UI - Paginated with Icons</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         
@@ -44,13 +44,13 @@
 
         .arrow-left {
             left: 10px;
-            border-right: 35px solid #5ce1e6; /* Cyan */
-            display: none; /* Hidden on page 1 */
+            border-right: 35px solid #5ce1e6;
+            display: none;
         }
 
         .arrow-right {
             right: 10px;
-            border-left: 35px solid #5ce1e6; /* Cyan */
+            border-left: 35px solid #5ce1e6;
         }
 
         /* --- Channel Grid --- */
@@ -61,11 +61,11 @@
         }
 
         .grid {
-            display: none; /* Hidden by default, JS reveals the active one */
+            display: none;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(3, 1fr);
             gap: 12px;
-            padding: 40px 60px; /* Extra horizontal padding for arrows */
+            padding: 40px 60px;
             height: 100%;
         }
 
@@ -82,7 +82,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 10px;
             position: relative;
             overflow: hidden;
             transition: transform 0.2s;
@@ -91,6 +90,14 @@
             color: #555;
             font-size: 0.85rem;
             font-weight: bold;
+        }
+
+        /* Image styling to fit inside the rounded box */
+        .channel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 13px; /* Keeps it inside the 15px border of the container */
         }
 
         .channel:hover { 
@@ -102,6 +109,7 @@
         .channel.empty {
             cursor: default;
         }
+        
         .channel.empty:hover {
             transform: none;
             background: #f0f0f0;
@@ -182,39 +190,89 @@
         <div class="pages-container">
             <!-- PAGE 1 (Games 1-12) -->
             <div class="grid page active" id="page-0">
-                <a href="/games/60 Seconds! Reatomized.html" class="channel">60 Seconds! Reatomized</a>
-                <a href="/games/Bad Piggies.html" class="channel">Bad Piggies</a>
-                <a href="/games/Balatro.html" class="channel">Balatro</a>
-                <a href="/games/BeatBlock.html" class="channel">BeatBlock</a>
-                <a href="/games/FISH.html" class="channel">FISH</a>
-                <a href="/games/Grand Theft Auto 3.html" class="channel">Grand Theft Auto 3</a>
-                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel">GTA Vice City</a>
-                <a href="/games/Hollow Knight.html" class="channel">Hollow Knight</a>
-                <a href="/games/Hollow Knight_ Silksong.html" class="channel">Hollow Knight Silksong</a>
-                <a href="/games/In Stars and Time.html" class="channel">In Stars and Time</a>
-                <a href="/games/Kirby ~ Soft & Wet.html" class="channel">Kirby Soft & Wet</a>
-                <a href="/games/OMORI.html" class="channel">OMORI</a>
+                <a href="/games/60 Seconds! Reatomized.html" class="channel">
+                    <img src="/assets/IMG_9887.gif" alt="60 Seconds! Reatomized">
+                </a>
+                <a href="/games/Bad Piggies.html" class="channel">
+                    <img src="/assets/IMG_9888.gif" alt="Bad Piggies">
+                </a>
+                <a href="/games/Balatro.html" class="channel">
+                    <img src="/assets/IMG_9889.gif" alt="Balatro">
+                </a>
+                <a href="/games/BeatBlock.html" class="channel">
+                    <img src="/assets/IMG_9890.gif" alt="BeatBlock">
+                </a>
+                <a href="/games/FISH.html" class="channel">
+                    <img src="/assets/IMG_9891.gif" alt="FISH">
+                </a>
+                <a href="/games/Grand Theft Auto 3.html" class="channel">
+                    <img src="/assets/IMG_9892.gif" alt="Grand Theft Auto 3">
+                </a>
+                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel">
+                    <img src="/assets/IMG_9893.gif" alt="GTA Vice City">
+                </a>
+                <a href="/games/Hollow Knight.html" class="channel">
+                    <img src="/assets/IMG_9894.gif" alt="Hollow Knight">
+                </a>
+                <a href="/games/Hollow Knight_ Silksong.html" class="channel">
+                    <img src="/assets/IMG_9895.gif" alt="Hollow Knight Silksong">
+                </a>
+                <a href="/games/In Stars and Time.html" class="channel">
+                    <img src="/assets/IMG_9896.jpeg" alt="In Stars and Time">
+                </a>
+                <a href="/games/Kirby ~ Soft & Wet.html" class="channel">
+                    <img src="/assets/IMG_9897.png" alt="Kirby Soft & Wet">
+                </a>
+                <a href="/games/OMORI.html" class="channel">
+                    <img src="/assets/IMG_9898.gif" alt="OMORI">
+                </a>
             </div>
 
             <!-- PAGE 2 (Games 13-24) -->
             <div class="grid page" id="page-1">
-                <a href="/games/Off.html" class="channel">Off</a>
-                <a href="/games/One Shot_ World Machine edition.html" class="channel">One Shot World Machine</a>
-                <a href="/games/PikuNiku.html" class="channel">PikuNiku</a>
-                <a href="/games/PvZ.html" class="channel">PvZ</a>
-                <a href="/games/Stardew Valley.html" class="channel">Stardew Valley</a>
-                <a href="/games/Terraria.html" class="channel">Terraria</a>
-                <a href="/games/WebFishing.html" class="channel">WebFishing</a>
-                <a href="/games/clbindingofisaccsheeptime.html" class="channel">Binding of Isaac</a>
-                <a href="/games/clcavestory.html" class="channel">Cave Story</a>
-                <a href="/games/clmetalslug.html" class="channel">Metal Slug</a>
-                <a href="/games/clmetalslug2.html" class="channel">Metal Slug 2</a>
-                <a href="/games/clsolatrobo.html" class="channel">Solatorobo</a>
+                <a href="/games/Off.html" class="channel">
+                    <img src="/assets/IMG_9899.gif" alt="Off">
+                </a>
+                <a href="/games/One Shot_ World Machine edition.html" class="channel">
+                    <img src="/assets/IMG_9900.gif" alt="One Shot World Machine">
+                </a>
+                <a href="/games/PikuNiku.html" class="channel">
+                    <img src="/assets/IMG_9901.gif" alt="PikuNiku">
+                </a>
+                <a href="/games/PvZ.html" class="channel">
+                    <img src="/assets/IMG_9902.gif" alt="PvZ">
+                </a>
+                <a href="/games/Stardew Valley.html" class="channel">
+                    <img src="/assets/IMG_9903.gif" alt="Stardew Valley">
+                </a>
+                <a href="/games/Terraria.html" class="channel">
+                    <img src="/assets/IMG_9904.gif" alt="Terraria">
+                </a>
+                <a href="/games/WebFishing.html" class="channel">
+                    <img src="/assets/IMG_9905.gif" alt="WebFishing">
+                </a>
+                <a href="/games/clbindingofisaccsheeptime.html" class="channel">
+                    <img src="/assets/IMG_9906.gif" alt="Binding of Isaac">
+                </a>
+                <a href="/games/clcavestory.html" class="channel">
+                    <img src="/assets/IMG_9907.gif" alt="Cave Story">
+                </a>
+                <a href="/games/clmetalslug.html" class="channel">
+                    <img src="/assets/IMG_9908.gif" alt="Metal Slug">
+                </a>
+                <a href="/games/clmetalslug2.html" class="channel">
+                    <img src="/assets/IMG_9909.gif" alt="Metal Slug 2">
+                </a>
+                <a href="/games/clsolatrobo.html" class="channel">
+                    <img src="/assets/IMG_9911.webp" alt="Solatorobo">
+                </a>
             </div>
 
             <!-- PAGE 3 (Game 25 + 11 Empty Slots) -->
             <div class="grid page" id="page-2">
-                <a href="/games/clundertale.html" class="channel">Undertale</a>
+                <a href="/games/clundertale.html" class="channel">
+                    <img src="/assets/IMG_9912.gif" alt="Undertale">
+                </a>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
@@ -250,23 +308,16 @@
         const totalPages = 3;
 
         function changePage(direction) {
-            // Remove active class from current page
             document.getElementById(`page-${currentPage}`).classList.remove('active');
-            
-            // Update page index
             currentPage += direction;
-            
-            // Add active class to new page
             document.getElementById(`page-${currentPage}`).classList.add('active');
             
-            // Show/Hide Left Arrow
             if (currentPage === 0) {
                 document.getElementById('prev-btn').style.display = 'none';
             } else {
                 document.getElementById('prev-btn').style.display = 'block';
             }
 
-            // Show/Hide Right Arrow
             if (currentPage === totalPages - 1) {
                 document.getElementById('next-btn').style.display = 'none';
             } else {
