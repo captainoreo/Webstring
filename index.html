@@ -13,44 +13,7 @@
             align-items: center;
             height: 100vh;
             background-color: #333;
-        }
-
-        /* --- Preloader Styles --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.2);
-            border-top: 5px solid #5ce1e6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            color: #5ce1e6;
-            font-weight: bold;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            overflow: hidden; /* Prevents scrollbars when scaling */
         }
 
         /* --- Main App Styles --- */
@@ -62,6 +25,7 @@
             background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
             overflow: hidden;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transform-origin: center center; /* Ensures it scales from the middle */
         }
 
         /* --- Pagination Arrows --- */
@@ -210,7 +174,7 @@
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
-        /* --- Theme Menu Styles --- */
+        /* --- Menus (Theme & Music) Styles --- */
         .theme-menu {
             display: none;
             position: absolute;
@@ -218,6 +182,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 380px;
+            max-width: 90%; /* Prevents menu from overflowing on small screens */
+            max-height: 90vh; /* Prevents being taller than screen */
+            overflow-y: auto; /* Allows scrolling inside if it gets squished */
             background: linear-gradient(to bottom, #ffffff, #e6e6e6);
             padding: 25px;
             border-radius: 15px;
@@ -293,12 +260,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Preloader Overlay -->
-    <div id="preloader">
-        <div class="spinner"></div>
-        <div class="loading-text">LOADING...</div>
-    </div>
 
     <div class="screen">
         
@@ -425,35 +386,75 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
+        <!-- Music Menu -->
+        <div id="music-menu" class="theme-menu">
+            <h3>Music Player</h3>
+            
+            <h4>Controls</h4>
+            <div class="menu-options">
+                <button>Play</button>
+                <button>Pause</button>
+                <button>Next Track</button>
+            </div>
+            
+            <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
+        </div>
+
         <div class="bottom-bar">
             <div class="footer-content">
                 <!-- Theme Menu Button -->
-                <div class="round-btn" onclick="toggleThemeMenu()">🎨</div>
+                <div class="round-btn" onclick="toggleThemeMenu()" style="cursor: pointer;">🎨</div>
                 
                 <div class="time-date">
-                    <div class="time">6 31 <span class="am">AM</span></div>
-                    <div class="date">Wed 2/22</div>
+                    <div class="time" id="clock-time">-- -- <span class="am">--</span></div>
+                    <div class="date" id="clock-date">--- -/-</div>
                 </div>
 
                 <!-- Music Button -->
-                <a href="/music.html" class="round-btn">🎵</a>
+                <div class="round-btn" onclick="toggleMusicMenu()" style="cursor: pointer;">🎵</div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript to handle preloader, page switching, themes, and cursors -->
+    <!-- JavaScript -->
     <script>
-        // Handle Preloader Fade Out
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0';
-            
-            // Wait for transition to finish before hiding completely
-            setTimeout(function() {
-                preloader.style.display = 'none';
-            }, 500); // 500ms matches the CSS transition time
-        });
+        // --- Responsive Screen Scaling ---
+        function adjustScreenSize() {
+            const screen = document.querySelector('.screen');
+            // Calculates how much to shrink or grow the screen based on window size (leaving a 2% margin)
+            const scale = Math.min(window.innerWidth / 800, window.innerHeight / 600) * 0.98;
+            screen.style.transform = `scale(${scale})`;
+        }
 
+        // Run scaling calculation immediately, and every time the browser is resized
+        window.addEventListener('resize', adjustScreenSize);
+        adjustScreenSize();
+
+        // --- Live Clock Functionality ---
+        function updateClock() {
+            const now = new Date();
+            
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const dayName = days[now.getDay()];
+            const month = now.getMonth() + 1; 
+            const date = now.getDate();
+            
+            document.getElementById('clock-time').innerHTML = `${hours} ${minutes} <span class="am">${ampm}</span>`;
+            document.getElementById('clock-date').innerText = `${dayName} ${month}/${date}`;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // --- Page Logic ---
         let currentPage = 0;
         const totalPages = 3;
 
@@ -475,18 +476,23 @@
             }
         }
 
-        // Toggle Menu Visibility
+        // Toggle Theme Menu Visibility
         function toggleThemeMenu() {
             const menu = document.getElementById('theme-menu');
             menu.classList.toggle('active');
+            document.getElementById('music-menu').classList.remove('active');
+        }
+
+        // Toggle Music Menu Visibility
+        function toggleMusicMenu() {
+            const menu = document.getElementById('music-menu');
+            menu.classList.toggle('active');
+            document.getElementById('theme-menu').classList.remove('active');
         }
 
         // Handle Theme Switching
         function setTheme(themeName) {
-            // Remove all existing theme classes first
             document.body.classList.remove('theme-dark');
-            
-            // Add new theme class if it's not the default
             if (themeName !== 'default') {
                 document.body.classList.add(`theme-${themeName}`);
             }
@@ -498,17 +504,13 @@
             let pointerCursor = cursorType === 'default' ? 'pointer' : cursorType;
 
             if (cursorType === 'Custom') {
-                // Construct path for the .cur files
                 defaultCursor = `url('/cursor/Normal Select.cur'), auto`;
                 pointerCursor = `url('/cursor/Link Select.cur'), pointer`;
             }
 
-            // Apply cursor to the whole body
             document.body.style.cursor = defaultCursor;
             
-            // Ensure all clickable elements inherit the new cursor
             const interactables = document.querySelectorAll('.channel:not(.empty), .round-btn, .arrow, button');
-            
             interactables.forEach(el => {
                 el.style.cursor = pointerCursor; 
             });
