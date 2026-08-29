@@ -214,21 +214,36 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
+            gap: 10px;
+        }
+
+        .game-modal-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
         .game-modal-bar button {
-            padding: 8px 18px;
-            background: #ff6b6b;
-            color: #fff;
-            border: 2px solid #ee5252;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.85);
+            color: #333;
+            border: 2px solid var(--accent-color);
             border-radius: 20px;
             font-weight: bold;
-            font-size: 0.95rem;
-            transition: transform 0.2s;
+            font-size: 0.85rem;
+            transition: transform 0.2s, background 0.2s;
+            white-space: nowrap;
         }
 
         .game-modal-bar button:hover {
             transform: scale(1.05);
+            background: #fff;
+        }
+
+        .game-modal-bar button.exit-btn {
+            background: #ff6b6b;
+            color: #fff;
+            border-color: #ee5252;
         }
 
         /* --- Menus (Theme & Music) Styles --- */
@@ -450,10 +465,16 @@
 
         <!-- Game Iframe Player Overlay Modal -->
         <div id="game-modal" class="game-modal">
-            <iframe id="game-iframe" src="about:blank"></iframe>
+            <iframe id="game-iframe" src="about:blank" allowfullscreen="true"></iframe>
             <div class="game-modal-bar">
-                <span id="game-title" style="color: #333; font-weight: bold; font-size: 1.1rem;">Playing Game</span>
-                <button onclick="closeGame()">🏠 Exit to Menu</button>
+                <span id="game-title" style="color: #333; font-weight: bold; font-size: 1.1rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">Playing Game</span>
+                
+                <div class="game-modal-controls">
+                    <button onclick="openNewTab()">🔗 New Tab</button>
+                    <button onclick="openAboutBlank()">🌐 about:blank</button>
+                    <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+                    <button class="exit-btn" onclick="closeGame()">🏠 Exit to Menu</button>
+                </div>
             </div>
         </div>
 
@@ -566,12 +587,23 @@
             }
         }
 
-        // --- Game Iframe Player Logic ---
+        // --- Game Iframe Player & Music Muting Logic ---
+        let currentGameUrl = '';
+        let pausedMusicSrc = '';
+
         function openGame(url, title) {
+            currentGameUrl = url;
             const modal = document.getElementById('game-modal');
             const iframe = document.getElementById('game-iframe');
             const titleEl = document.getElementById('game-title');
+            const musicIframe = document.getElementById('music-iframe');
             
+            // Mute music player by clearing its source temporarily
+            if (musicIframe.src && musicIframe.src !== 'about:blank') {
+                pausedMusicSrc = musicIframe.src;
+                musicIframe.src = 'about:blank';
+            }
+
             iframe.src = url;
             if (title) titleEl.innerText = title;
             modal.classList.add('active');
@@ -580,9 +612,62 @@
         function closeGame() {
             const modal = document.getElementById('game-modal');
             const iframe = document.getElementById('game-iframe');
+            const musicIframe = document.getElementById('music-iframe');
             
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+
             modal.classList.remove('active');
             iframe.src = 'about:blank';
+            currentGameUrl = '';
+
+            // Restore music playback when returning to menu
+            if (pausedMusicSrc) {
+                musicIframe.src = pausedMusicSrc;
+                pausedMusicSrc = '';
+            }
+        }
+
+        function openNewTab() {
+            if (currentGameUrl) {
+                window.open(currentGameUrl, '_blank');
+            }
+        }
+
+        function openAboutBlank() {
+            if (!currentGameUrl) return;
+            const absoluteUrl = new URL(currentGameUrl, window.location.href).href;
+            const win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.write(`
+                    <!DOCTYPE html>
+                    <html style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;">
+                    <head><title>Classes</title></head>
+                    <body style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;">
+                        <iframe src="${absoluteUrl}" style="border:none;width:100%;height:100%;" allowfullscreen="true"></iframe>
+                    </body>
+                    </html>
+                `);
+                win.document.close();
+            }
+        }
+
+        function toggleFullscreen() {
+            const modal = document.getElementById('game-modal');
+            if (!document.fullscreenElement) {
+                if (modal.requestFullscreen) {
+                    modal.requestFullscreen();
+                } else if (modal.webkitRequestFullscreen) {
+                    modal.webkitRequestFullscreen();
+                } else if (modal.msRequestFullscreen) {
+                    modal.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         }
 
         // Intercept channel clicks to load games in iframe player
