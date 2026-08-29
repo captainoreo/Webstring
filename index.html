@@ -181,72 +181,170 @@
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
-        /* --- Game Iframe Player Modal --- */
+        /* --- Wii Channel Game Modal & CRT Screen --- */
         .game-modal {
             display: none;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: #000;
             z-index: 500;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
         }
 
         .game-modal.active {
             display: flex;
         }
 
+        .wii-crt-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            background: linear-gradient(to bottom, #bcbcbc 0%, #ffffff 35%, #ffffff 100%);
+            border-radius: 40px;
+            border: 14px solid #000;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Scanline Overlay matching original Wii Menu Texture */
+        .wii-crt-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .wii-screen-body {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 110px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .game-modal iframe {
             width: 100%;
-            height: calc(100% - 60px);
+            height: 100%;
             border: none;
             background: #fff;
+            display: none;
+            z-index: 5;
         }
 
-        .game-modal-bar {
-            height: 60px;
+        .game-modal iframe.playing {
+            display: block;
+        }
+
+        /* Wii Title Display & Reflection */
+        .wii-splash-view {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 4;
+            text-align: center;
+            padding: 0 60px;
+        }
+
+        .wii-game-title {
+            font-size: 2.8rem;
+            color: #555;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            -webkit-box-reflect: below -20px linear-gradient(transparent 25%, rgba(0, 0, 0, 0.15));
+        }
+
+        /* Wii Side Cyan Arrows */
+        .wii-side-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            z-index: 6;
+            cursor: pointer;
+            filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+        }
+
+        .wii-side-arrow.left {
+            left: 25px;
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            border-right: 22px solid #5cbbf0;
+        }
+
+        .wii-side-arrow.right {
+            right: 25px;
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            border-left: 22px solid #5cbbf0;
+        }
+
+        /* Bottom Wii Control Bar */
+        .wii-bottom-bar {
+            position: relative;
+            height: 110px;
             width: 100%;
-            background: var(--bottom-bar-gradient);
-            border-top: 3px solid var(--accent-color);
+            background: #d8d8d8;
+            border-top: 2px solid #a8a8a8;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 15px;
             padding: 0 20px;
-            gap: 10px;
+            z-index: 20;
+            flex-wrap: wrap;
         }
 
-        .game-modal-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .game-modal-bar button {
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.85);
-            color: #333;
-            border: 2px solid var(--accent-color);
-            border-radius: 20px;
+        /* Wii Pill Button Styling */
+        .wii-btn {
+            background: linear-gradient(to bottom, #ffffff 0%, #f4f8fb 50%, #d8e6f3 100%);
+            border: 3.5px solid #5cbbf0;
+            border-radius: 40px;
+            padding: 10px 38px;
+            font-size: 1.25rem;
             font-weight: bold;
-            font-size: 0.85rem;
-            transition: transform 0.2s, background 0.2s;
-            white-space: nowrap;
+            color: #444;
+            box-shadow: inset 0 2px 3px #ffffff, 0 4px 8px rgba(0,0,0,0.12);
+            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            min-width: 160px;
+            text-align: center;
         }
 
-        .game-modal-bar button:hover {
-            transform: scale(1.05);
-            background: #fff;
+        .wii-btn:hover {
+            transform: scale(1.04);
+            border-color: #2bb0f6;
+            box-shadow: inset 0 2px 4px #ffffff, 0 0 12px rgba(43, 176, 246, 0.4);
+            color: #111;
         }
 
-        .game-modal-bar button.exit-btn {
-            background: #ff6b6b;
-            color: #fff;
-            border-color: #ee5252;
+        .wii-btn-small {
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            min-width: auto;
+            border-width: 2.5px;
+            border-radius: 30px;
         }
 
-        /* --- Menus (Theme & Music) Styles --- */
+        /* --- Menus (Theme & Reworked Music Player) --- */
         .theme-menu {
             display: none;
             position: absolute;
@@ -271,29 +369,44 @@
         }
 
         .theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; }
-        .theme-menu h4 { color: #666; margin: 10px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .theme-menu h4 { color: #666; margin: 12px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
 
         .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; font-weight: bold; transition: all 0.2s; }
         .theme-menu button:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-        .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; }
+        .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 15px; font-size: 1.1rem; }
 
-        /* --- Music Iframe Container --- */
-        .iframe-container {
-            width: 100%;
-            height: 220px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #111;
-            border: 2px solid #ccc;
-            margin-top: 10px;
+        /* --- Custom Music Player UI --- */
+        .now-playing-card {
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03), 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        .iframe-container iframe {
+        .track-info {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .audio-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        audio {
             width: 100%;
-            height: 100%;
-            border: none;
+            height: 40px;
+            outline: none;
+            border-radius: 20px;
         }
 
         /* --- Theme Classes --- */
@@ -400,7 +513,7 @@
                 <a href="/games/clundertale.html" class="channel">
                     <img src="/assets/IMG_9912.gif" alt="Undertale">
                 </a>
-                <!-- FNAF Series (Chronological Order + Sequential Images) -->
+                <!-- FNAF Series -->
                 <a href="/games/clFNAF.html" class="channel">
                     <img src="/assets/IMG_9945.jpeg" alt="FNAF 1">
                 </a>
@@ -447,7 +560,7 @@
                     <img src="/assets/IMG_9957.png" alt="Spelunky">
                 </a>
                 <a href="/games/clfivenightsatfrickbears3.html" class="channel">
-                    <img src="/assets/IMG_9958.jpeg"alt="Five Nights at Frickbear's 3">
+                    <img src="/assets/IMG_9958.jpeg" alt="Five Nights at Frickbear's 3">
                 </a>
                 <a href="/games/clscratchoptions.html" class="channel">
                     <img src="/assets/IMG_9959.png" alt="Scratch Options">
@@ -463,17 +576,28 @@
             </div>
         </div>
 
-        <!-- Game Iframe Player Overlay Modal -->
+        <!-- Authentic Wii Game Screen & Iframe Overlay -->
         <div id="game-modal" class="game-modal">
-            <iframe id="game-iframe" src="about:blank" allowfullscreen="true"></iframe>
-            <div class="game-modal-bar">
-                <span id="game-title" style="color: #333; font-weight: bold; font-size: 1.1rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">Playing Game</span>
-                
-                <div class="game-modal-controls">
-                    <button onclick="openNewTab()">🔗 New Tab</button>
-                    <button onclick="openAboutBlank()">🌐 about:blank</button>
-                    <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
-                    <button class="exit-btn" onclick="closeGame()">🏠 Exit to Menu</button>
+            <div class="wii-crt-container">
+                <!-- Side Wii Arrows -->
+                <div class="wii-side-arrow left"></div>
+                <div class="wii-side-arrow right"></div>
+
+                <!-- Screen Body (Title Splash or Active Game Iframe) -->
+                <div class="wii-screen-body">
+                    <div id="wii-splash" class="wii-splash-view">
+                        <div id="game-title" class="wii-game-title">Wii Menu Electronic Manual</div>
+                    </div>
+                    <iframe id="game-iframe" src="about:blank" allowfullscreen="true"></iframe>
+                </div>
+
+                <!-- Bottom Wii Navigation Bar -->
+                <div class="wii-bottom-bar">
+                    <button class="wii-btn" onclick="closeGame()">Wii Menu</button>
+                    <button id="wii-start-btn" class="wii-btn" onclick="startGame()">Start</button>
+                    <button class="wii-btn wii-btn-small" onclick="openNewTab()">🔗 New Tab</button>
+                    <button class="wii-btn wii-btn-small" onclick="openAboutBlank()">🌐 about:blank</button>
+                    <button class="wii-btn wii-btn-small" onclick="toggleFullscreen()">⛶ Fullscreen</button>
                 </div>
             </div>
         </div>
@@ -504,18 +628,25 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Music Menu -->
+        <!-- Reworked Music Player Menu -->
         <div id="music-menu" class="theme-menu">
-            <h3>Music & Media Player</h3>
+            <h3>🎵 Wii Sound Player</h3>
             
-            <h4>Iframe Player</h4>
-            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
-                <input type="text" id="iframe-url" placeholder="Paste URL or embed code..." style="padding: 6px; width: 90%; font-size: 0.85rem;">
-                <button onclick="loadMusicIframe()" style="width: 90%;">Load Player</button>
+            <div class="now-playing-card">
+                <div class="track-info" id="now-playing-title">2010 Toyota Corolla - 2003 Toyota Corolla</div>
+                <div class="audio-controls">
+                    <audio id="main-audio-player" controls loop>
+                        <source src="Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3" type="audio/mpeg">
+                        Your browser does not support the audio player.
+                    </audio>
+                </div>
             </div>
 
-            <div class="iframe-container">
-                <iframe id="music-iframe" src="about:blank" allow="autoplay; encrypted-media"></iframe>
+            <h4>Load Custom Audio / Stream</h4>
+            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
+                <input type="text" id="custom-audio-url" placeholder="Paste .mp3 URL or Stream link..." style="padding: 6px; width: 90%; font-size: 0.85rem;">
+                <button onclick="loadCustomTrack()" style="width: 90%;">Load Custom Track</button>
+                <button onclick="resetDefaultTrack()" style="width: 90%; background: #e0e0e0; color: #333; margin-top: 4px;">Reset to Toyota Corolla</button>
             </div>
             
             <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
@@ -587,30 +718,51 @@
 
         // --- Game Iframe Player & Music Muting Logic ---
         let currentGameUrl = '';
-        let pausedMusicSrc = '';
+        let wasAudioPlaying = false;
 
         function openGame(url, title) {
             currentGameUrl = url;
             const modal = document.getElementById('game-modal');
             const iframe = document.getElementById('game-iframe');
+            const splash = document.getElementById('wii-splash');
             const titleEl = document.getElementById('game-title');
-            const musicIframe = document.getElementById('music-iframe');
+            const startBtn = document.getElementById('wii-start-btn');
+            const audioPlayer = document.getElementById('main-audio-player');
             
-            // Mute music player by clearing its source temporarily
-            if (musicIframe.src && musicIframe.src !== 'about:blank') {
-                pausedMusicSrc = musicIframe.src;
-                musicIframe.src = 'about:blank';
+            // Pause background music when entering a game
+            if (!audioPlayer.paused) {
+                wasAudioPlaying = true;
+                audioPlayer.pause();
+            } else {
+                wasAudioPlaying = false;
             }
 
-            iframe.src = url;
+            iframe.src = 'about:blank';
+            iframe.classList.remove('playing');
+            splash.style.display = 'flex';
+            startBtn.style.display = 'inline-flex';
+
             if (title) titleEl.innerText = title;
             modal.classList.add('active');
+        }
+
+        function startGame() {
+            const iframe = document.getElementById('game-iframe');
+            const splash = document.getElementById('wii-splash');
+            const startBtn = document.getElementById('wii-start-btn');
+
+            if (currentGameUrl) {
+                iframe.src = currentGameUrl;
+                iframe.classList.add('playing');
+                splash.style.display = 'none';
+                startBtn.style.display = 'none';
+            }
         }
 
         function closeGame() {
             const modal = document.getElementById('game-modal');
             const iframe = document.getElementById('game-iframe');
-            const musicIframe = document.getElementById('music-iframe');
+            const audioPlayer = document.getElementById('main-audio-player');
             
             if (document.fullscreenElement) {
                 document.exitFullscreen();
@@ -618,12 +770,12 @@
 
             modal.classList.remove('active');
             iframe.src = 'about:blank';
+            iframe.classList.remove('playing');
             currentGameUrl = '';
 
-            // Restore music playback when returning to menu
-            if (pausedMusicSrc) {
-                musicIframe.src = pausedMusicSrc;
-                pausedMusicSrc = '';
+            // Resume background music if it was previously playing
+            if (wasAudioPlaying) {
+                audioPlayer.play().catch(err => console.log('Audio resume blocked:', err));
             }
         }
 
@@ -668,13 +820,13 @@
             }
         }
 
-        // Intercept channel clicks to load games in iframe player
+        // Intercept channel clicks to load games in Wii iframe player
         document.querySelectorAll('.channel:not(.empty)').forEach(channel => {
             channel.addEventListener('click', function(e) {
                 e.preventDefault();
                 const url = this.getAttribute('href');
                 const img = this.querySelector('img');
-                const title = img ? img.getAttribute('alt') : 'Game';
+                const title = img ? img.getAttribute('alt') : 'Game Channel';
                 openGame(url, title);
             });
         });
@@ -691,6 +843,36 @@
             const menu = document.getElementById('music-menu');
             menu.classList.toggle('active');
             document.getElementById('theme-menu').classList.remove('active');
+        }
+
+        // Reworked Audio Player Logic
+        function loadCustomTrack() {
+            const url = document.getElementById('custom-audio-url').value.trim();
+            if (!url) return;
+
+            const player = document.getElementById('main-audio-player');
+            const title = document.getElementById('now-playing-title');
+            
+            player.src = url;
+            player.load();
+            player.play().catch(e => console.log('Autoplay prevented:', e));
+
+            const fileName = url.split('/').pop().split('?')[0];
+            title.innerText = fileName || 'Custom Audio Track';
+            localStorage.setItem('savedAudioTrack', url);
+        }
+
+        function resetDefaultTrack() {
+            const player = document.getElementById('main-audio-player');
+            const title = document.getElementById('now-playing-title');
+            const defaultPath = 'Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3';
+
+            player.src = defaultPath;
+            player.load();
+            player.play().catch(e => console.log('Autoplay prevented:', e));
+            
+            title.innerText = '2010 Toyota Corolla - 2003 Toyota Corolla';
+            localStorage.removeItem('savedAudioTrack');
         }
 
         // --- Theme Presets Database ---
@@ -742,21 +924,6 @@
             }
         }
 
-        // Music Iframe Player Logic
-        function loadMusicIframe(save = true) {
-            let input = document.getElementById('iframe-url').value.trim();
-            if (!input) return;
-
-            const match = input.match(/src=["']([^"']+)["']/);
-            const url = match ? match[1] : input;
-
-            document.getElementById('music-iframe').src = url;
-
-            if (save) {
-                localStorage.setItem('savedIframeUrl', url);
-            }
-        }
-
         // Load Saved Data on Startup
         function loadSavedData() {
             const savedTheme = localStorage.getItem('selectedTheme');
@@ -764,11 +931,10 @@
                 setTheme(savedTheme);
             }
 
-            // Load saved music iframe URL
-            const savedIframeUrl = localStorage.getItem('savedIframeUrl');
-            if (savedIframeUrl) {
-                document.getElementById('iframe-url').value = savedIframeUrl;
-                loadMusicIframe(false);
+            const savedAudioTrack = localStorage.getItem('savedAudioTrack');
+            if (savedAudioTrack) {
+                document.getElementById('custom-audio-url').value = savedAudioTrack;
+                loadCustomTrack();
             }
         }
 
