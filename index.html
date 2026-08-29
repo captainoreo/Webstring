@@ -8,6 +8,9 @@
         :root {
             --main-bg: #e8e8e8;
             --channel-bg: #f0f0f0;
+            --accent-color: #5ce1e6;
+            --bottom-bar-bg: #f5f5f5;
+            --bottom-bar-gradient: linear-gradient(to bottom, #f5f5f5, #d0d0d0);
         }
 
         /* Force custom cursors globally */
@@ -45,25 +48,25 @@
             max-border-width: 30px; 
             z-index: 10;
             transition: transform 0.2s, filter 0.2s;
-            filter: drop-shadow(0 0 5px rgba(92, 225, 230, 0.8));
+            filter: drop-shadow(0 0 5px var(--accent-color));
         }
 
-        .arrow:hover { transform: translateY(-50%) scale(1.1); filter: drop-shadow(0 0 10px rgba(92, 225, 230, 1)); }
+        .arrow:hover { transform: translateY(-50%) scale(1.1); filter: drop-shadow(0 0 10px var(--accent-color)); }
 
         .arrow-left {
             left: 2%;
-            border-right: 4vw solid #5ce1e6;
+            border-right: 4vw solid var(--accent-color);
             display: none;
         }
 
         .arrow-right {
             right: 2%;
-            border-left: 4vw solid #5ce1e6;
+            border-left: 4vw solid var(--accent-color);
         }
 
         @media (min-width: 1000px) {
-            .arrow-left { border-right: 40px solid #5ce1e6; border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
-            .arrow-right { border-left: 40px solid #5ce1e6; border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
+            .arrow-left { border-right: 40px solid var(--accent-color); border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
+            .arrow-right { border-left: 40px solid var(--accent-color); border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
         }
 
         /* --- Channel Grid --- */
@@ -128,7 +131,7 @@
             bottom: 0;
             width: 100%;
             height: 120px;
-            background: linear-gradient(to bottom, #f5f5f5, #d0d0d0);
+            background: var(--bottom-bar-gradient);
             pointer-events: none;
         }
 
@@ -139,8 +142,8 @@
             left: -10%;
             width: 120%;
             height: 60px;
-            background: #f5f5f5;
-            border-top: 3px solid #5ce1e6;
+            background: var(--bottom-bar-bg);
+            border-top: 3px solid var(--accent-color);
             border-radius: 50% 50% 0 0;
         }
 
@@ -160,7 +163,7 @@
             height: 70px;
             background: linear-gradient(135deg, #fff, #e0e0e0);
             border-radius: 50%;
-            border: 3px solid #5ce1e6;
+            border: 3px solid var(--accent-color);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -185,14 +188,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 380px;
+            width: 420px;
             max-width: 90%; 
             max-height: 90vh; 
             overflow-y: auto; 
             background: linear-gradient(to bottom, #ffffff, #e6e6e6);
             padding: 25px;
             border-radius: 15px;
-            border: 3px solid #5ce1e6;
+            border: 3px solid var(--accent-color);
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             z-index: 100;
             text-align: center;
@@ -207,9 +210,26 @@
 
         .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; font-weight: bold; transition: all 0.2s; }
-        .theme-menu button:hover { background: #5ce1e6; color: white; border-color: #3bbcc1; }
+        .theme-menu button:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; }
+
+        /* --- Iframe Player Container --- */
+        .iframe-container {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #111;
+            border: 2px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
         /* --- Theme Classes --- */
         body.theme-dark { background-color: #111; }
@@ -217,10 +237,7 @@
             background: #2a2a2a; 
             background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px);
         }
-        body.theme-dark .bottom-bar { background: linear-gradient(to bottom, #333, #1a1a1a); }
-        body.theme-dark .bottom-bar::before { background: #333; }
         body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .time-date .am, body.theme-dark .time-date .date { color: #ddd; }
-        body.theme-dark .channel { background: #444; border-color: rgba(255,255,255,0.1); color: #ddd; }
         body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; }
     </style>
 </head>
@@ -385,16 +402,18 @@
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
             
-            <h4>Themes</h4>
+            <h4>Preset Themes</h4>
             <div class="menu-options">
                 <button onclick="setTheme('default')">Classic Wii</button>
                 <button onclick="setTheme('dark')">Dark Mode</button>
             </div>
 
             <h4>Theme Maker</h4>
-            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
-                <label>Background: <input type="color" id="custom-bg" onchange="applyThemeMaker()" value="#e8e8e8"></label>
-                <label>Channels: <input type="color" id="custom-channel" onchange="applyThemeMaker()" value="#f0f0f0"></label>
+            <div class="menu-options" style="flex-direction: column; align-items: flex-start; gap: 8px; width: 80%; margin: 0 auto 15px auto;">
+                <label style="display: flex; justify-content: space-between; width: 100%;">Background: <input type="color" id="custom-bg" onchange="applyThemeMaker()" value="#e8e8e8"></label>
+                <label style="display: flex; justify-content: space-between; width: 100%;">Channels: <input type="color" id="custom-channel" onchange="applyThemeMaker()" value="#f0f0f0"></label>
+                <label style="display: flex; justify-content: space-between; width: 100%;">Lines / Accents: <input type="color" id="custom-accent" onchange="applyThemeMaker()" value="#5ce1e6"></label>
+                <label style="display: flex; justify-content: space-between; width: 100%;">Bottom Bar: <input type="color" id="custom-bar" onchange="applyThemeMaker()" value="#f5f5f5"></label>
             </div>
 
             <h4>Tab Cloaking</h4>
@@ -407,15 +426,18 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Music Menu -->
+        <!-- Music Menu (with Iframe Player) -->
         <div id="music-menu" class="theme-menu">
-            <h3>Music Player</h3>
+            <h3>Music & Media Player</h3>
             
-            <h4>Controls</h4>
-            <div class="menu-options">
-                <button>Play</button>
-                <button>Pause</button>
-                <button>Next Track</button>
+            <h4>Iframe Player</h4>
+            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
+                <input type="text" id="iframe-url" placeholder="Paste URL or embed code..." style="padding: 6px; width: 90%; font-size: 0.85rem;">
+                <button onclick="loadIframe()" style="width: 90%;">Load Player</button>
+            </div>
+
+            <div class="iframe-container">
+                <iframe id="music-iframe" src="about:blank" allow="autoplay; encrypted-media"></iframe>
             </div>
             
             <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
@@ -499,33 +521,49 @@
             document.getElementById('theme-menu').classList.remove('active');
         }
 
-        // Handle Theme Switching
+        // Handle Preset Theme Switching
         function setTheme(themeName) {
             document.body.classList.remove('theme-dark');
             
-            // Reset custom colors so classic/dark themes function properly
-            document.documentElement.style.setProperty('--main-bg', '#e8e8e8');
-            document.documentElement.style.setProperty('--channel-bg', '#f0f0f0');
-            
-            if (themeName !== 'default' && themeName !== 'custom') {
-                document.body.classList.add(`theme-${themeName}`);
+            if (themeName === 'dark') {
+                document.documentElement.style.setProperty('--main-bg', '#2a2a2a');
+                document.documentElement.style.setProperty('--channel-bg', '#444444');
+                document.documentElement.style.setProperty('--accent-color', '#5ce1e6');
+                document.documentElement.style.setProperty('--bottom-bar-bg', '#333333');
+                document.documentElement.style.setProperty('--bottom-bar-gradient', 'linear-gradient(to bottom, #333333, #1a1a1a)');
+                document.body.classList.add('theme-dark');
+            } else {
+                // Classic Wii / Default
+                document.documentElement.style.setProperty('--main-bg', '#e8e8e8');
+                document.documentElement.style.setProperty('--channel-bg', '#f0f0f0');
+                document.documentElement.style.setProperty('--accent-color', '#5ce1e6');
+                document.documentElement.style.setProperty('--bottom-bar-bg', '#f5f5f5');
+                document.documentElement.style.setProperty('--bottom-bar-gradient', 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)');
             }
             
             localStorage.setItem('selectedTheme', themeName);
         }
 
-        // Apply custom colors from Theme Maker
+        // Apply Custom Colors from Theme Maker
         function applyThemeMaker(save = true) {
             const bgColor = document.getElementById('custom-bg').value;
             const channelColor = document.getElementById('custom-channel').value;
+            const accentColor = document.getElementById('custom-accent').value;
+            const barColor = document.getElementById('custom-bar').value;
+
             document.documentElement.style.setProperty('--main-bg', bgColor);
             document.documentElement.style.setProperty('--channel-bg', channelColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            document.documentElement.style.setProperty('--bottom-bar-bg', barColor);
+            document.documentElement.style.setProperty('--bottom-bar-gradient', `linear-gradient(to bottom, ${barColor}, #111111)`);
             document.body.classList.remove('theme-dark'); 
             
             if (save) {
                 localStorage.setItem('selectedTheme', 'custom');
                 localStorage.setItem('customBg', bgColor);
                 localStorage.setItem('customChannel', channelColor);
+                localStorage.setItem('customAccent', accentColor);
+                localStorage.setItem('customBar', barColor);
             }
         }
 
@@ -547,24 +585,51 @@
             }
         }
 
+        // Iframe Player Logic
+        function loadIframe(save = true) {
+            let input = document.getElementById('iframe-url').value.trim();
+            if (!input) return;
+
+            // Extract src from pasted <iframe> HTML tag if applicable
+            const match = input.match(/src=["']([^"']+)["']/);
+            const url = match ? match[1] : input;
+
+            document.getElementById('music-iframe').src = url;
+
+            if (save) {
+                localStorage.setItem('savedIframeUrl', url);
+            }
+        }
+
         // Load Saved Data on Startup
         function loadSavedData() {
             const savedTheme = localStorage.getItem('selectedTheme');
             
             if (savedTheme === 'custom') {
-                const savedBg = localStorage.getItem('customBg');
-                const savedChannel = localStorage.getItem('customChannel');
+                const savedBg = localStorage.getItem('customBg') || '#e8e8e8';
+                const savedChannel = localStorage.getItem('customChannel') || '#f0f0f0';
+                const savedAccent = localStorage.getItem('customAccent') || '#5ce1e6';
+                const savedBar = localStorage.getItem('customBar') || '#f5f5f5';
                 
-                if (savedBg) document.getElementById('custom-bg').value = savedBg;
-                if (savedChannel) document.getElementById('custom-channel').value = savedChannel;
+                document.getElementById('custom-bg').value = savedBg;
+                document.getElementById('custom-channel').value = savedChannel;
+                document.getElementById('custom-accent').value = savedAccent;
+                document.getElementById('custom-bar').value = savedBar;
                 
                 applyThemeMaker(false);
             } else if (savedTheme) {
                 setTheme(savedTheme);
             }
+
+            // Load saved iframe URL
+            const savedIframeUrl = localStorage.getItem('savedIframeUrl');
+            if (savedIframeUrl) {
+                document.getElementById('iframe-url').value = savedIframeUrl;
+                loadIframe(false);
+            }
         }
 
-        // Initialize saved themes
+        // Initialize saved settings
         loadSavedData();
     </script>
 </body>
