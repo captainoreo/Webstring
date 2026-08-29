@@ -253,7 +253,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 420px;
+            width: 440px;
             max-width: 90%; 
             max-height: 90vh; 
             overflow-y: auto; 
@@ -271,7 +271,7 @@
         }
 
         .theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; }
-        .theme-menu h4 { color: #666; margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .theme-menu h4 { color: #666; margin: 10px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
 
         .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
         .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; font-weight: bold; transition: all 0.2s; }
@@ -299,7 +299,7 @@
         /* --- Theme Classes --- */
         body.theme-dark { background-color: #111; }
         body.theme-dark .screen { 
-            background: #2a2a2a; 
+            background: var(--main-bg); 
             background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px);
         }
         body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .time-date .am, body.theme-dark .time-date .date { color: #ddd; }
@@ -486,14 +486,12 @@
             <div class="menu-options">
                 <button onclick="setTheme('default')">Classic Wii</button>
                 <button onclick="setTheme('dark')">Dark Mode</button>
-            </div>
-
-            <h4>Theme Maker</h4>
-            <div class="menu-options" style="flex-direction: column; align-items: flex-start; gap: 8px; width: 80%; margin: 0 auto 15px auto;">
-                <label style="display: flex; justify-content: space-between; width: 100%;">Background: <input type="color" id="custom-bg" onchange="applyThemeMaker()" value="#e8e8e8"></label>
-                <label style="display: flex; justify-content: space-between; width: 100%;">Channels: <input type="color" id="custom-channel" onchange="applyThemeMaker()" value="#f0f0f0"></label>
-                <label style="display: flex; justify-content: space-between; width: 100%;">Lines / Accents: <input type="color" id="custom-accent" onchange="applyThemeMaker()" value="#5ce1e6"></label>
-                <label style="display: flex; justify-content: space-between; width: 100%;">Bottom Bar: <input type="color" id="custom-bar" onchange="applyThemeMaker()" value="#f5f5f5"></label>
+                <button onclick="setTheme('neon')">Neon Cyber</button>
+                <button onclick="setTheme('sage')">Sage Matcha</button>
+                <button onclick="setTheme('sunset')">Sunset Glow</button>
+                <button onclick="setTheme('ocean')">Ocean Breeze</button>
+                <button onclick="setTheme('midnight')">Midnight Gold</button>
+                <button onclick="setTheme('berry')">Berry Pink</button>
             </div>
 
             <h4>Tab Cloaking</h4>
@@ -695,50 +693,35 @@
             document.getElementById('theme-menu').classList.remove('active');
         }
 
+        // --- Theme Presets Database ---
+        const themes = {
+            'default': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
+            'dark': { bg: '#2a2a2a', channel: '#444444', accent: '#5ce1e6', barBg: '#333333', barGrad: 'linear-gradient(to bottom, #333333, #1a1a1a)', dark: true },
+            'neon': { bg: '#0f0c1b', channel: '#1d1838', accent: '#ff007f', barBg: '#130f26', barGrad: 'linear-gradient(to bottom, #130f26, #080612)', dark: true },
+            'sage': { bg: '#e8f0e6', channel: '#f2f7f0', accent: '#78ab78', barBg: '#dce8d8', barGrad: 'linear-gradient(to bottom, #dce8d8, #b8ceb4)', dark: false },
+            'sunset': { bg: '#fdeed9', channel: '#fff7ed', accent: '#ff7e5f', barBg: '#fbdcb9', barGrad: 'linear-gradient(to bottom, #fbdcb9, #f7c393)', dark: false },
+            'ocean': { bg: '#e0f2fe', channel: '#f0f9ff', accent: '#0284c7', barBg: '#bae6fd', barGrad: 'linear-gradient(to bottom, #bae6fd, #7dd3fc)', dark: false },
+            'midnight': { bg: '#18181b', channel: '#27272a', accent: '#eab308', barBg: '#1c1917', barGrad: 'linear-gradient(to bottom, #1c1917, #0c0a09)', dark: true },
+            'berry': { bg: '#fce7f3', channel: '#fdf2f8', accent: '#ec4899', barBg: '#fbcfe8', barGrad: 'linear-gradient(to bottom, #fbcfe8, #f472b6)', dark: false }
+        };
+
         // Handle Preset Theme Switching
         function setTheme(themeName) {
-            document.body.classList.remove('theme-dark');
+            const t = themes[themeName] || themes['default'];
             
-            if (themeName === 'dark') {
-                document.documentElement.style.setProperty('--main-bg', '#2a2a2a');
-                document.documentElement.style.setProperty('--channel-bg', '#444444');
-                document.documentElement.style.setProperty('--accent-color', '#5ce1e6');
-                document.documentElement.style.setProperty('--bottom-bar-bg', '#333333');
-                document.documentElement.style.setProperty('--bottom-bar-gradient', 'linear-gradient(to bottom, #333333, #1a1a1a)');
+            document.documentElement.style.setProperty('--main-bg', t.bg);
+            document.documentElement.style.setProperty('--channel-bg', t.channel);
+            document.documentElement.style.setProperty('--accent-color', t.accent);
+            document.documentElement.style.setProperty('--bottom-bar-bg', t.barBg);
+            document.documentElement.style.setProperty('--bottom-bar-gradient', t.barGrad);
+            
+            if (t.dark) {
                 document.body.classList.add('theme-dark');
             } else {
-                // Classic Wii / Default
-                document.documentElement.style.setProperty('--main-bg', '#e8e8e8');
-                document.documentElement.style.setProperty('--channel-bg', '#f0f0f0');
-                document.documentElement.style.setProperty('--accent-color', '#5ce1e6');
-                document.documentElement.style.setProperty('--bottom-bar-bg', '#f5f5f5');
-                document.documentElement.style.setProperty('--bottom-bar-gradient', 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)');
+                document.body.classList.remove('theme-dark');
             }
             
             localStorage.setItem('selectedTheme', themeName);
-        }
-
-        // Apply Custom Colors from Theme Maker
-        function applyThemeMaker(save = true) {
-            const bgColor = document.getElementById('custom-bg').value;
-            const channelColor = document.getElementById('custom-channel').value;
-            const accentColor = document.getElementById('custom-accent').value;
-            const barColor = document.getElementById('custom-bar').value;
-
-            document.documentElement.style.setProperty('--main-bg', bgColor);
-            document.documentElement.style.setProperty('--channel-bg', channelColor);
-            document.documentElement.style.setProperty('--accent-color', accentColor);
-            document.documentElement.style.setProperty('--bottom-bar-bg', barColor);
-            document.documentElement.style.setProperty('--bottom-bar-gradient', `linear-gradient(to bottom, ${barColor}, #111111)`);
-            document.body.classList.remove('theme-dark'); 
-            
-            if (save) {
-                localStorage.setItem('selectedTheme', 'custom');
-                localStorage.setItem('customBg', bgColor);
-                localStorage.setItem('customChannel', channelColor);
-                localStorage.setItem('customAccent', accentColor);
-                localStorage.setItem('customBar', barColor);
-            }
         }
 
         // Apply Tab Cloaking
@@ -777,20 +760,7 @@
         // Load Saved Data on Startup
         function loadSavedData() {
             const savedTheme = localStorage.getItem('selectedTheme');
-            
-            if (savedTheme === 'custom') {
-                const savedBg = localStorage.getItem('customBg') || '#e8e8e8';
-                const savedChannel = localStorage.getItem('customChannel') || '#f0f0f0';
-                const savedAccent = localStorage.getItem('customAccent') || '#5ce1e6';
-                const savedBar = localStorage.getItem('customBar') || '#f5f5f5';
-                
-                document.getElementById('custom-bg').value = savedBg;
-                document.getElementById('custom-channel').value = savedChannel;
-                document.getElementById('custom-accent').value = savedAccent;
-                document.getElementById('custom-bar').value = savedBar;
-                
-                applyThemeMaker(false);
-            } else if (savedTheme) {
+            if (savedTheme) {
                 setTheme(savedTheme);
             }
 
