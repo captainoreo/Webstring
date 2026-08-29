@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webstring</title>
     <style>
+        :root {
+            --main-bg: #e8e8e8;
+            --channel-bg: #f0f0f0;
+        }
+
+        /* Force custom cursors globally */
+        body, .screen { cursor: url('/cursor/Normal Select.cur'), auto !important; }
+        .channel:not(.empty), .round-btn, .arrow, button, input { cursor: url('/cursor/Link Select.cur'), pointer !important; }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         
         body {
             height: 100vh;
             width: 100vw;
-            background-color: #e8e8e8;
+            background-color: var(--main-bg);
             overflow: hidden; 
         }
 
@@ -19,7 +28,7 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background: #e8e8e8;
+            background: var(--main-bg);
             background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
             overflow: hidden;
         }
@@ -34,7 +43,6 @@
             border-top: 3vw solid transparent;
             border-bottom: 3vw solid transparent;
             max-border-width: 30px; 
-            cursor: pointer;
             z-index: 10;
             transition: transform 0.2s, filter 0.2s;
             filter: drop-shadow(0 0 5px rgba(92, 225, 230, 0.8));
@@ -79,7 +87,7 @@
         }
 
         .channel {
-            background: #f0f0f0;
+            background: var(--channel-bg);
             border-radius: 15px;
             border: 2px solid rgba(0,0,0,0.1);
             box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
@@ -90,7 +98,6 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s;
-            cursor: pointer;
             text-decoration: none; 
             color: #555;
             font-size: 0.85rem;
@@ -109,14 +116,10 @@
             background: #fff;
             color: #000;
         }
-
-        .channel.empty {
-            cursor: default;
-        }
         
         .channel.empty:hover {
             transform: none;
-            background: #f0f0f0;
+            background: var(--channel-bg);
         }
 
         /* --- Bottom Bar --- */
@@ -165,7 +168,6 @@
             color: #888;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 -3px 5px rgba(0,0,0,0.1);
             position: relative;
-            cursor: pointer;
             text-decoration: none;
             font-size: 1.5rem;
             flex-shrink: 0;
@@ -204,7 +206,7 @@
         .theme-menu h4 { color: #666; margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
 
         .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
-        .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; font-weight: bold; transition: all 0.2s; }
         .theme-menu button:hover { background: #5ce1e6; color: white; border-color: #3bbcc1; }
 
         .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; }
@@ -379,7 +381,7 @@
             </div>
         </div>
 
-        <!-- Theme & Cursor Menu -->
+        <!-- Theme Menu -->
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
             
@@ -388,11 +390,18 @@
                 <button onclick="setTheme('default')">Classic Wii</button>
                 <button onclick="setTheme('dark')">Dark Mode</button>
             </div>
-            
-            <h4>Cursors</h4>
-            <div class="menu-options">
-                <button onclick="setCursor('default')">System Default</button>
-                <button onclick="setCursor('Custom')">Custom Cursor</button>
+
+            <h4>Theme Maker</h4>
+            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
+                <label>Background: <input type="color" id="custom-bg" onchange="applyThemeMaker()" value="#e8e8e8"></label>
+                <label>Channels: <input type="color" id="custom-channel" onchange="applyThemeMaker()" value="#f0f0f0"></label>
+            </div>
+
+            <h4>Tab Cloaking</h4>
+            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
+                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. Google Drive)" style="padding: 5px; width: 80%;">
+                <input type="text" id="cloak-icon" placeholder="Favicon URL" style="padding: 5px; width: 80%;">
+                <button onclick="applyCloak()" style="width: 80%;">Cloak Tab</button>
             </div>
             
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
@@ -415,7 +424,7 @@
         <div class="bottom-bar">
             <div class="footer-content">
                 <!-- Theme Menu Button -->
-                <div class="round-btn" onclick="toggleThemeMenu()" style="cursor: pointer;">🎨</div>
+                <div class="round-btn" onclick="toggleThemeMenu()">🎨</div>
                 
                 <div class="time-date">
                     <div class="time" id="clock-time">-- -- <span class="am">--</span></div>
@@ -423,7 +432,7 @@
                 </div>
 
                 <!-- Music Button -->
-                <div class="round-btn" onclick="toggleMusicMenu()" style="cursor: pointer;">🎵</div>
+                <div class="round-btn" onclick="toggleMusicMenu()">🎵</div>
             </div>
         </div>
     </div>
@@ -493,28 +502,70 @@
         // Handle Theme Switching
         function setTheme(themeName) {
             document.body.classList.remove('theme-dark');
-            if (themeName !== 'default') {
+            
+            // Reset custom colors so classic/dark themes function properly
+            document.documentElement.style.setProperty('--main-bg', '#e8e8e8');
+            document.documentElement.style.setProperty('--channel-bg', '#f0f0f0');
+            
+            if (themeName !== 'default' && themeName !== 'custom') {
                 document.body.classList.add(`theme-${themeName}`);
             }
-        }
-
-        // Handle Cursor Switching
-        function setCursor(cursorType) {
-            let defaultCursor = cursorType;
-            let pointerCursor = cursorType === 'default' ? 'pointer' : cursorType;
-
-            if (cursorType === 'Custom') {
-                defaultCursor = `url('/cursor/Normal Select.cur'), auto`;
-                pointerCursor = `url('/cursor/Link Select.cur'), pointer`;
-            }
-
-            document.body.style.cursor = defaultCursor;
             
-            const interactables = document.querySelectorAll('.channel:not(.empty), .round-btn, .arrow, button');
-            interactables.forEach(el => {
-                el.style.cursor = pointerCursor; 
-            });
+            localStorage.setItem('selectedTheme', themeName);
         }
+
+        // Apply custom colors from Theme Maker
+        function applyThemeMaker(save = true) {
+            const bgColor = document.getElementById('custom-bg').value;
+            const channelColor = document.getElementById('custom-channel').value;
+            document.documentElement.style.setProperty('--main-bg', bgColor);
+            document.documentElement.style.setProperty('--channel-bg', channelColor);
+            document.body.classList.remove('theme-dark'); 
+            
+            if (save) {
+                localStorage.setItem('selectedTheme', 'custom');
+                localStorage.setItem('customBg', bgColor);
+                localStorage.setItem('customChannel', channelColor);
+            }
+        }
+
+        // Apply Tab Cloaking
+        function applyCloak() {
+            const title = document.getElementById('cloak-title').value;
+            const iconUrl = document.getElementById('cloak-icon').value;
+            
+            if (title) document.title = title;
+            
+            if (iconUrl) {
+                let link = document.querySelector("link[rel~='icon']");
+                if (!link) {
+                    link = document.createElement('link');
+                    link.rel = 'icon';
+                    document.head.appendChild(link);
+                }
+                link.href = iconUrl;
+            }
+        }
+
+        // Load Saved Data on Startup
+        function loadSavedData() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            
+            if (savedTheme === 'custom') {
+                const savedBg = localStorage.getItem('customBg');
+                const savedChannel = localStorage.getItem('customChannel');
+                
+                if (savedBg) document.getElementById('custom-bg').value = savedBg;
+                if (savedChannel) document.getElementById('custom-channel').value = savedChannel;
+                
+                applyThemeMaker(false);
+            } else if (savedTheme) {
+                setTheme(savedTheme);
+            }
+        }
+
+        // Initialize saved themes
+        loadSavedData();
     </script>
 </body>
 </html>
