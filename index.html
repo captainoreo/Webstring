@@ -181,6 +181,56 @@
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
+        /* --- Game Iframe Player Modal --- */
+        .game-modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 500;
+            flex-direction: column;
+        }
+
+        .game-modal.active {
+            display: flex;
+        }
+
+        .game-modal iframe {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+            background: #fff;
+        }
+
+        .game-modal-bar {
+            height: 60px;
+            width: 100%;
+            background: var(--bottom-bar-gradient);
+            border-top: 3px solid var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .game-modal-bar button {
+            padding: 8px 18px;
+            background: #ff6b6b;
+            color: #fff;
+            border: 2px solid #ee5252;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+        }
+
+        .game-modal-bar button:hover {
+            transform: scale(1.05);
+        }
+
         /* --- Menus (Theme & Music) Styles --- */
         .theme-menu {
             display: none;
@@ -214,7 +264,7 @@
 
         .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; }
 
-        /* --- Iframe Player Container --- */
+        /* --- Music Iframe Container --- */
         .iframe-container {
             width: 100%;
             height: 220px;
@@ -398,6 +448,15 @@
             </div>
         </div>
 
+        <!-- Game Iframe Player Overlay Modal -->
+        <div id="game-modal" class="game-modal">
+            <iframe id="game-iframe" src="about:blank"></iframe>
+            <div class="game-modal-bar">
+                <span id="game-title" style="color: #333; font-weight: bold; font-size: 1.1rem;">Playing Game</span>
+                <button onclick="closeGame()">🏠 Exit to Menu</button>
+            </div>
+        </div>
+
         <!-- Theme Menu -->
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
@@ -426,14 +485,14 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Music Menu (with Iframe Player) -->
+        <!-- Music Menu -->
         <div id="music-menu" class="theme-menu">
             <h3>Music & Media Player</h3>
             
             <h4>Iframe Player</h4>
             <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
                 <input type="text" id="iframe-url" placeholder="Paste URL or embed code..." style="padding: 6px; width: 90%; font-size: 0.85rem;">
-                <button onclick="loadIframe()" style="width: 90%;">Load Player</button>
+                <button onclick="loadMusicIframe()" style="width: 90%;">Load Player</button>
             </div>
 
             <div class="iframe-container">
@@ -506,6 +565,36 @@
                 document.getElementById('next-btn').style.display = 'block';
             }
         }
+
+        // --- Game Iframe Player Logic ---
+        function openGame(url, title) {
+            const modal = document.getElementById('game-modal');
+            const iframe = document.getElementById('game-iframe');
+            const titleEl = document.getElementById('game-title');
+            
+            iframe.src = url;
+            if (title) titleEl.innerText = title;
+            modal.classList.add('active');
+        }
+
+        function closeGame() {
+            const modal = document.getElementById('game-modal');
+            const iframe = document.getElementById('game-iframe');
+            
+            modal.classList.remove('active');
+            iframe.src = 'about:blank';
+        }
+
+        // Intercept channel clicks to load games in iframe player
+        document.querySelectorAll('.channel:not(.empty)').forEach(channel => {
+            channel.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                const img = this.querySelector('img');
+                const title = img ? img.getAttribute('alt') : 'Game';
+                openGame(url, title);
+            });
+        });
 
         // Toggle Theme Menu Visibility
         function toggleThemeMenu() {
@@ -585,12 +674,11 @@
             }
         }
 
-        // Iframe Player Logic
-        function loadIframe(save = true) {
+        // Music Iframe Player Logic
+        function loadMusicIframe(save = true) {
             let input = document.getElementById('iframe-url').value.trim();
             if (!input) return;
 
-            // Extract src from pasted <iframe> HTML tag if applicable
             const match = input.match(/src=["']([^"']+)["']/);
             const url = match ? match[1] : input;
 
@@ -621,11 +709,11 @@
                 setTheme(savedTheme);
             }
 
-            // Load saved iframe URL
+            // Load saved music iframe URL
             const savedIframeUrl = localStorage.getItem('savedIframeUrl');
             if (savedIframeUrl) {
                 document.getElementById('iframe-url').value = savedIframeUrl;
-                loadIframe(false);
+                loadMusicIframe(false);
             }
         }
 
