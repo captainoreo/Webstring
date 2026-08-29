@@ -181,170 +181,7 @@
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
-        /* --- Wii Channel Game Modal & CRT Screen --- */
-        .game-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            z-index: 500;
-            justify-content: center;
-            align-items: center;
-            padding: 12px;
-        }
-
-        .game-modal.active {
-            display: flex;
-        }
-
-        .wii-crt-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            max-width: 1400px;
-            background: linear-gradient(to bottom, #bcbcbc 0%, #ffffff 35%, #ffffff 100%);
-            border-radius: 40px;
-            border: 14px solid #000;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* Scanline Overlay matching original Wii Menu Texture */
-        .wii-crt-container::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04) 1px, transparent 1px, transparent 3px);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .wii-screen-body {
-            position: relative;
-            width: 100%;
-            height: calc(100% - 110px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .game-modal iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: #fff;
-            display: none;
-            z-index: 5;
-        }
-
-        .game-modal iframe.playing {
-            display: block;
-        }
-
-        /* Wii Title Display & Reflection */
-        .wii-splash-view {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 4;
-            text-align: center;
-            padding: 0 60px;
-        }
-
-        .wii-game-title {
-            font-size: 2.8rem;
-            color: #555;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-            -webkit-box-reflect: below -20px linear-gradient(transparent 25%, rgba(0, 0, 0, 0.15));
-        }
-
-        /* Wii Side Cyan Arrows */
-        .wii-side-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 0;
-            z-index: 6;
-            cursor: pointer;
-            filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
-        }
-
-        .wii-side-arrow.left {
-            left: 25px;
-            border-top: 18px solid transparent;
-            border-bottom: 18px solid transparent;
-            border-right: 22px solid #5cbbf0;
-        }
-
-        .wii-side-arrow.right {
-            right: 25px;
-            border-top: 18px solid transparent;
-            border-bottom: 18px solid transparent;
-            border-left: 22px solid #5cbbf0;
-        }
-
-        /* Bottom Wii Control Bar */
-        .wii-bottom-bar {
-            position: relative;
-            height: 110px;
-            width: 100%;
-            background: #d8d8d8;
-            border-top: 2px solid #a8a8a8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            padding: 0 20px;
-            z-index: 20;
-            flex-wrap: wrap;
-        }
-
-        /* Wii Pill Button Styling */
-        .wii-btn {
-            background: linear-gradient(to bottom, #ffffff 0%, #f4f8fb 50%, #d8e6f3 100%);
-            border: 3.5px solid #5cbbf0;
-            border-radius: 40px;
-            padding: 10px 38px;
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #444;
-            box-shadow: inset 0 2px 3px #ffffff, 0 4px 8px rgba(0,0,0,0.12);
-            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            min-width: 160px;
-            text-align: center;
-        }
-
-        .wii-btn:hover {
-            transform: scale(1.04);
-            border-color: #2bb0f6;
-            box-shadow: inset 0 2px 4px #ffffff, 0 0 12px rgba(43, 176, 246, 0.4);
-            color: #111;
-        }
-
-        .wii-btn-small {
-            padding: 8px 20px;
-            font-size: 0.95rem;
-            min-width: auto;
-            border-width: 2.5px;
-            border-radius: 30px;
-        }
-
-        /* --- Menus (Theme & Reworked Music Player) --- */
+        /* --- Menus (Theme & Music Player) --- */
         .theme-menu {
             display: none;
             position: absolute;
@@ -551,7 +388,7 @@
                 </a>
             </div>
 
-            <!-- PAGE 4 (Games 37-40 + 8 Empty Slots) -->
+            <!-- PAGE 4 (Games 37-42 + 6 Empty Slots) -->
             <div class="grid page" id="page-3">
                 <a href="/games/cldoom2dos.html" class="channel">
                     <img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS">
@@ -565,40 +402,20 @@
                 <a href="/games/clscratchoptions.html" class="channel">
                     <img src="/assets/IMG_9959.png" alt="Scratch Options">
                 </a>
+                <!-- New Games added here -->
+                <a href="/games/Endacopia.html" class="channel">
+                    <img src="/assets/endacopia.png" alt="Endacopia">
+                </a>
+                <a href="/games/ULTRAKILL.html" class="channel">
+                    <img src="/assets/ultrakill.png" alt="ULTRAKILL">
+                </a>
+                
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
-                <div class="channel empty"></div>
-                <div class="channel empty"></div>
-            </div>
-        </div>
-
-        <!-- Authentic Wii Game Screen & Iframe Overlay -->
-        <div id="game-modal" class="game-modal">
-            <div class="wii-crt-container">
-                <!-- Side Wii Arrows -->
-                <div class="wii-side-arrow left"></div>
-                <div class="wii-side-arrow right"></div>
-
-                <!-- Screen Body (Title Splash or Active Game Iframe) -->
-                <div class="wii-screen-body">
-                    <div id="wii-splash" class="wii-splash-view">
-                        <div id="game-title" class="wii-game-title">Wii Menu Electronic Manual</div>
-                    </div>
-                    <iframe id="game-iframe" src="about:blank" allowfullscreen="true"></iframe>
-                </div>
-
-                <!-- Bottom Wii Navigation Bar -->
-                <div class="wii-bottom-bar">
-                    <button class="wii-btn" onclick="closeGame()">Wii Menu</button>
-                    <button id="wii-start-btn" class="wii-btn" onclick="startGame()">Start</button>
-                    <button class="wii-btn wii-btn-small" onclick="openNewTab()">🔗 New Tab</button>
-                    <button class="wii-btn wii-btn-small" onclick="openAboutBlank()">🌐 about:blank</button>
-                    <button class="wii-btn wii-btn-small" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-                </div>
             </div>
         </div>
 
@@ -628,7 +445,7 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Reworked Music Player Menu -->
+        <!-- Music Player Menu -->
         <div id="music-menu" class="theme-menu">
             <h3>🎵 Wii Sound Player</h3>
             
@@ -716,121 +533,6 @@
             }
         }
 
-        // --- Game Iframe Player & Music Muting Logic ---
-        let currentGameUrl = '';
-        let wasAudioPlaying = false;
-
-        function openGame(url, title) {
-            currentGameUrl = url;
-            const modal = document.getElementById('game-modal');
-            const iframe = document.getElementById('game-iframe');
-            const splash = document.getElementById('wii-splash');
-            const titleEl = document.getElementById('game-title');
-            const startBtn = document.getElementById('wii-start-btn');
-            const audioPlayer = document.getElementById('main-audio-player');
-            
-            // Pause background music when entering a game
-            if (!audioPlayer.paused) {
-                wasAudioPlaying = true;
-                audioPlayer.pause();
-            } else {
-                wasAudioPlaying = false;
-            }
-
-            iframe.src = 'about:blank';
-            iframe.classList.remove('playing');
-            splash.style.display = 'flex';
-            startBtn.style.display = 'inline-flex';
-
-            if (title) titleEl.innerText = title;
-            modal.classList.add('active');
-        }
-
-        function startGame() {
-            const iframe = document.getElementById('game-iframe');
-            const splash = document.getElementById('wii-splash');
-            const startBtn = document.getElementById('wii-start-btn');
-
-            if (currentGameUrl) {
-                iframe.src = currentGameUrl;
-                iframe.classList.add('playing');
-                splash.style.display = 'none';
-                startBtn.style.display = 'none';
-            }
-        }
-
-        function closeGame() {
-            const modal = document.getElementById('game-modal');
-            const iframe = document.getElementById('game-iframe');
-            const audioPlayer = document.getElementById('main-audio-player');
-            
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            }
-
-            modal.classList.remove('active');
-            iframe.src = 'about:blank';
-            iframe.classList.remove('playing');
-            currentGameUrl = '';
-
-            // Resume background music if it was previously playing
-            if (wasAudioPlaying) {
-                audioPlayer.play().catch(err => console.log('Audio resume blocked:', err));
-            }
-        }
-
-        function openNewTab() {
-            if (currentGameUrl) {
-                window.open(currentGameUrl, '_blank');
-            }
-        }
-
-        function openAboutBlank() {
-            if (!currentGameUrl) return;
-            const absoluteUrl = new URL(currentGameUrl, window.location.href).href;
-            const win = window.open('about:blank', '_blank');
-            if (win) {
-                win.document.write(`
-                    <!DOCTYPE html>
-                    <html style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;">
-                    <head><title>Classes</title></head>
-                    <body style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;">
-                        <iframe src="${absoluteUrl}" style="border:none;width:100%;height:100%;" allowfullscreen="true"></iframe>
-                    </body>
-                    </html>
-                `);
-                win.document.close();
-            }
-        }
-
-        function toggleFullscreen() {
-            const modal = document.getElementById('game-modal');
-            if (!document.fullscreenElement) {
-                if (modal.requestFullscreen) {
-                    modal.requestFullscreen();
-                } else if (modal.webkitRequestFullscreen) {
-                    modal.webkitRequestFullscreen();
-                } else if (modal.msRequestFullscreen) {
-                    modal.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-
-        // Intercept channel clicks to load games in Wii iframe player
-        document.querySelectorAll('.channel:not(.empty)').forEach(channel => {
-            channel.addEventListener('click', function(e) {
-                e.preventDefault();
-                const url = this.getAttribute('href');
-                const img = this.querySelector('img');
-                const title = img ? img.getAttribute('alt') : 'Game Channel';
-                openGame(url, title);
-            });
-        });
-
         // Toggle Theme Menu Visibility
         function toggleThemeMenu() {
             const menu = document.getElementById('theme-menu');
@@ -845,7 +547,7 @@
             document.getElementById('theme-menu').classList.remove('active');
         }
 
-        // Reworked Audio Player Logic
+        // Audio Player Logic
         function loadCustomTrack() {
             const url = document.getElementById('custom-audio-url').value.trim();
             if (!url) return;
