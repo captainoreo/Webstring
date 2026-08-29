@@ -11,7 +11,7 @@
             height: 100vh;
             width: 100vw;
             background-color: #e8e8e8;
-            overflow: hidden; /* Prevents scrollbars */
+            overflow: hidden; 
         }
 
         /* --- Main App Styles --- */
@@ -33,7 +33,7 @@
             height: 0; 
             border-top: 3vw solid transparent;
             border-bottom: 3vw solid transparent;
-            max-border-width: 30px; /* Keep them from getting too massive */
+            max-border-width: 30px; 
             cursor: pointer;
             z-index: 10;
             transition: transform 0.2s, filter 0.2s;
@@ -53,7 +53,6 @@
             border-left: 4vw solid #5ce1e6;
         }
 
-        /* Limit arrow size on giant screens */
         @media (min-width: 1000px) {
             .arrow-left { border-right: 40px solid #5ce1e6; border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
             .arrow-right { border-left: 40px solid #5ce1e6; border-top: 25px solid transparent; border-bottom: 25px solid transparent; }
@@ -63,7 +62,7 @@
         .pages-container {
             position: relative;
             width: 100%;
-            height: calc(100% - 120px); /* Fills window minus the bottom bar */
+            height: calc(100% - 120px); 
         }
 
         .grid {
@@ -98,7 +97,6 @@
             font-weight: bold;
         }
 
-        /* Image styling to fit inside the responsive rounded box */
         .channel img {
             width: 100%;
             height: 100%;
@@ -313,14 +311,63 @@
                 </a>
             </div>
 
-            <!-- PAGE 3 (Game 25 + 11 Empty Slots) -->
+            <!-- PAGE 3 (Games 25-36) -->
             <div class="grid page" id="page-2">
                 <a href="/games/clundertale.html" class="channel">
                     <img src="/assets/IMG_9912.gif" alt="Undertale">
                 </a>
-                <div class="channel empty"></div>
-                <div class="channel empty"></div>
-                <div class="channel empty"></div>
+                <!-- FNAF Series (Ordered) -->
+                <a href="/games/clFNAF.html" class="channel">
+                    <img src="/assets/clFNAF.png" alt="FNAF 1">
+                </a>
+                <a href="/games/clFNAF2.html" class="channel">
+                    <img src="/assets/clFNAF2.png" alt="FNAF 2">
+                </a>
+                <a href="/games/clFNAF3.html" class="channel">
+                    <img src="/assets/clFNAF3.png" alt="FNAF 3">
+                </a>
+                <a href="/games/clFNAF4.html" class="channel">
+                    <img src="/assets/clFNAF4.png" alt="FNAF 4">
+                </a>
+                <a href="/games/clfnafsl.html" class="channel">
+                    <img src="/assets/clfnafsl.png" alt="FNAF Sister Location">
+                </a>
+                <a href="/games/clfnafps.html" class="channel">
+                    <img src="/assets/clfnafps.png" alt="FNAF Pizzeria Simulator">
+                </a>
+                <!-- Mortal Kombat Series (Ordered) -->
+                <a href="/games/clmortalkombata.html" class="channel">
+                    <img src="/assets/clmortalkombata.png" alt="Mortal Kombat">
+                </a>
+                <a href="/games/clmortalkombat2a.html" class="channel">
+                    <img src="/assets/clmortalkombat2a.png" alt="Mortal Kombat 2">
+                </a>
+                <!-- Other New Games -->
+                <a href="/games/Minecraft 1.8.8.html" class="channel">
+                    <img src="/assets/Minecraft_1.8.8.png" alt="Minecraft 1.8.8">
+                </a>
+                <a href="/games/Minecraft 1.12.2.html" class="channel">
+                    <img src="/assets/Minecraft_1.12.2.png" alt="Minecraft 1.12.2">
+                </a>
+                <a href="/games/cldoomdos.html" class="channel">
+                    <img src="/assets/cldoomdos.png" alt="Doom DOS">
+                </a>
+            </div>
+
+            <!-- PAGE 4 (Games 37-40 + 8 Empty Slots) -->
+            <div class="grid page" id="page-3">
+                <a href="/games/cldoom2dos.html" class="channel">
+                    <img src="/assets/cldoom2dos.png" alt="Doom 2 DOS">
+                </a>
+                <a href="/games/clspelunky.html" class="channel">
+                    <img src="/assets/clspelunky.png" alt="Spelunky">
+                </a>
+                <a href="/games/clfivenightsatfrickbears3.html" class="channel">
+                    <img src="/assets/clfivenightsatfrickbears3.png" alt="Five Nights at Frickbear's 3">
+                </a>
+                <a href="/games/clscratchoptions.html" class="channel">
+                    <img src="/assets/clscratchoptions.png" alt="Scratch Options">
+                </a>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
@@ -409,7 +456,7 @@
 
         // --- Page Logic ---
         let currentPage = 0;
-        const totalPages = 3;
+        const totalPages = 4; // Updated to 4 pages
 
         function changePage(direction) {
             document.getElementById(`page-${currentPage}`).classList.remove('active');
