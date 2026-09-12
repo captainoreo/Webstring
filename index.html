@@ -580,6 +580,9 @@
                 <button onclick="setTheme('teto')">Kasane Teto</button>
                 <button onclick="setTheme('rin')">Kagamine Rin</button>
                 <button onclick="setTheme('gumi')">Gumi</button>
+                <!-- Custom Image Themes -->
+                <button onclick="setTheme('img0121')">Nanami Madobe</button>
+                <button onclick="setTheme('img0122')">Dylan</button>
             </div>
 
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
@@ -851,7 +854,10 @@
             'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false },
             'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false },
             'rin': { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false },
-            'gumi': { bg: '#f0f9e8', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false }
+            'gumi': { bg: '#f0f9e8', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false },
+            // Custom Image Themes
+            'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
+            'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true }
         };
 
         // Handle Preset Theme Switching
@@ -864,6 +870,19 @@
             document.documentElement.style.setProperty('--bottom-bar-bg', t.barBg);
             document.documentElement.style.setProperty('--bottom-bar-gradient', t.barGrad);
             
+            const screen = document.querySelector('.screen');
+            if (screen) {
+                if (t.bgImg) {
+                    screen.style.backgroundImage = `url('${t.bgImg}'), repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px)`;
+                    screen.style.backgroundSize = 'cover';
+                    screen.style.backgroundPosition = 'center';
+                } else {
+                    screen.style.backgroundImage = 'repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px)';
+                    screen.style.backgroundSize = 'auto';
+                    screen.style.backgroundPosition = 'initial';
+                }
+            }
+
             if (t.dark) {
                 document.body.classList.add('theme-dark');
             } else {
