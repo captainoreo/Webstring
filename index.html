@@ -36,6 +36,65 @@
             overflow: hidden;
         }
 
+        /* --- Top Bar (Search & Recommendation) --- */
+        .top-bar {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        #game-search {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--accent-color);
+            outline: none;
+            width: 250px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        #game-search:focus {
+            width: 300px;
+            background: #fff;
+            box-shadow: 0 0 12px var(--accent-color);
+        }
+
+        .recommend-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--accent-color);
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            color: #333;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .recommend-btn:hover {
+            transform: scale(1.05);
+            background: var(--accent-color);
+            color: #fff;
+        }
+
+        /* --- Dynamic Search Container --- */
+        .search-results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 1.5%;
+            padding: 5% 6% 3% 6%;
+            height: calc(100% - 120px);
+            overflow-y: auto;
+        }
+
         /* --- Pagination Arrows --- */
         .arrow {
             position: absolute;
@@ -74,6 +133,7 @@
             position: relative;
             width: 100%;
             height: calc(100% - 120px); 
+            padding-top: 40px;
         }
 
         .grid {
@@ -81,7 +141,7 @@
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(3, 1fr);
             gap: 1.5%;
-            padding: 3% 6%;
+            padding: 2% 6% 3% 6%;
             height: 100%;
         }
 
@@ -105,6 +165,7 @@
             color: #555;
             font-size: 0.85rem;
             font-weight: bold;
+            min-height: 100px;
         }
 
         .channel img {
@@ -210,16 +271,16 @@
         .am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
         .date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
-        /* --- Menus (Theme & Music Player) --- */
+        /* --- Menus & Modals --- */
         .theme-menu {
             display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 440px;
+            width: 460px;
             max-width: 90%; 
-            max-height: 90vh; 
+            max-height: 85vh; 
             overflow-y: auto; 
             background: linear-gradient(to bottom, #ffffff, #e6e6e6);
             padding: 25px;
@@ -242,6 +303,40 @@
         .theme-menu button:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 15px; font-size: 1.1rem; }
+
+        /* Recommendation Modal Content */
+        .recommendation-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .recommendation-card img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .recommendation-card a.play-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: var(--accent-color);
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .recommendation-card a.play-btn:hover {
+            transform: scale(1.05);
+        }
 
         /* --- Custom Music Player UI --- */
         .now-playing-card {
@@ -291,11 +386,17 @@
 
     <div class="screen">
         
+        <!-- Top Bar: Search Bar & Recommendation Button -->
+        <div class="top-bar">
+            <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
+            <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend Game</button>
+        </div>
+
         <!-- Navigation Arrows -->
         <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
         <div class="arrow arrow-right" id="next-btn" onclick="changePage(1)"></div>
 
-        <div class="pages-container">
+        <div class="pages-container" id="pages-container">
             <!-- PAGE 1 (Games 1-12) -->
             <div class="grid page active" id="page-0">
                 <a href="/games/60 Seconds! Reatomized.html" class="channel">
@@ -419,7 +520,7 @@
                 </a>
             </div>
 
-            <!-- PAGE 4 (Games 37-42 + 6 Empty Slots) -->
+            <!-- PAGE 4 (Games 37-43 + 5 Empty Slots) -->
             <div class="grid page" id="page-3">
                 <a href="/games/cldoom2dos.html" class="channel">
                     <img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS">
@@ -433,12 +534,15 @@
                 <a href="/games/clscratchoptions.html" class="channel">
                     <img src="/assets/IMG_9959.png" alt="Scratch Options">
                 </a>
-                <!-- New Games added here -->
+                <!-- New Games -->
                 <a href="/games/Endacopia.html" class="channel">
                     <img src="/assets/IMG_9964.jpeg" alt="Endacopia">
                 </a>
                 <a href="/games/ULTRAKILL.html" class="channel">
                     <img src="/assets/IMG_9965.jpeg" alt="ULTRAKILL">
+                </a>
+                <a href="/games/Klonoa.html" class="channel">
+                    <img src="/assets/IMG_9966.jpeg" alt="Klonoa">
                 </a>
                 
                 <div class="channel empty"></div>
@@ -446,8 +550,10 @@
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
-                <div class="channel empty"></div>
             </div>
+
+            <!-- Search Results Container -->
+            <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
         </div>
 
         <!-- Theme Menu -->
@@ -464,22 +570,21 @@
                 <button onclick="setTheme('ocean')">Ocean Breeze</button>
                 <button onclick="setTheme('midnight')">Midnight Gold</button>
                 <button onclick="setTheme('berry')">Berry Pink</button>
+                <!-- Expanded Themes -->
+                <button onclick="setTheme('evil')">Evil</button>
+                <button onclick="setTheme('kind')">Kind</button>
+                <button onclick="setTheme('allred')">ALL RED</button>
+                <button onclick="setTheme('allblue')">ALL Blue</button>
             </div>
 
-            <h4>Tab Cloaking</h4>
-            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
-                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. Google Drive)" style="padding: 5px; width: 80%;">
-                <input type="text" id="cloak-icon" placeholder="Favicon URL" style="padding: 5px; width: 80%;">
-                <button onclick="applyCloak()" style="width: 80%;">Cloak Tab</button>
-            </div>
-            
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Music Player Menu -->
-        <div id="music-menu" class="theme-menu">
-            <h3>🎵 Wii Sound Player</h3>
+        <!-- Settings Menu (Replaces Music Menu & includes Music Player + Options) -->
+        <div id="settings-menu" class="theme-menu">
+            <h3>⚙️ Settings & Options</h3>
             
+            <h4>🎵 Music Player</h4>
             <div class="now-playing-card">
                 <div class="track-info" id="now-playing-title">2010 Toyota Corolla - 2003 Toyota Corolla</div>
                 <div class="audio-controls">
@@ -490,14 +595,30 @@
                 </div>
             </div>
 
-            <h4>Load Custom Audio / Stream</h4>
             <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
                 <input type="text" id="custom-audio-url" placeholder="Paste .mp3 URL or Stream link..." style="padding: 6px; width: 90%; font-size: 0.85rem;">
                 <button onclick="loadCustomTrack()" style="width: 90%;">Load Custom Track</button>
-                <button onclick="resetDefaultTrack()" style="width: 90%; background: #e0e0e0; color: #333; margin-top: 4px;">Reset to Toyota Corolla</button>
+                <button onclick="resetDefaultTrack()" style="width: 90%; background: #e0e0e0; color: #333; margin-top: 4px;">Reset Track</button>
+            </div>
+
+            <h4>Tab Cloaking</h4>
+            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
+                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. Google Drive)" style="padding: 5px; width: 90%;">
+                <input type="text" id="cloak-icon" placeholder="Favicon URL" style="padding: 5px; width: 90%;">
+                <button onclick="applyCloak()" style="width: 90%;">Cloak Tab</button>
             </div>
             
-            <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
+            <button class="close-btn" onclick="toggleSettingsMenu()">Close</button>
+        </div>
+
+        <!-- Recommendation Modal -->
+        <div id="recommendation-modal" class="theme-menu">
+            <h3>🎲 Game Recommendation</h3>
+            <div class="recommendation-card" id="recommendation-card">
+                <!-- Content dynamically populated -->
+            </div>
+            <button onclick="recommendGame()" style="width: 100%; margin-top: 10px;">Try Another</button>
+            <button class="close-btn" onclick="toggleRecommendationModal()">Close</button>
         </div>
 
         <div class="bottom-bar">
@@ -512,8 +633,8 @@
                     <div class="date" id="clock-date">--- -/-</div>
                 </div>
 
-                <!-- Music Button -->
-                <div class="round-btn" onclick="toggleMusicMenu()">🎵</div>
+                <!-- Settings Button (Replaced Music Button) -->
+                <div class="round-btn" onclick="toggleSettingsMenu()">⚙️</div>
             </div>
         </div>
     </div>
@@ -561,16 +682,13 @@
         }
 
         function updatePaginationUI() {
-            // Update active grid page
             document.querySelectorAll('.pages-container .grid').forEach((grid, idx) => {
                 grid.classList.toggle('active', idx === currentPage);
             });
 
-            // Update arrow visibility
             document.getElementById('prev-btn').style.display = currentPage === 0 ? 'none' : 'block';
             document.getElementById('next-btn').style.display = currentPage === totalPages - 1 ? 'none' : 'block';
 
-            // Update dots state
             document.querySelectorAll('.page-dots .dot').forEach((dot, idx) => {
                 dot.classList.toggle('active', idx === currentPage);
             });
@@ -591,18 +709,93 @@
             }
         }
 
+        // --- Search Bar Functionality ---
+        function handleSearch() {
+            const query = document.getElementById('game-search').value.toLowerCase().trim();
+            const searchGrid = document.getElementById('search-results-grid');
+            const pageGrids = document.querySelectorAll('.pages-container .grid');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const pageDots = document.getElementById('page-dots');
+
+            if (query === '') {
+                searchGrid.style.display = 'none';
+                searchGrid.innerHTML = '';
+                pageGrids.forEach((g, idx) => {
+                    g.classList.toggle('active', idx === currentPage);
+                });
+                pageDots.style.display = 'flex';
+                updatePaginationUI();
+                return;
+            }
+
+            pageGrids.forEach(g => g.classList.remove('active'));
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            pageDots.style.display = 'none';
+
+            searchGrid.innerHTML = '';
+            searchGrid.style.display = 'grid';
+
+            const allChannels = document.querySelectorAll('.pages-container .channel:not(.empty)');
+            let matchCount = 0;
+
+            allChannels.forEach(ch => {
+                const img = ch.querySelector('img');
+                const title = img ? img.alt.toLowerCase() : '';
+                if (title.includes(query)) {
+                    const clone = ch.cloneNode(true);
+                    searchGrid.appendChild(clone);
+                    matchCount++;
+                }
+            });
+
+            if (matchCount === 0) {
+                searchGrid.innerHTML = '<div style="grid-column: 1 / -1; color: #777; font-size: 1.2rem; margin-top: 30px; text-align: center;">No games found.</div>';
+            }
+        }
+
+        // --- Game Recommendation Functionality ---
+        function recommendGame() {
+            const allChannels = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty)'));
+            if (allChannels.length === 0) return;
+
+            const randomGame = allChannels[Math.floor(Math.random() * allChannels.length)];
+            const img = randomGame.querySelector('img');
+            const title = img ? img.alt : 'Random Game';
+            const imgSrc = img ? img.src : '';
+            const href = randomGame.getAttribute('href');
+
+            const card = document.getElementById('recommendation-card');
+            card.innerHTML = `
+                <img src="${imgSrc}" alt="${title}">
+                <h4 style="font-size: 1.2rem; color: #333; border: none;">${title}</h4>
+                <a href="${href}" class="play-btn">Play Now</a>
+            `;
+
+            document.getElementById('recommendation-modal').classList.add('active');
+            document.getElementById('theme-menu').classList.remove('active');
+            document.getElementById('settings-menu').classList.remove('active');
+        }
+
+        function toggleRecommendationModal() {
+            document.getElementById('recommendation-modal').classList.toggle('active');
+        }
+
         // Toggle Theme Menu Visibility
         function toggleThemeMenu() {
             const menu = document.getElementById('theme-menu');
             menu.classList.toggle('active');
-            document.getElementById('music-menu').classList.remove('active');
+            document.getElementById('settings-menu').classList.remove('active');
+            document.getElementById('recommendation-modal').classList.remove('active');
         }
 
-        // Toggle Music Menu Visibility
-        function toggleMusicMenu() {
-            const menu = document.getElementById('music-menu');
+        // Toggle Settings Menu Visibility
+        function toggleSettingsMenu() {
+            const menu = document.getElementById('settings-menu');
             menu.classList.toggle('active');
             document.getElementById('theme-menu').classList.remove('active');
+            document.getElementById('recommendation-modal').classList.remove('active');
         }
 
         // Audio Player Logic
@@ -635,7 +828,7 @@
             localStorage.removeItem('savedAudioTrack');
         }
 
-        // --- Theme Presets Database ---
+        // --- Extended Theme Presets Database ---
         const themes = {
             'default': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
             'dark': { bg: '#2a2a2a', channel: '#444444', accent: '#5ce1e6', barBg: '#333333', barGrad: 'linear-gradient(to bottom, #333333, #1a1a1a)', dark: true },
@@ -644,7 +837,12 @@
             'sunset': { bg: '#fdeed9', channel: '#fff7ed', accent: '#ff7e5f', barBg: '#fbdcb9', barGrad: 'linear-gradient(to bottom, #fbdcb9, #f7c393)', dark: false },
             'ocean': { bg: '#e0f2fe', channel: '#f0f9ff', accent: '#0284c7', barBg: '#bae6fd', barGrad: 'linear-gradient(to bottom, #bae6fd, #7dd3fc)', dark: false },
             'midnight': { bg: '#18181b', channel: '#27272a', accent: '#eab308', barBg: '#1c1917', barGrad: 'linear-gradient(to bottom, #1c1917, #0c0a09)', dark: true },
-            'berry': { bg: '#fce7f3', channel: '#fdf2f8', accent: '#ec4899', barBg: '#fbcfe8', barGrad: 'linear-gradient(to bottom, #fbcfe8, #f472b6)', dark: false }
+            'berry': { bg: '#fce7f3', channel: '#fdf2f8', accent: '#ec4899', barBg: '#fbcfe8', barGrad: 'linear-gradient(to bottom, #fbcfe8, #f472b6)', dark: false },
+            // New Themes
+            'evil': { bg: '#1a0000', channel: '#330000', accent: '#ff1a1a', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true },
+            'kind': { bg: '#f0fdf4', channel: '#ffffff', accent: '#4ade80', barBg: '#dcfce7', barGrad: 'linear-gradient(to bottom, #dcfce7, #bbf7d0)', dark: false },
+            'allred': { bg: '#7f1d1d', channel: '#991b1b', accent: '#f87171', barBg: '#881337', barGrad: 'linear-gradient(to bottom, #881337, #450a0a)', dark: true },
+            'allblue': { bg: '#0c4a6e', channel: '#075985', accent: '#38bdf8', barBg: '#0369a1', barGrad: 'linear-gradient(to bottom, #0369a1, #082f49)', dark: true }
         };
 
         // Handle Preset Theme Switching
