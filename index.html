@@ -36,6 +36,19 @@
             overflow: hidden;
         }
 
+        /* Fade transitions when hiding games to reveal the background theme */
+        .pages-container, .arrow, .page-dots {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .screen.games-hidden .pages-container,
+        .screen.games-hidden .arrow,
+        .screen.games-hidden .page-dots {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
         /* --- Top Bar (Search, Recommendation & Hide Game) --- */
         .top-bar {
             position: absolute;
@@ -107,7 +120,7 @@
             border-bottom: 3vw solid transparent;
             max-border-width: 30px; 
             z-index: 10;
-            transition: transform 0.2s, filter 0.2s;
+            transition: transform 0.2s, filter 0.2s, opacity 0.3s ease;
             filter: drop-shadow(0 0 5px var(--accent-color));
         }
 
@@ -384,74 +397,6 @@
             border-radius: 20px;
         }
 
-        /* --- Hide Game / Dedicated Music Player Screen --- */
-        .hide-game-screen {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--main-bg);
-            background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
-            z-index: 150;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .hide-game-screen.active {
-            display: flex;
-        }
-
-        .spinning-disc-container {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
-        }
-
-        .spinning-disc-asset {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 50%;
-            animation: spin 8s linear infinite;
-        }
-
-        .album-art-cover {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--accent-color);
-            animation: spin 8s linear infinite;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .hide-music-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 3px solid var(--accent-color);
-            border-radius: 15px;
-            padding: 20px;
-            width: 360px;
-            max-width: 90%;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
         /* --- Theme Classes --- */
         body.theme-dark { background-color: #111; }
         body.theme-dark .screen { 
@@ -472,7 +417,7 @@
         <div class="top-bar">
             <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
             <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
-            <button class="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Game</button>
+            <button class="hide-game-btn" id="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Games</button>
         </div>
 
         <!-- Navigation Arrows -->
@@ -637,30 +582,6 @@
 
             <!-- Search Results Container -->
             <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
-        </div>
-
-        <!-- Dedicated Hide Game / Music Player Screen -->
-        <div id="hide-game-screen" class="hide-game-screen">
-            <div class="spinning-disc-container">
-                <img src="/assets/IMG_0151.png" class="spinning-disc-asset" alt="Spinning Record">
-                <img id="hide-mode-album-art" class="album-art-cover" src="" alt="Random Album Cover">
-            </div>
-
-            <div class="hide-music-card">
-                <h3 style="color: #333; margin-bottom: 8px;">🎵 Music Player Mode</h3>
-                <div class="track-info" id="hide-mode-track-title">2010 Toyota Corolla - 2003 Toyota Corolla</div>
-
-                <select id="hide-playlist-select" class="playlist-select" onchange="syncAndPlayTrack(this.value)">
-                    <option value="Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3">2010 Toyota Corolla - 2003 Toyota Corolla</option>
-                    <option value="Music/Nintendo 3DS - Nintendo eShop - Main Theme.flac">Nintendo 3DS - Nintendo eShop - Main Theme</option>
-                    <option value="Music/Main Theme - The Everybody Votes Channel.mp3">Main Theme - The Everybody Votes Channel</option>
-                    <option value="Music/Nintendo 3DS - Amiibo Settings - Main Theme.flac">Nintendo 3DS - Amiibo Settings - Main Theme</option>
-                    <option value="Music/Nintendo 3DS - Initial Setup.flac">Nintendo 3DS - Initial Setup</option>
-                    <option value="Music/Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad).mp3">Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad)</option>
-                </select>
-
-                <button class="close-btn" style="margin-top: 10px;" onclick="toggleHideGameScreen()">Show Games</button>
-            </div>
         </div>
 
         <!-- Theme Menu -->
@@ -881,39 +802,18 @@
             }
         }
 
-        // --- Hide Game Mode & Dedicated Music UI ---
+        // --- Toggle Hide Games Mode ---
         function toggleHideGameScreen() {
-            const hideScreen = document.getElementById('hide-game-screen');
-            const isActive = hideScreen.classList.contains('active');
-
-            if (!isActive) {
-                // Set a random game icon as album art
-                const allGameImgs = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty) img'));
-                if (allGameImgs.length > 0) {
-                    const randomImg = allGameImgs[Math.floor(Math.random() * allGameImgs.length)];
-                    document.getElementById('hide-mode-album-art').src = randomImg.src;
-                }
-
-                // Sync UI Title and Playlist selector
-                const currentTrackTitle = document.getElementById('now-playing-title').innerText;
-                document.getElementById('hide-mode-track-title').innerText = currentTrackTitle;
-                
-                const mainSelect = document.getElementById('playlist-select');
-                document.getElementById('hide-playlist-select').value = mainSelect.value;
-
-                hideScreen.classList.add('active');
-            } else {
-                hideScreen.classList.remove('active');
-            }
-        }
-
-        function syncAndPlayTrack(url) {
-            document.getElementById('playlist-select').value = url;
-            selectTrackFromList(url);
+            const screen = document.querySelector('.screen');
+            const btn = document.getElementById('hide-game-btn');
             
-            const selectElem = document.getElementById('hide-playlist-select');
-            const selectedOption = selectElem.options[selectElem.selectedIndex];
-            document.getElementById('hide-mode-track-title').innerText = selectedOption.text;
+            screen.classList.toggle('games-hidden');
+
+            if (screen.classList.contains('games-hidden')) {
+                btn.innerHTML = '👁️ Show Games';
+            } else {
+                btn.innerHTML = '🙈 Hide Games';
+            }
         }
 
         // --- Game Recommendation Functionality ---
@@ -973,7 +873,6 @@
             player.play().catch(e => console.log('Autoplay prevented:', e));
 
             title.innerText = trackTitle;
-            document.getElementById('hide-mode-track-title').innerText = trackTitle;
             
             localStorage.setItem('savedAudioTrack', url);
             localStorage.setItem('savedAudioTitle', trackTitle);
@@ -993,7 +892,6 @@
             const fileName = url.split('/').pop().split('?')[0];
             const trackTitle = fileName || 'Custom Audio Track';
             title.innerText = trackTitle;
-            document.getElementById('hide-mode-track-title').innerText = trackTitle;
 
             localStorage.setItem('savedAudioTrack', url);
             localStorage.setItem('savedAudioTitle', trackTitle);
@@ -1103,7 +1001,6 @@
                 player.src = savedAudioTrack;
                 if (savedAudioTitle) {
                     title.innerText = savedAudioTitle;
-                    document.getElementById('hide-mode-track-title').innerText = savedAudioTitle;
                 }
                 selectElem.value = savedAudioTrack;
             }
