@@ -36,7 +36,7 @@
             overflow: hidden;
         }
 
-        /* --- Top Bar (Search & Recommendation) --- */
+        /* --- Top Bar (Search, Recommendation & Hide Game) --- */
         .top-bar {
             position: absolute;
             top: 15px;
@@ -53,7 +53,7 @@
             border-radius: 20px;
             border: 2px solid var(--accent-color);
             outline: none;
-            width: 250px;
+            width: 220px;
             font-size: 0.9rem;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -61,12 +61,12 @@
         }
 
         #game-search:focus {
-            width: 300px;
+            width: 270px;
             background: #fff;
             box-shadow: 0 0 12px var(--accent-color);
         }
 
-        .recommend-btn {
+        .recommend-btn, .hide-game-btn {
             padding: 8px 16px;
             border-radius: 20px;
             border: 2px solid var(--accent-color);
@@ -76,9 +76,10 @@
             font-size: 0.85rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
-        .recommend-btn:hover {
+        .recommend-btn:hover, .hide-game-btn:hover {
             transform: scale(1.05);
             background: var(--accent-color);
             color: #fff;
@@ -383,6 +384,74 @@
             border-radius: 20px;
         }
 
+        /* --- Hide Game / Dedicated Music Player Screen --- */
+        .hide-game-screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--main-bg);
+            background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+            z-index: 150;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .hide-game-screen.active {
+            display: flex;
+        }
+
+        .spinning-disc-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .spinning-disc-asset {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            animation: spin 8s linear infinite;
+        }
+
+        .album-art-cover {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hide-music-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 20px;
+            width: 360px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
         /* --- Theme Classes --- */
         body.theme-dark { background-color: #111; }
         body.theme-dark .screen { 
@@ -399,10 +468,11 @@
 
     <div class="screen">
         
-        <!-- Top Bar: Search Bar & Recommendation Button -->
+        <!-- Top Bar: Search Bar, Recommendation & Hide Game Button -->
         <div class="top-bar">
             <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
-            <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend Game</button>
+            <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
+            <button class="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Game</button>
         </div>
 
         <!-- Navigation Arrows -->
@@ -569,6 +639,30 @@
             <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
         </div>
 
+        <!-- Dedicated Hide Game / Music Player Screen -->
+        <div id="hide-game-screen" class="hide-game-screen">
+            <div class="spinning-disc-container">
+                <img src="/assets/IMG_0151.png" class="spinning-disc-asset" alt="Spinning Record">
+                <img id="hide-mode-album-art" class="album-art-cover" src="" alt="Random Album Cover">
+            </div>
+
+            <div class="hide-music-card">
+                <h3 style="color: #333; margin-bottom: 8px;">🎵 Music Player Mode</h3>
+                <div class="track-info" id="hide-mode-track-title">2010 Toyota Corolla - 2003 Toyota Corolla</div>
+
+                <select id="hide-playlist-select" class="playlist-select" onchange="syncAndPlayTrack(this.value)">
+                    <option value="Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3">2010 Toyota Corolla - 2003 Toyota Corolla</option>
+                    <option value="Music/Nintendo 3DS - Nintendo eShop - Main Theme.flac">Nintendo 3DS - Nintendo eShop - Main Theme</option>
+                    <option value="Music/Main Theme - The Everybody Votes Channel.mp3">Main Theme - The Everybody Votes Channel</option>
+                    <option value="Music/Nintendo 3DS - Amiibo Settings - Main Theme.flac">Nintendo 3DS - Amiibo Settings - Main Theme</option>
+                    <option value="Music/Nintendo 3DS - Initial Setup.flac">Nintendo 3DS - Initial Setup</option>
+                    <option value="Music/Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad).mp3">Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad)</option>
+                </select>
+
+                <button class="close-btn" style="margin-top: 10px;" onclick="toggleHideGameScreen()">Show Games</button>
+            </div>
+        </div>
+
         <!-- Theme Menu -->
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
@@ -601,7 +695,7 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Settings Menu (Replaces Music Menu & includes Music Player + Options) -->
+        <!-- Settings Menu -->
         <div id="settings-menu" class="theme-menu">
             <h3>⚙️ Settings & Options</h3>
             
@@ -665,7 +759,7 @@
                     <div class="date" id="clock-date">--- -/-</div>
                 </div>
 
-                <!-- Settings Button (Replaced Music Button) -->
+                <!-- Settings Button -->
                 <div class="round-btn" onclick="toggleSettingsMenu()">⚙️</div>
             </div>
         </div>
@@ -787,6 +881,41 @@
             }
         }
 
+        // --- Hide Game Mode & Dedicated Music UI ---
+        function toggleHideGameScreen() {
+            const hideScreen = document.getElementById('hide-game-screen');
+            const isActive = hideScreen.classList.contains('active');
+
+            if (!isActive) {
+                // Set a random game icon as album art
+                const allGameImgs = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty) img'));
+                if (allGameImgs.length > 0) {
+                    const randomImg = allGameImgs[Math.floor(Math.random() * allGameImgs.length)];
+                    document.getElementById('hide-mode-album-art').src = randomImg.src;
+                }
+
+                // Sync UI Title and Playlist selector
+                const currentTrackTitle = document.getElementById('now-playing-title').innerText;
+                document.getElementById('hide-mode-track-title').innerText = currentTrackTitle;
+                
+                const mainSelect = document.getElementById('playlist-select');
+                document.getElementById('hide-playlist-select').value = mainSelect.value;
+
+                hideScreen.classList.add('active');
+            } else {
+                hideScreen.classList.remove('active');
+            }
+        }
+
+        function syncAndPlayTrack(url) {
+            document.getElementById('playlist-select').value = url;
+            selectTrackFromList(url);
+            
+            const selectElem = document.getElementById('hide-playlist-select');
+            const selectedOption = selectElem.options[selectElem.selectedIndex];
+            document.getElementById('hide-mode-track-title').innerText = selectedOption.text;
+        }
+
         // --- Game Recommendation Functionality ---
         function recommendGame() {
             const allChannels = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty)'));
@@ -837,13 +966,15 @@
             
             const selectElem = document.getElementById('playlist-select');
             const selectedOption = selectElem.options[selectElem.selectedIndex];
-            const trackTitle = selectedOption.text;
+            const trackTitle = selectedOption ? selectedOption.text : 'Custom Audio Track';
 
             player.src = url;
             player.load();
             player.play().catch(e => console.log('Autoplay prevented:', e));
 
             title.innerText = trackTitle;
+            document.getElementById('hide-mode-track-title').innerText = trackTitle;
+            
             localStorage.setItem('savedAudioTrack', url);
             localStorage.setItem('savedAudioTitle', trackTitle);
         }
@@ -862,14 +993,14 @@
             const fileName = url.split('/').pop().split('?')[0];
             const trackTitle = fileName || 'Custom Audio Track';
             title.innerText = trackTitle;
+            document.getElementById('hide-mode-track-title').innerText = trackTitle;
+
             localStorage.setItem('savedAudioTrack', url);
             localStorage.setItem('savedAudioTitle', trackTitle);
         }
 
         function resetDefaultTrack() {
             const defaultPath = 'Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3';
-            const defaultTitle = '2010 Toyota Corolla - 2003 Toyota Corolla';
-            
             const selectElem = document.getElementById('playlist-select');
             selectElem.value = defaultPath;
 
@@ -970,7 +1101,10 @@
                 const selectElem = document.getElementById('playlist-select');
 
                 player.src = savedAudioTrack;
-                if (savedAudioTitle) title.innerText = savedAudioTitle;
+                if (savedAudioTitle) {
+                    title.innerText = savedAudioTitle;
+                    document.getElementById('hide-mode-track-title').innerText = savedAudioTitle;
+                }
                 selectElem.value = savedAudioTrack;
             }
         }
