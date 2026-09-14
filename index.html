@@ -15,7 +15,7 @@
 
         /* Force custom cursors globally */
         body, .screen { cursor: url('/cursor/Normal Select.cur'), auto !important; }
-        .channel:not(.empty), .round-btn, .arrow, .dot, button, input { cursor: url('/cursor/Link Select.cur'), pointer !important; }
+        .channel:not(.empty), .round-btn, .arrow, .dot, button, input, select { cursor: url('/cursor/Link Select.cur'), pointer !important; }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         
@@ -349,11 +349,24 @@
         }
 
         .track-info {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             color: #444;
             margin-bottom: 12px;
             word-break: break-word;
+        }
+
+        .playlist-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            outline: none;
         }
 
         .audio-controls {
@@ -595,6 +608,17 @@
             <h4>🎵 Music Player</h4>
             <div class="now-playing-card">
                 <div class="track-info" id="now-playing-title">2010 Toyota Corolla - 2003 Toyota Corolla</div>
+                
+                <!-- Playlist Selector -->
+                <select id="playlist-select" class="playlist-select" onchange="selectTrackFromList(this.value)">
+                    <option value="Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3">2010 Toyota Corolla - 2003 Toyota Corolla</option>
+                    <option value="Music/Nintendo 3DS - Nintendo eShop - Main Theme.flac">Nintendo 3DS - Nintendo eShop - Main Theme</option>
+                    <option value="Music/Main Theme - The Everybody Votes Channel.mp3">Main Theme - The Everybody Votes Channel</option>
+                    <option value="Music/Nintendo 3DS - Amiibo Settings - Main Theme.flac">Nintendo 3DS - Amiibo Settings - Main Theme</option>
+                    <option value="Music/Nintendo 3DS - Initial Setup.flac">Nintendo 3DS - Initial Setup</option>
+                    <option value="Music/Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad).mp3">Nintendo Wii U - Mii Maker Editing Mii (TV + Gamepad)</option>
+                </select>
+
                 <div class="audio-controls">
                     <audio id="main-audio-player" controls loop>
                         <source src="Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3" type="audio/mpeg">
@@ -807,6 +831,23 @@
         }
 
         // Audio Player Logic
+        function selectTrackFromList(url) {
+            const player = document.getElementById('main-audio-player');
+            const title = document.getElementById('now-playing-title');
+            
+            const selectElem = document.getElementById('playlist-select');
+            const selectedOption = selectElem.options[selectElem.selectedIndex];
+            const trackTitle = selectedOption.text;
+
+            player.src = url;
+            player.load();
+            player.play().catch(e => console.log('Autoplay prevented:', e));
+
+            title.innerText = trackTitle;
+            localStorage.setItem('savedAudioTrack', url);
+            localStorage.setItem('savedAudioTitle', trackTitle);
+        }
+
         function loadCustomTrack() {
             const url = document.getElementById('custom-audio-url').value.trim();
             if (!url) return;
@@ -819,21 +860,22 @@
             player.play().catch(e => console.log('Autoplay prevented:', e));
 
             const fileName = url.split('/').pop().split('?')[0];
-            title.innerText = fileName || 'Custom Audio Track';
+            const trackTitle = fileName || 'Custom Audio Track';
+            title.innerText = trackTitle;
             localStorage.setItem('savedAudioTrack', url);
+            localStorage.setItem('savedAudioTitle', trackTitle);
         }
 
         function resetDefaultTrack() {
-            const player = document.getElementById('main-audio-player');
-            const title = document.getElementById('now-playing-title');
             const defaultPath = 'Music/2010 Toyota Corolla - 2003 Toyota Corolla.mp3';
-
-            player.src = defaultPath;
-            player.load();
-            player.play().catch(e => console.log('Autoplay prevented:', e));
+            const defaultTitle = '2010 Toyota Corolla - 2003 Toyota Corolla';
             
-            title.innerText = '2010 Toyota Corolla - 2003 Toyota Corolla';
+            const selectElem = document.getElementById('playlist-select');
+            selectElem.value = defaultPath;
+
+            selectTrackFromList(defaultPath);
             localStorage.removeItem('savedAudioTrack');
+            localStorage.removeItem('savedAudioTitle');
         }
 
         // --- Extended Theme Presets Database ---
@@ -921,9 +963,15 @@
             }
 
             const savedAudioTrack = localStorage.getItem('savedAudioTrack');
+            const savedAudioTitle = localStorage.getItem('savedAudioTitle');
             if (savedAudioTrack) {
-                document.getElementById('custom-audio-url').value = savedAudioTrack;
-                loadCustomTrack();
+                const player = document.getElementById('main-audio-player');
+                const title = document.getElementById('now-playing-title');
+                const selectElem = document.getElementById('playlist-select');
+
+                player.src = savedAudioTrack;
+                if (savedAudioTitle) title.innerText = savedAudioTitle;
+                selectElem.value = savedAudioTrack;
             }
         }
 
