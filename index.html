@@ -49,14 +49,14 @@
             pointer-events: none !important;
         }
 
-        /* --- Vocaloid Mascot Illustration (Bottom Right) --- */
+        /* --- Vocaloid Mascot Illustration (Behind Games, Cut Off at Bottom Bar) --- */
         .vocaloid-mascot {
             position: absolute;
-            bottom: 100px;
+            bottom: -50px; /* Positioned lower so the bottom half is cut off by the bottom bar */
             right: 25px;
-            max-height: 320px;
-            max-width: 260px;
-            z-index: 12;
+            max-height: 340px;
+            max-width: 280px;
+            z-index: 3; /* Behind pages-container (z-index: 5) and bottom-bar (z-index: 20) */
             pointer-events: none;
             object-fit: contain;
             filter: drop-shadow(0 6px 15px rgba(0,0,0,0.25));
@@ -396,7 +396,7 @@
         <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
         <div class="arrow arrow-right" id="next-btn" onclick="changePage(1)"></div>
 
-        <!-- Vocaloid Mascot Image (Bottom Right Corner) -->
+        <!-- Vocaloid Mascot Image (Layered Behind Games, Cut Off by Bottom Bar) -->
         <img id="vocaloid-mascot" class="vocaloid-mascot" src="" alt="Vocaloid Mascot">
 
         <div class="pages-container" id="pages-container">
@@ -821,10 +821,10 @@
             'allred': { bg: '#7f1d1d', channel: '#991b1b', accent: '#f87171', barBg: '#881337', barGrad: 'linear-gradient(to bottom, #881337, #450a0a)', dark: true },
             'allblue': { bg: '#0c4a6e', channel: '#075985', accent: '#38bdf8', barBg: '#0369a1', barGrad: 'linear-gradient(to bottom, #0369a1, #082f49)', dark: true },
             
-            // Vocaloid Themes with unique mascot artwork mapped to bottom right
-            'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0154.png' },
-            'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0155.png' },
-            'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0156.png' },
+            // Vocaloid Themes with mascot artwork mapped to bottom right
+            'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0155.png' },
+            'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
+            'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
             'gumi': { bg: '#f0f9e8', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
             
             // Custom Image Themes
