@@ -36,7 +36,6 @@
             overflow: hidden;
         }
 
-        /* Fade transitions when hiding games to reveal the background theme */
         .pages-container, .arrow, .page-dots {
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
@@ -49,14 +48,14 @@
             pointer-events: none !important;
         }
 
-        /* --- Vocaloid Mascot Illustration (Behind Games, Cut Off at Bottom Bar) --- */
+        /* --- Mascot Illustration --- */
         .vocaloid-mascot {
             position: absolute;
-            bottom: -50px; /* Positioned lower so the bottom half is cut off by the bottom bar */
+            bottom: -50px;
             right: 25px;
             max-height: 340px;
             max-width: 280px;
-            z-index: 3; /* Behind pages-container (z-index: 5) and bottom-bar (z-index: 20) */
+            z-index: 3;
             pointer-events: none;
             object-fit: contain;
             filter: drop-shadow(0 6px 15px rgba(0,0,0,0.25));
@@ -64,7 +63,7 @@
             display: none;
         }
 
-        /* --- Top Bar (Search, Recommendation & Hide Game) --- */
+        /* --- Top Bar --- */
         .top-bar {
             position: absolute;
             top: 15px;
@@ -309,7 +308,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 460px;
+            width: 480px;
             max-width: 90%; 
             max-height: 85vh; 
             overflow-y: auto; 
@@ -327,13 +326,56 @@
         }
 
         .theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; }
-        .theme-menu h4 { color: #666; margin: 12px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        .theme-menu h4 { color: #666; margin: 12px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; text-align: left; }
 
-        .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 15px; }
-        .theme-menu button { padding: 8px 12px; border: 1px solid #ccc; background: #f9f9f9; color: #333; border-radius: 5px; font-weight: bold; transition: all 0.2s; }
+        .menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 10px; }
+        .theme-menu button, .theme-menu select, .theme-menu input { 
+            padding: 8px 12px; 
+            border: 1px solid #ccc; 
+            background: #f9f9f9; 
+            color: #333; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            transition: all 0.2s; 
+        }
         .theme-menu button:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 15px; font-size: 1.1rem; }
+
+        /* Form Inputs in Menu */
+        .cloak-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .cloak-form-group input, .cloak-form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 0.85rem;
+        }
+
+        .cloak-checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .cloak-checkbox-group input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
 
         /* Recommendation Modal Content */
         .recommendation-card {
@@ -385,7 +427,7 @@
 
     <div class="screen">
         
-        <!-- Top Bar: Search Bar, Recommendation & Hide Game Button -->
+        <!-- Top Bar -->
         <div class="top-bar">
             <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
             <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
@@ -396,158 +438,67 @@
         <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
         <div class="arrow arrow-right" id="next-btn" onclick="changePage(1)"></div>
 
-        <!-- Vocaloid Mascot Image (Layered Behind Games, Cut Off by Bottom Bar) -->
+        <!-- Vocaloid Mascot Image -->
         <img id="vocaloid-mascot" class="vocaloid-mascot" src="" alt="Vocaloid Mascot">
 
         <div class="pages-container" id="pages-container">
             <!-- PAGE 1 (Games 1-12) -->
             <div class="grid page active" id="page-0">
-                <a href="/games/60 Seconds! Reatomized.html" class="channel">
-                    <img src="/assets/IMG_9887.gif" alt="60 Seconds! Reatomized">
-                </a>
-                <a href="/games/Bad Piggies.html" class="channel">
-                    <img src="/assets/IMG_9888.gif" alt="Bad Piggies">
-                </a>
-                <a href="/games/Balatro.html" class="channel">
-                    <img src="/assets/IMG_9889.gif" alt="Balatro">
-                </a>
-                <a href="/games/BeatBlock.html" class="channel">
-                    <img src="/assets/IMG_9890.gif" alt="BeatBlock">
-                </a>
-                <a href="/games/FISH.html" class="channel">
-                    <img src="/assets/IMG_9891.gif" alt="FISH">
-                </a>
-                <a href="/games/Grand Theft Auto 3.html" class="channel">
-                    <img src="/assets/IMG_9892.gif" alt="Grand Theft Auto 3">
-                </a>
-                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel">
-                    <img src="/assets/IMG_9893.gif" alt="GTA Vice City">
-                </a>
-                <a href="/games/Hollow Knight.html" class="channel">
-                    <img src="/assets/IMG_9894.gif" alt="Hollow Knight">
-                </a>
-                <a href="/games/Hollow Knight_ Silksong.html" class="channel">
-                    <img src="/assets/IMG_9895.gif" alt="Hollow Knight Silksong">
-                </a>
-                <a href="/games/In Stars and Time.html" class="channel">
-                    <img src="/assets/IMG_9896.jpeg" alt="In Stars and Time">
-                </a>
-                <a href="/games/Kirby ~ Soft & Wet.html" class="channel">
-                    <img src="/assets/IMG_9897.png" alt="Kirby Soft & Wet">
-                </a>
-                <a href="/games/OMORI.html" class="channel">
-                    <img src="/assets/IMG_9898.gif" alt="OMORI">
-                </a>
+                <a href="/games/60 Seconds! Reatomized.html" class="channel"><img src="/assets/IMG_9887.gif" alt="60 Seconds! Reatomized"></a>
+                <a href="/games/Bad Piggies.html" class="channel"><img src="/assets/IMG_9888.gif" alt="Bad Piggies"></a>
+                <a href="/games/Balatro.html" class="channel"><img src="/assets/IMG_9889.gif" alt="Balatro"></a>
+                <a href="/games/BeatBlock.html" class="channel"><img src="/assets/IMG_9890.gif" alt="BeatBlock"></a>
+                <a href="/games/FISH.html" class="channel"><img src="/assets/IMG_9891.gif" alt="FISH"></a>
+                <a href="/games/Grand Theft Auto 3.html" class="channel"><img src="/assets/IMG_9892.gif" alt="Grand Theft Auto 3"></a>
+                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel"><img src="/assets/IMG_9893.gif" alt="GTA Vice City"></a>
+                <a href="/games/Hollow Knight.html" class="channel"><img src="/assets/IMG_9894.gif" alt="Hollow Knight"></a>
+                <a href="/games/Hollow Knight_ Silksong.html" class="channel"><img src="/assets/IMG_9895.gif" alt="Hollow Knight Silksong"></a>
+                <a href="/games/In Stars and Time.html" class="channel"><img src="/assets/IMG_9896.jpeg" alt="In Stars and Time"></a>
+                <a href="/games/Kirby ~ Soft & Wet.html" class="channel"><img src="/assets/IMG_9897.png" alt="Kirby Soft & Wet"></a>
+                <a href="/games/OMORI.html" class="channel"><img src="/assets/IMG_9898.gif" alt="OMORI"></a>
             </div>
 
             <!-- PAGE 2 (Games 13-24) -->
             <div class="grid page" id="page-1">
-                <a href="/games/Off.html" class="channel">
-                    <img src="/assets/IMG_9899.gif" alt="Off">
-                </a>
-                <a href="/games/One Shot_ World Machine edition.html" class="channel">
-                    <img src="/assets/IMG_9900.gif" alt="One Shot World Machine">
-                </a>
-                <a href="/games/PikuNiku.html" class="channel">
-                    <img src="/assets/IMG_9901.gif" alt="PikuNiku">
-                </a>
-                <a href="/games/PvZ.html" class="channel">
-                    <img src="/assets/IMG_9902.gif" alt="PvZ">
-                </a>
-                <a href="/games/Stardew Valley.html" class="channel">
-                    <img src="/assets/IMG_9903.gif" alt="Stardew Valley">
-                </a>
-                <a href="/games/Terraria.html" class="channel">
-                    <img src="/assets/IMG_9904.gif" alt="Terraria">
-                </a>
-                <a href="/games/WebFishing.html" class="channel">
-                    <img src="/assets/IMG_9905.gif" alt="WebFishing">
-                </a>
-                <a href="/games/clbindingofisaccsheeptime.html" class="channel">
-                    <img src="/assets/IMG_9906.gif" alt="Binding of Isaac">
-                </a>
-                <a href="/games/clcavestory.html" class="channel">
-                    <img src="/assets/IMG_9907.gif" alt="Cave Story">
-                </a>
-                <a href="/games/clmetalslug.html" class="channel">
-                    <img src="/assets/IMG_9908.gif" alt="Metal Slug">
-                </a>
-                <a href="/games/clmetalslug2.html" class="channel">
-                    <img src="/assets/IMG_9909.gif" alt="Metal Slug 2">
-                </a>
-                <a href="/games/clsolatrobo.html" class="channel">
-                    <img src="/assets/IMG_9911.webp" alt="Solatorobo">
-                </a>
+                <a href="/games/Off.html" class="channel"><img src="/assets/IMG_9899.gif" alt="Off"></a>
+                <a href="/games/One Shot_ World Machine edition.html" class="channel"><img src="/assets/IMG_9900.gif" alt="One Shot World Machine"></a>
+                <a href="/games/PikuNiku.html" class="channel"><img src="/assets/IMG_9901.gif" alt="PikuNiku"></a>
+                <a href="/games/PvZ.html" class="channel"><img src="/assets/IMG_9902.gif" alt="PvZ"></a>
+                <a href="/games/Stardew Valley.html" class="channel"><img src="/assets/IMG_9903.gif" alt="Stardew Valley"></a>
+                <a href="/games/Terraria.html" class="channel"><img src="/assets/IMG_9904.gif" alt="Terraria"></a>
+                <a href="/games/WebFishing.html" class="channel"><img src="/assets/IMG_9905.gif" alt="WebFishing"></a>
+                <a href="/games/clbindingofisaccsheeptime.html" class="channel"><img src="/assets/IMG_9906.gif" alt="Binding of Isaac"></a>
+                <a href="/games/clcavestory.html" class="channel"><img src="/assets/IMG_9907.gif" alt="Cave Story"></a>
+                <a href="/games/clmetalslug.html" class="channel"><img src="/assets/IMG_9908.gif" alt="Metal Slug"></a>
+                <a href="/games/clmetalslug2.html" class="channel"><img src="/assets/IMG_9909.gif" alt="Metal Slug 2"></a>
+                <a href="/games/clsolatrobo.html" class="channel"><img src="/assets/IMG_9911.webp" alt="Solatorobo"></a>
             </div>
 
             <!-- PAGE 3 (Games 25-36) -->
             <div class="grid page" id="page-2">
-                <a href="/games/clundertale.html" class="channel">
-                    <img src="/assets/IMG_9912.gif" alt="Undertale">
-                </a>
-                <!-- FNAF Series -->
-                <a href="/games/clFNAF.html" class="channel">
-                    <img src="/assets/IMG_9945.jpeg" alt="FNAF 1">
-                </a>
-                <a href="/games/clFNAF2.html" class="channel">
-                    <img src="/assets/IMG_9946.jpeg" alt="FNAF 2">
-                </a>
-                <a href="/games/clFNAF3.html" class="channel">
-                    <img src="/assets/IMG_9947.jpeg" alt="FNAF 3">
-                </a>
-                <a href="/games/clFNAF4.html" class="channel">
-                    <img src="/assets/IMG_9948.jpeg" alt="FNAF 4">
-                </a>
-                <a href="/games/clfnafsl.html" class="channel">
-                    <img src="/assets/IMG_9949.jpeg" alt="FNAF Sister Location">
-                </a>
-                <a href="/games/clfnafps.html" class="channel">
-                    <img src="/assets/IMG_9950.jpeg" alt="FNAF Pizzeria Simulator">
-                </a>
-                <!-- Mortal Kombat Series -->
-                <a href="/games/clmortalkombata.html" class="channel">
-                    <img src="/assets/IMG_9951.jpeg" alt="Mortal Kombat">
-                </a>
-                <a href="/games/clmortalkombat2a.html" class="channel">
-                    <img src="/assets/IMG_9952.jpeg" alt="Mortal Kombat 2">
-                </a>
-                <!-- Other Games -->
-                <a href="/games/Minecraft 1.8.8.html" class="channel">
-                    <img src="/assets/Untitled575_20260829011026.png" alt="Minecraft 1.8.8">
-                </a>
-                <a href="/games/Minecraft 1.12.2.html" class="channel">
-                    <img src="/assets/IMG_9953.jpeg" alt="Minecraft 1.12.2">
-                </a>
-                <a href="/games/cldoomdos.html" class="channel">
-                    <img src="/assets/IMG_9955.jpeg" alt="Doom DOS">
-                </a>
+                <a href="/games/clundertale.html" class="channel"><img src="/assets/IMG_9912.gif" alt="Undertale"></a>
+                <a href="/games/clFNAF.html" class="channel"><img src="/assets/IMG_9945.jpeg" alt="FNAF 1"></a>
+                <a href="/games/clFNAF2.html" class="channel"><img src="/assets/IMG_9946.jpeg" alt="FNAF 2"></a>
+                <a href="/games/clFNAF3.html" class="channel"><img src="/assets/IMG_9947.jpeg" alt="FNAF 3"></a>
+                <a href="/games/clFNAF4.html" class="channel"><img src="/assets/IMG_9948.jpeg" alt="FNAF 4"></a>
+                <a href="/games/clfnafsl.html" class="channel"><img src="/assets/IMG_9949.jpeg" alt="FNAF Sister Location"></a>
+                <a href="/games/clfnafps.html" class="channel"><img src="/assets/IMG_9950.jpeg" alt="FNAF Pizzeria Simulator"></a>
+                <a href="/games/clmortalkombata.html" class="channel"><img src="/assets/IMG_9951.jpeg" alt="Mortal Kombat"></a>
+                <a href="/games/clmortalkombat2a.html" class="channel"><img src="/assets/IMG_9952.jpeg" alt="Mortal Kombat 2"></a>
+                <a href="/games/Minecraft 1.8.8.html" class="channel"><img src="/assets/Untitled575_20260829011026.png" alt="Minecraft 1.8.8"></a>
+                <a href="/games/Minecraft 1.12.2.html" class="channel"><img src="/assets/IMG_9953.jpeg" alt="Minecraft 1.12.2"></a>
+                <a href="/games/cldoomdos.html" class="channel"><img src="/assets/IMG_9955.jpeg" alt="Doom DOS"></a>
             </div>
 
-            <!-- PAGE 4 (Games 37-43 + 5 Empty Slots) -->
+            <!-- PAGE 4 (Games 37-43) -->
             <div class="grid page" id="page-3">
-                <a href="/games/cldoom2dos.html" class="channel">
-                    <img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS">
-                </a>
-                <a href="/games/clspelunky.html" class="channel">
-                    <img src="/assets/IMG_9957.png" alt="Spelunky">
-                </a>
-                <a href="/games/clfivenightsatfrickbears3.html" class="channel">
-                    <img src="/assets/IMG_9958.jpeg" alt="Five Nights at Frickbear's 3">
-                </a>
-                <a href="/games/clscratchoptions.html" class="channel">
-                    <img src="/assets/IMG_9959.png" alt="Scratch Options">
-                </a>
-                <!-- New Games -->
-                <a href="/games/Endacopia.html" class="channel">
-                    <img src="/assets/IMG_9964.jpeg" alt="Endacopia">
-                </a>
-                <a href="/games/ULTRAKILL.html" class="channel">
-                    <img src="/assets/IMG_9965.jpeg" alt="ULTRAKILL">
-                </a>
-                <a href="/games/clklonoachd.html" class="channel">
-                    <img src="/assets/IMG_0117.jpeg" alt="Klonoa">
-                </a>
-                
+                <a href="/games/cldoom2dos.html" class="channel"><img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS"></a>
+                <a href="/games/clspelunky.html" class="channel"><img src="/assets/IMG_9957.png" alt="Spelunky"></a>
+                <a href="/games/clfivenightsatfrickbears3.html" class="channel"><img src="/assets/IMG_9958.jpeg" alt="Five Nights at Frickbear's 3"></a>
+                <a href="/games/clscratchoptions.html" class="channel"><img src="/assets/IMG_9959.png" alt="Scratch Options"></a>
+                <a href="/games/Endacopia.html" class="channel"><img src="/assets/IMG_9964.jpeg" alt="Endacopia"></a>
+                <a href="/games/ULTRAKILL.html" class="channel"><img src="/assets/IMG_9965.jpeg" alt="ULTRAKILL"></a>
+                <a href="/games/clklonoachd.html" class="channel"><img src="/assets/IMG_0117.jpeg" alt="Klonoa"></a>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
@@ -555,14 +506,12 @@
                 <div class="channel empty"></div>
             </div>
 
-            <!-- Search Results Container -->
             <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
         </div>
 
         <!-- Theme Menu -->
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
-            
             <h4>Preset Themes</h4>
             <div class="menu-options">
                 <button onclick="setTheme('default')">Classic Wii</button>
@@ -573,34 +522,62 @@
                 <button onclick="setTheme('ocean')">Ocean Breeze</button>
                 <button onclick="setTheme('midnight')">Midnight Gold</button>
                 <button onclick="setTheme('berry')">Berry Pink</button>
-                <!-- Expanded Themes -->
                 <button onclick="setTheme('evil')">Evil</button>
                 <button onclick="setTheme('kind')">Kind</button>
                 <button onclick="setTheme('allred')">ALL RED</button>
                 <button onclick="setTheme('allblue')">ALL Blue</button>
-                <!-- Vocaloid Themes -->
                 <button onclick="setTheme('miku')">Hatsune Miku</button>
                 <button onclick="setTheme('teto')">Kasane Teto</button>
                 <button onclick="setTheme('rin')">Kagamine Rin</button>
                 <button onclick="setTheme('gumi')">Gumi</button>
-                <!-- Custom Image Themes -->
                 <button onclick="setTheme('img0121')">Nanami Madobe</button>
                 <button onclick="setTheme('img0122')">Dylan</button>
             </div>
-
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Settings Menu -->
+        <!-- Expanded Settings & Advanced Tab Cloaking Menu -->
         <div id="settings-menu" class="theme-menu">
-            <h3>⚙️ Options</h3>
+            <h3>⚙️ Settings & Privacy</h3>
             
-            <h4>Tab Cloaking</h4>
-            <div class="menu-options" style="flex-direction: column; align-items: center; gap: 8px;">
-                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. Google Drive)" style="padding: 5px; width: 90%;">
-                <input type="text" id="cloak-icon" placeholder="Favicon URL" style="padding: 5px; width: 90%;">
-                <button onclick="applyCloak()" style="width: 90%;">Cloak Tab</button>
+            <h4>🎭 Quick Cloak Presets</h4>
+            <div class="cloak-form-group">
+                <select id="cloak-presets" onchange="applyPresetCloak(this.value)">
+                    <option value="">Select a Preset...</option>
+                    <option value="drive">Google Drive</option>
+                    <option value="classroom">Google Classroom</option>
+                    <option value="docs">Google Docs</option>
+                    <option value="canvas">Canvas LMS</option>
+                    <option value="wikipedia">Wikipedia</option>
+                    <option value="desmos">Desmos Graphing Calculator</option>
+                    <option value="clever">Clever Portal</option>
+                    <option value="reset">Reset to Default</option>
+                </select>
             </div>
+
+            <h4>✏️ Custom Cloak</h4>
+            <div class="cloak-form-group">
+                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. My Drive)">
+                <input type="text" id="cloak-icon" placeholder="Favicon Image URL">
+                <button onclick="applyCustomCloak()" style="width: 100%;">Apply Custom Cloak</button>
+            </div>
+
+            <h4>🚨 Panic Key & Redirect</h4>
+            <div class="cloak-form-group">
+                <input type="text" id="panic-key" placeholder="Panic Key (e.g. ` or Escape)" maxlength="10">
+                <input type="text" id="panic-url" placeholder="Panic Redirect URL (e.g. https://google.com)">
+                <button onclick="savePanicSettings()" style="width: 100%;">Save Panic Options</button>
+            </div>
+
+            <h4>🛡️ Advanced Cloaking Options</h4>
+            <div class="cloak-checkbox-group">
+                <label for="auto-blur-cloak">Auto-Cloak on Tab Unfocus</label>
+                <input type="checkbox" id="auto-blur-cloak" onchange="toggleAutoBlurCloak(this.checked)">
+            </div>
+
+            <button onclick="openAboutBlank()" style="width: 100%; margin-top: 5px; background: #3b82f6; color: white; border-color: #2563eb;">
+                🚀 Open Page in about:blank
+            </button>
             
             <button class="close-btn" onclick="toggleSettingsMenu()">Close</button>
         </div>
@@ -608,26 +585,21 @@
         <!-- Recommendation Modal -->
         <div id="recommendation-modal" class="theme-menu">
             <h3>🎲 Game Recommendation</h3>
-            <div class="recommendation-card" id="recommendation-card">
-                <!-- Content dynamically populated -->
-            </div>
+            <div class="recommendation-card" id="recommendation-card"></div>
             <button onclick="recommendGame()" style="width: 100%; margin-top: 10px;">Try Another</button>
             <button class="close-btn" onclick="toggleRecommendationModal()">Close</button>
         </div>
 
         <div class="bottom-bar">
             <div class="footer-content">
-                <!-- Theme Menu Button -->
                 <div class="round-btn" onclick="toggleThemeMenu()">🎨</div>
                 
                 <div class="time-date">
-                    <!-- Page Dots Container -->
                     <div class="page-dots" id="page-dots"></div>
                     <div class="time" id="clock-time">-- -- <span class="am">--</span></div>
                     <div class="date" id="clock-date">--- -/-</div>
                 </div>
 
-                <!-- Settings Button -->
                 <div class="round-btn" onclick="toggleSettingsMenu()">⚙️</div>
             </div>
         </div>
@@ -638,7 +610,6 @@
         // --- Live Clock Functionality ---
         function updateClock() {
             const now = new Date();
-            
             let hours = now.getHours();
             let minutes = now.getMinutes();
             const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -777,7 +748,7 @@
             const card = document.getElementById('recommendation-card');
             card.innerHTML = `
                 <img src="${imgSrc}" alt="${title}">
-                <h4 style="font-size: 1.2rem; color: #333; border: none;">${title}</h4>
+                <h4 style="font-size: 1.2rem; color: #333; border: none; text-align: center;">${title}</h4>
                 <a href="${href}" class="play-btn">Play Now</a>
             `;
 
@@ -790,7 +761,6 @@
             document.getElementById('recommendation-modal').classList.toggle('active');
         }
 
-        // Toggle Theme Menu Visibility
         function toggleThemeMenu() {
             const menu = document.getElementById('theme-menu');
             menu.classList.toggle('active');
@@ -798,7 +768,6 @@
             document.getElementById('recommendation-modal').classList.remove('active');
         }
 
-        // Toggle Settings Menu Visibility
         function toggleSettingsMenu() {
             const menu = document.getElementById('settings-menu');
             menu.classList.toggle('active');
@@ -806,7 +775,7 @@
             document.getElementById('recommendation-modal').classList.remove('active');
         }
 
-        // --- Extended Theme Presets Database ---
+        // --- Theme Database ---
         const themes = {
             'default': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
             'dark': { bg: '#2a2a2a', channel: '#444444', accent: '#5ce1e6', barBg: '#333333', barGrad: 'linear-gradient(to bottom, #333333, #1a1a1a)', dark: true },
@@ -820,19 +789,14 @@
             'kind': { bg: '#f0fdf4', channel: '#ffffff', accent: '#4ade80', barBg: '#dcfce7', barGrad: 'linear-gradient(to bottom, #dcfce7, #bbf7d0)', dark: false },
             'allred': { bg: '#7f1d1d', channel: '#991b1b', accent: '#f87171', barBg: '#881337', barGrad: 'linear-gradient(to bottom, #881337, #450a0a)', dark: true },
             'allblue': { bg: '#0c4a6e', channel: '#075985', accent: '#38bdf8', barBg: '#0369a1', barGrad: 'linear-gradient(to bottom, #0369a1, #082f49)', dark: true },
-            
-            // Vocaloid Themes with mascot artwork mapped to bottom right
             'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0155.png' },
             'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
             'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
-            'gumi': { bg: '#f0f9e8', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
-            
-            // Custom Image Themes
+            'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
             'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
             'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true }
         };
 
-        // Handle Preset Theme Switching
         function setTheme(themeName) {
             const t = themes[themeName] || themes['default'];
             
@@ -855,7 +819,6 @@
                 }
             }
 
-            // Update bottom-right Vocaloid mascot image
             const mascot = document.getElementById('vocaloid-mascot');
             if (t.mascotImg) {
                 mascot.src = t.mascotImg;
@@ -874,25 +837,144 @@
             localStorage.setItem('selectedTheme', themeName);
         }
 
-        // Apply Tab Cloaking
-        function applyCloak() {
-            const title = document.getElementById('cloak-title').value;
-            const iconUrl = document.getElementById('cloak-icon').value;
-            
-            if (title) document.title = title;
-            
-            if (iconUrl) {
-                let link = document.querySelector("link[rel~='icon']");
+        // ==========================================
+        // --- ADVANCED TAB CLOAKING SYSTEM ---
+        // ==========================================
+        
+        const cloakPresets = {
+            'drive': { title: 'Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+            'classroom': { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+            'docs': { title: 'Google Docs', icon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+            'canvas': { title: 'Dashboard', icon: 'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' },
+            'wikipedia': { title: 'Wikipedia, the free encyclopedia', icon: 'https://en.wikipedia.org/static/favicon/wikipedia.ico' },
+            'desmos': { title: 'Desmos | Graphing Calculator', icon: 'https://www.desmos.com/favicon.ico' },
+            'clever': { title: 'Clever | Portal', icon: 'https://assets.clever.com/assets/p-clever-favicon.ico' },
+            'reset': { title: 'Webstring', icon: '' }
+        };
+
+        let currentActiveTitle = document.title;
+        let currentActiveIcon = '';
+        let originalTitle = 'Webstring';
+        let originalIcon = '';
+
+        // Helper function to update page title and favicon icon link tag
+        function setTabIdentity(title, iconUrl) {
+            if (title) {
+                document.title = title;
+                currentActiveTitle = title;
+            }
+            if (iconUrl !== undefined) {
+                currentActiveIcon = iconUrl;
+                let link = document.querySelector("link[rel*='icon']");
                 if (!link) {
                     link = document.createElement('link');
-                    link.rel = 'icon';
+                    link.rel = 'shortcut icon';
                     document.head.appendChild(link);
                 }
-                link.href = iconUrl;
+                link.href = iconUrl || '';
             }
         }
 
-        // Load Saved Data on Startup
+        // 1. Preset Cloak Applier
+        function applyPresetCloak(presetKey) {
+            if (!presetKey) return;
+            const preset = cloakPresets[presetKey];
+            if (preset) {
+                setTabIdentity(preset.title, preset.icon);
+                document.getElementById('cloak-title').value = preset.title;
+                document.getElementById('cloak-icon').value = preset.icon;
+                
+                localStorage.setItem('cloakTitle', preset.title);
+                localStorage.setItem('cloakIcon', preset.icon);
+            }
+        }
+
+        // 2. Custom Title & Icon Cloak
+        function applyCustomCloak() {
+            const title = document.getElementById('cloak-title').value;
+            const iconUrl = document.getElementById('cloak-icon').value;
+            setTabIdentity(title, iconUrl);
+
+            localStorage.setItem('cloakTitle', title);
+            localStorage.setItem('cloakIcon', iconUrl);
+        }
+
+        // 3. Panic Key Configuration
+        let panicKeySetting = '';
+        let panicUrlSetting = '';
+
+        function savePanicSettings() {
+            panicKeySetting = document.getElementById('panic-key').value.trim();
+            panicUrlSetting = document.getElementById('panic-url').value.trim();
+
+            localStorage.setItem('panicKey', panicKeySetting);
+            localStorage.setItem('panicUrl', panicUrlSetting);
+            alert('Panic Key settings saved!');
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (!panicKeySetting) return;
+
+            if (e.key.toLowerCase() === panicKeySetting.toLowerCase() || e.code.toLowerCase() === panicKeySetting.toLowerCase()) {
+                let targetUrl = panicUrlSetting || 'https://www.google.com';
+                if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                    targetUrl = 'https://' + targetUrl;
+                }
+                window.location.href = targetUrl;
+            }
+        });
+
+        // 4. Auto-Cloak on Tab Unfocus (Blur Switcher)
+        let isAutoBlurActive = false;
+
+        function toggleAutoBlurCloak(enabled) {
+            isAutoBlurActive = enabled;
+            localStorage.setItem('autoBlurCloak', enabled);
+        }
+
+        window.addEventListener('blur', () => {
+            if (isAutoBlurActive) {
+                document.title = 'Google Drive';
+                let link = document.querySelector("link[rel*='icon']");
+                if (link) link.href = cloakPresets['drive'].icon;
+            }
+        });
+
+        window.addEventListener('focus', () => {
+            if (isAutoBlurActive) {
+                document.title = currentActiveTitle;
+                let link = document.querySelector("link[rel*='icon']");
+                if (link) link.href = currentActiveIcon;
+            }
+        });
+
+        // 5. Open in about:blank Container
+        function openAboutBlank() {
+            const newWindow = window.open('about:blank', '_blank');
+            if (!newWindow) {
+                alert('Pop-up blocked! Please allow pop-ups to launch in about:blank.');
+                return;
+            }
+
+            const doc = newWindow.document;
+            const iframe = doc.createElement('iframe');
+            
+            iframe.style.width = '100vw';
+            iframe.style.height = '100vh';
+            iframe.style.border = 'none';
+            iframe.style.position = 'fixed';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.src = window.location.href;
+
+            doc.body.style.margin = '0';
+            doc.body.style.height = '100vh';
+            doc.body.appendChild(iframe);
+
+            window.location.replace('https://www.google.com');
+        }
+
+        // --- Load Saved Data ---
         function loadSavedData() {
             renderDots();
             updatePaginationUI();
@@ -901,9 +983,36 @@
             if (savedTheme) {
                 setTheme(savedTheme);
             }
+
+            // Restore Cloak settings
+            const savedTitle = localStorage.getItem('cloakTitle');
+            const savedIcon = localStorage.getItem('cloakIcon');
+            if (savedTitle) {
+                document.getElementById('cloak-title').value = savedTitle;
+                setTabIdentity(savedTitle, savedIcon || '');
+            }
+            if (savedIcon) {
+                document.getElementById('cloak-icon').value = savedIcon;
+            }
+
+            // Restore Panic Key settings
+            const savedPanicKey = localStorage.getItem('panicKey');
+            const savedPanicUrl = localStorage.getItem('panicUrl');
+            if (savedPanicKey) {
+                panicKeySetting = savedPanicKey;
+                document.getElementById('panic-key').value = savedPanicKey;
+            }
+            if (savedPanicUrl) {
+                panicUrlSetting = savedPanicUrl;
+                document.getElementById('panic-url').value = savedPanicUrl;
+            }
+
+            // Restore Auto-Blur Cloak setting
+            const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
+            isAutoBlurActive = savedAutoBlur;
+            document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
         }
 
-        // Initialize saved settings
         loadSavedData();
     </script>
 </body>
