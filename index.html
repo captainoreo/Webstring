@@ -412,17 +412,21 @@
             transform: scale(1.05);
         }
 
-        /* --- Game Player Modal & iFrame --- */
+        /* --- Matching Theme Game Player Modal --- */
         .player-modal {
             display: none;
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
             flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.15);
+            transition: opacity 0.3s ease;
         }
 
         .player-modal.active {
@@ -430,37 +434,109 @@
         }
 
         .player-bar {
+            width: 100%;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 15px;
+            border-radius: 25px;
+            border: 2px solid var(--accent-color);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            z-index: 201;
+            flex-shrink: 0;
+        }
+
+        .player-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .player-controls {
+            display: flex;
             gap: 10px;
-            padding: 8px 16px;
-            background: #111;
-            border-bottom: 2px solid var(--accent-color);
+            align-items: center;
         }
 
         .player-btn {
-            padding: 6px 14px;
-            border-radius: 15px;
+            padding: 8px 16px;
+            border-radius: 20px;
             border: 2px solid var(--accent-color);
-            background: #222;
-            color: #fff;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            color: #333;
             font-weight: bold;
             font-size: 0.85rem;
-            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             transition: all 0.2s ease;
+            white-space: nowrap;
+            cursor: pointer;
         }
 
         .player-btn:hover {
+            transform: scale(1.05);
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
+        }
+
+        .player-btn.close-btn-player {
+            border-color: #ff6b6b;
+            color: #ee5252;
+        }
+
+        .player-btn.close-btn-player:hover {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        .player-iframe-wrapper {
+            width: 100%;
+            flex-grow: 1;
+            background: var(--channel-bg);
+            border-radius: 20px;
+            border: 3px solid var(--accent-color);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            display: flex;
         }
 
         .player-iframe {
             width: 100%;
             height: 100%;
             border: none;
-            flex-grow: 1;
+            background: #fff;
+        }
+
+        /* Dark Theme Player Adaptations */
+        body.theme-dark .player-bar {
+            background: rgba(35, 35, 35, 0.9);
+        }
+        body.theme-dark .player-title {
+            color: #fff;
+        }
+        body.theme-dark .player-btn {
+            background: linear-gradient(135deg, #555, #333);
+            color: #fff;
+        }
+        body.theme-dark .player-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
+        body.theme-dark .player-btn.close-btn-player {
+            color: #ff6b6b;
+        }
+        body.theme-dark .player-btn.close-btn-player:hover {
+            background: #ff6b6b;
+            color: #fff;
         }
 
         /* --- Theme Classes --- */
@@ -642,13 +718,19 @@
             <button class="close-btn" onclick="toggleRecommendationModal()">Close</button>
         </div>
 
-        <!-- Game Player Overlay Modal -->
+        <!-- Game Player UI Overlay Modal -->
         <div id="player-modal" class="player-modal">
             <div class="player-bar">
-                <button class="player-btn" onclick="toggleIframeFullscreen()">⛶ Fullscreen</button>
-                <button class="player-btn" style="border-color: #ff6b6b;" onclick="closeGamePlayer()">✕ Close</button>
+                <div class="player-title" id="player-title-text">🎮 Playing Game</div>
+                <div class="player-controls">
+                    <button class="player-btn" onclick="reloadGameIframe()">🔄 Reload</button>
+                    <button class="player-btn" onclick="toggleIframeFullscreen()">⛶ Fullscreen</button>
+                    <button class="player-btn close-btn-player" onclick="closeGamePlayer()">✕ Close</button>
+                </div>
             </div>
-            <iframe id="game-iframe" class="player-iframe" allow="fullscreen"></iframe>
+            <div class="player-iframe-wrapper" id="player-iframe-wrapper">
+                <iframe id="game-iframe" class="player-iframe" allow="fullscreen"></iframe>
+            </div>
         </div>
 
         <div class="bottom-bar">
@@ -807,10 +889,11 @@
             const href = randomGame.getAttribute('href');
 
             const card = document.getElementById('recommendation-card');
+            const escapedTitle = title.replace(/'/g, "\\'");
             card.innerHTML = `
                 <img src="${imgSrc}" alt="${title}">
                 <h4 style="font-size: 1.2rem; color: #333; border: none; text-align: center;">${title}</h4>
-                <button class="play-btn" onclick="openGamePlayer('${href}'); toggleRecommendationModal();">Play Now</button>
+                <button class="play-btn" onclick="openGamePlayer('${href}', '${escapedTitle}'); toggleRecommendationModal();">Play Now</button>
             `;
 
             document.getElementById('recommendation-modal').classList.add('active');
@@ -836,11 +919,14 @@
             document.getElementById('recommendation-modal').classList.remove('active');
         }
 
-        // --- iFrame Game Player Functions ---
-        function openGamePlayer(url) {
+        // --- Game Player Functions ---
+        function openGamePlayer(url, title = 'Game Player') {
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('game-iframe');
+            const titleEl = document.getElementById('player-title-text');
+
             iframe.src = url;
+            if (titleEl) titleEl.innerText = `🎮 ${title}`;
             modal.classList.add('active');
         }
 
@@ -854,15 +940,22 @@
             }
         }
 
+        function reloadGameIframe() {
+            const iframe = document.getElementById('game-iframe');
+            if (iframe.src) {
+                iframe.src = iframe.src;
+            }
+        }
+
         function toggleIframeFullscreen() {
-            const modal = document.getElementById('player-modal');
+            const wrapper = document.getElementById('player-iframe-wrapper');
             if (!document.fullscreenElement) {
-                if (modal.requestFullscreen) {
-                    modal.requestFullscreen();
-                } else if (modal.webkitRequestFullscreen) {
-                    modal.webkitRequestFullscreen();
-                } else if (modal.msRequestFullscreen) {
-                    modal.msRequestFullscreen();
+                if (wrapper.requestFullscreen) {
+                    wrapper.requestFullscreen();
+                } else if (wrapper.webkitRequestFullscreen) {
+                    wrapper.webkitRequestFullscreen();
+                } else if (wrapper.msRequestFullscreen) {
+                    wrapper.msRequestFullscreen();
                 }
             } else {
                 if (document.exitFullscreen) {
@@ -871,12 +964,14 @@
             }
         }
 
-        // Event listener to open game channels inside the iframe modal
+        // Click Event Listener for Channel Tiles
         document.addEventListener('click', function (e) {
             const channel = e.target.closest('.channel:not(.empty)');
             if (channel && channel.hasAttribute('href')) {
                 e.preventDefault();
-                openGamePlayer(channel.getAttribute('href'));
+                const img = channel.querySelector('img');
+                const title = img ? img.alt : 'Game Player';
+                openGamePlayer(channel.getAttribute('href'), title);
             }
         });
 
