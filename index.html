@@ -48,6 +48,14 @@
             pointer-events: none !important;
         }
 
+        /* Stops animated GIFs & grid rendering when iframe player is open to eliminate lag */
+        .screen.iframe-active .pages-container,
+        .screen.iframe-active .arrow,
+        .screen.iframe-active .page-dots,
+        .screen.iframe-active .vocaloid-mascot {
+            display: none !important;
+        }
+
         /* --- Mascot Illustration --- */
         .vocaloid-mascot {
             position: absolute;
@@ -618,7 +626,7 @@
                 <a href="/games/cldoomdos.html" class="channel"><img src="/assets/IMG_9955.jpeg" alt="Doom DOS"></a>
             </div>
 
-            <!-- PAGE 4 (Games 37-43) -->
+            <!-- PAGE 4 (Games 37-48) -->
             <div class="grid page" id="page-3">
                 <a href="/games/cldoom2dos.html" class="channel"><img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS"></a>
                 <a href="/games/clspelunky.html" class="channel"><img src="/assets/IMG_9957.png" alt="Spelunky"></a>
@@ -627,6 +635,22 @@
                 <a href="/games/Endacopia.html" class="channel"><img src="/assets/IMG_9964.jpeg" alt="Endacopia"></a>
                 <a href="/games/ULTRAKILL.html" class="channel"><img src="/assets/IMG_9965.jpeg" alt="ULTRAKILL"></a>
                 <a href="/games/clklonoachd.html" class="channel"><img src="/assets/IMG_0117.jpeg" alt="Klonoa"></a>
+                <a href="/games/Bendy and the Ink Machine_ ALL CHAPTERS.html" class="channel"><img src="/assets/bendy.gif" alt="Bendy and the Ink Machine"></a>
+                <a href="/games/Vib-Ribbon.html" class="channel"><img src="/assets/vib_ribbon.gif" alt="Vib-Ribbon"></a>
+                <a href="/games/Clover Pit.html" class="channel"><img src="/assets/clover_pit.png" alt="Clover Pit"></a>
+                <a href="/games/Just Shapes & Beats.html" class="channel"><img src="/assets/just_shapes_and_beats.gif" alt="Just Shapes & Beats"></a>
+                <a href="/games/I Have No Mouth, and I Must Scream.html" class="channel"><img src="/assets/ihnmaims.gif" alt="I Have No Mouth, and I Must Scream"></a>
+            </div>
+
+            <!-- PAGE 5 (Games 49-50) -->
+            <div class="grid page" id="page-4">
+                <a href="/games/Plague Inc.html" class="channel"><img src="/assets/plague_inc.png" alt="Plague Inc"></a>
+                <a href="/games/PEAK.html" class="channel"><img src="/assets/peak.png" alt="PEAK"></a>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
@@ -775,7 +799,7 @@
 
         // --- Page Logic ---
         let currentPage = 0;
-        const totalPages = 4;
+        const totalPages = 5;
 
         function renderDots() {
             const dotsContainer = document.getElementById('page-dots');
@@ -924,17 +948,27 @@
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('game-iframe');
             const titleEl = document.getElementById('player-title-text');
+            const screen = document.querySelector('.screen');
 
             iframe.src = url;
             if (titleEl) titleEl.innerText = `🎮 ${title}`;
             modal.classList.add('active');
+            
+            // Hide games background elements to stop GIF animations and prevent lag
+            if (screen) screen.classList.add('iframe-active');
         }
 
         function closeGamePlayer() {
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('game-iframe');
+            const screen = document.querySelector('.screen');
+
             iframe.src = '';
             modal.classList.remove('active');
+            
+            // Unhide games background elements
+            if (screen) screen.classList.remove('iframe-active');
+
             if (document.fullscreenElement) {
                 document.exitFullscreen().catch(() => {});
             }
