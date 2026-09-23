@@ -196,13 +196,14 @@
             align-items: center;
             text-align: center;
             position: relative;
-            overflow: hidden;
+            overflow: visible !important;
             transition: transform 0.2s;
             text-decoration: none; 
             color: #555;
             font-size: 0.85rem;
             font-weight: bold;
             min-height: 100px;
+            z-index: 1;
         }
 
         .channel img {
@@ -216,11 +217,70 @@
             transform: scale(1.05); 
             background: #fff;
             color: #000;
+            z-index: 35 !important;
         }
         
         .channel.empty:hover {
             transform: none;
             background: var(--channel-bg);
+        }
+
+        /* --- Wii Style Speech Bubble --- */
+        .speech-bubble {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(6px) scale(0.9);
+            background: #ffffff;
+            color: #222222;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            border: 2px solid #dcdcdc;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        visibility 0.2s;
+            z-index: 40;
+        }
+
+        /* Bubble Tail Border Shadow */
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 9px 8px 0 8px;
+            border-style: solid;
+            border-color: #dcdcdc transparent transparent transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* Bubble Tail Fill */
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 7px 0 7px;
+            border-style: solid;
+            border-color: #ffffff transparent transparent transparent;
+            display: block;
+            width: 0;
+        }
+
+        .channel:not(.empty):hover .speech-bubble {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
         /* --- Bottom Bar --- */
@@ -797,6 +857,22 @@
         updateClock();
         setInterval(updateClock, 1000);
 
+        // --- Speech Bubble Functionality ---
+        function initSpeechBubbles() {
+            document.querySelectorAll('.channel:not(.empty)').forEach(ch => {
+                if (!ch.querySelector('.speech-bubble')) {
+                    const img = ch.querySelector('img');
+                    const title = img ? img.alt : '';
+                    if (title) {
+                        const bubble = document.createElement('div');
+                        bubble.className = 'speech-bubble';
+                        bubble.textContent = title;
+                        ch.appendChild(bubble);
+                    }
+                }
+            });
+        }
+
         // --- Page Logic ---
         let currentPage = 0;
         const totalPages = 5;
@@ -884,6 +960,8 @@
 
             if (matchCount === 0) {
                 searchGrid.innerHTML = '<div style="grid-column: 1 / -1; color: #777; font-size: 1.2rem; margin-top: 30px; text-align: center;">No games found.</div>';
+            } else {
+                initSpeechBubbles();
             }
         }
 
@@ -1212,6 +1290,7 @@
         function loadSavedData() {
             renderDots();
             updatePaginationUI();
+            initSpeechBubbles();
 
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
