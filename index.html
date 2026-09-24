@@ -868,6 +868,19 @@
                         bubble.className = 'speech-bubble';
                         bubble.textContent = title;
                         ch.appendChild(bubble);
+
+                        // Custom glitch feature specifically for Time Fcuk
+                        if (title === 'Time Fcuk') {
+                            setInterval(() => {
+                                const chars = ['f', 'c', 'u', 'k'];
+                                let scrambled = title.split('').map(char => {
+                                    if (char === ' ') return ' ';
+                                    const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                                    return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
+                                }).join('');
+                                bubble.textContent = scrambled;
+                            }, 80); // Scrambles every 80 milliseconds
+                        }
                     }
                 }
             });
@@ -1022,6 +1035,8 @@
         }
 
         // --- Game Player Functions ---
+        let timeFcukPlayerInterval; // Stores the interval so it can be cleared
+
         function openGamePlayer(url, title = 'Game Player') {
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('game-iframe');
@@ -1029,7 +1044,26 @@
             const screen = document.querySelector('.screen');
 
             iframe.src = url;
-            if (titleEl) titleEl.innerText = `🎮 ${title}`;
+            
+            // Clear any existing glitch interval
+            if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
+
+            if (titleEl) {
+                if (title === 'Time Fcuk') {
+                    timeFcukPlayerInterval = setInterval(() => {
+                        const chars = ['f', 'c', 'u', 'k'];
+                        let scrambled = title.split('').map(char => {
+                            if (char === ' ') return ' ';
+                            const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                            return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
+                        }).join('');
+                        titleEl.innerText = `🎮 ${scrambled}`;
+                    }, 80);
+                } else {
+                    titleEl.innerText = `🎮 ${title}`;
+                }
+            }
+            
             modal.classList.add('active');
             
             // Hide games background elements to stop GIF animations and prevent lag
@@ -1040,6 +1074,9 @@
             const modal = document.getElementById('player-modal');
             const iframe = document.getElementById('game-iframe');
             const screen = document.querySelector('.screen');
+
+            // Stop the glitch interval when the player is closed to save memory
+            if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
 
             iframe.src = '';
             modal.classList.remove('active');
