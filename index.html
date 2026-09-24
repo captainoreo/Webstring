@@ -1048,14 +1048,14 @@
             if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
 
             if (titleEl) {
-                if (title === 'Time Fcuk') {
+                if (title === 'TIME FCUK') {
                     timeFcukPlayerInterval = setInterval(() => {
-                        const chars = ['f', 'c', 'u', 'k'];
-                        let scrambledFcuk = 'Fcuk'.split('').map(char => {
+                        const chars = ['F', 'C', 'U', 'K'];
+                        let scrambledFcuk = 'FCUK'.split('').map(char => {
                             const randomChar = chars[Math.floor(Math.random() * chars.length)];
                             return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
                         }).join('');
-                        titleEl.innerText = `🎮 Time ${scrambledFcuk}`;
+                        titleEl.innerText = `🎮 TIME ${scrambledFcuk}`;
                     }, 80);
                 } else {
                     titleEl.innerText = `🎮 ${title}`;
