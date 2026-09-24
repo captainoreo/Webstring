@@ -708,7 +708,7 @@
                 <a href="/games/PEAK.html" class="channel"><img src="/assets/IMG_0261.jpeg" alt="PEAK"></a>
                 <a href="/games/BigMoney.html" class="channel"><img src="/assets/IMG_0273.png" alt="Big Money"></a>
                 <a href="/games/GTTTATINT.html" class="channel"><img src="/assets/IMG_0274.png" alt="Get to the top although there is no top"></a>
-                <a href="/games/TimeFcuk.html" class="channel"><img src="/assets/IMG_0275.jpeg" alt="Time Fcuk"></a>
+                <a href="/games/TimeFcuk.html" class="channel"><img src="/assets/IMG_0275.jpeg" alt="TIME FCUK"></a>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
                 <div class="channel empty"></div>
@@ -870,15 +870,14 @@
                         ch.appendChild(bubble);
 
                         // Custom glitch feature specifically for Time Fcuk
-                        if (title === 'Time Fcuk') {
+                        if (title === 'TIME FCUK') {
                             setInterval(() => {
-                                const chars = ['f', 'c', 'u', 'k'];
-                                let scrambled = title.split('').map(char => {
-                                    if (char === ' ') return ' ';
+                                const chars = ['F', 'C', 'U', 'K'];
+                                let scrambledFcuk = 'Fcuk'.split('').map(char => {
                                     const randomChar = chars[Math.floor(Math.random() * chars.length)];
                                     return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
                                 }).join('');
-                                bubble.textContent = scrambled;
+                                bubble.textContent = 'Time ' + scrambledFcuk;
                             }, 80); // Scrambles every 80 milliseconds
                         }
                     }
@@ -1052,12 +1051,11 @@
                 if (title === 'Time Fcuk') {
                     timeFcukPlayerInterval = setInterval(() => {
                         const chars = ['f', 'c', 'u', 'k'];
-                        let scrambled = title.split('').map(char => {
-                            if (char === ' ') return ' ';
+                        let scrambledFcuk = 'Fcuk'.split('').map(char => {
                             const randomChar = chars[Math.floor(Math.random() * chars.length)];
                             return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
                         }).join('');
-                        titleEl.innerText = `🎮 ${scrambled}`;
+                        titleEl.innerText = `🎮 Time ${scrambledFcuk}`;
                     }, 80);
                 } else {
                     titleEl.innerText = `🎮 ${title}`;
