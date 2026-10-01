@@ -806,8 +806,33 @@
             <button onclick="openAboutBlank()" style="width: 100%; margin-top: 5px; background: #3b82f6; color: white; border-color: #2563eb;">
                 🚀 Open Page in about:blank
             </button>
+
+            <h4>📜 About & Credits</h4>
+            <button onclick="toggleCreditsModal()" style="width: 100%; margin-top: 5px; background: #10b981; color: white; border-color: #059669;">
+                📜 View Credits
+            </button>
             
             <button class="close-btn" onclick="toggleSettingsMenu()">Close</button>
+        </div>
+
+        <!-- Credits Modal -->
+        <div id="credits-modal" class="theme-menu">
+            <h3>📜 Credits & Acknowledgments</h3>
+            <div style="text-align: left; font-size: 0.88rem; color: #444; margin: 15px 0; max-height: 50vh; overflow-y: auto; padding-right: 5px;">
+                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🌐 Webstring</h4>
+                <p style="margin-bottom: 8px;">A Wii-inspired interactive game launcher and web portal.</p>
+                
+                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎨 UI & Design</h4>
+                <p style="margin-bottom: 5px;">• Inspired by Nintendo Wii System Menu & Channel UI</p>
+                <p style="margin-bottom: 5px;">• Custom themes featuring Vocaloid mascots (Hatsune Miku, Kasane Teto, Kagamine Rin, Gumi)</p>
+
+                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎮 Games & Media</h4>
+                <p style="margin-bottom: 5px;">• All game titles, assets, and images belong to their respective original creators and developers.</p>
+
+                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">💖 Special Thanks</h4>
+                <p style="margin-bottom: 5px;">• Thanks to all web game developers and open-source contributors.</p>
+            </div>
+            <button class="close-btn" onclick="toggleCreditsModal()">Close</button>
         </div>
 
         <!-- Recommendation Modal -->
@@ -1029,6 +1054,7 @@
             document.getElementById('recommendation-modal').classList.add('active');
             document.getElementById('theme-menu').classList.remove('active');
             document.getElementById('settings-menu').classList.remove('active');
+            document.getElementById('credits-modal').classList.remove('active');
         }
 
         function toggleRecommendationModal() {
@@ -1040,12 +1066,22 @@
             menu.classList.toggle('active');
             document.getElementById('settings-menu').classList.remove('active');
             document.getElementById('recommendation-modal').classList.remove('active');
+            document.getElementById('credits-modal').classList.remove('active');
         }
 
         function toggleSettingsMenu() {
             const menu = document.getElementById('settings-menu');
             menu.classList.toggle('active');
             document.getElementById('theme-menu').classList.remove('active');
+            document.getElementById('recommendation-modal').classList.remove('active');
+            document.getElementById('credits-modal').classList.remove('active');
+        }
+
+        function toggleCreditsModal() {
+            const menu = document.getElementById('credits-modal');
+            menu.classList.toggle('active');
+            document.getElementById('theme-menu').classList.remove('active');
+            document.getElementById('settings-menu').classList.remove('active');
             document.getElementById('recommendation-modal').classList.remove('active');
         }
 
