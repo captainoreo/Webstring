@@ -767,7 +767,7 @@
 
         <!-- Expanded Settings & Advanced Tab Cloaking Menu -->
         <div id="settings-menu" class="theme-menu">
-            <h3>⚙️️ Settings & Privacy</h3>
+            <h3>⚙ Settings & Privacy</h3>
             
             <h4>🎭 Quick Cloak Presets</h4>
             <div class="cloak-form-group">
@@ -1236,7 +1236,10 @@
             }
             
             // --- JAKE JUNIOR OVERRIDE LOGIC ---
-            if (themeName === 'JakeJunior') {
+            if (themeName.toLowerCase() === 'jakejunior') {
+                // Ensure refreshing the page restores the original page as stated in the disclaimer
+                localStorage.setItem('selectedTheme', 'default');
+
                 // 1. Replace every image
                 document.querySelectorAll('img').forEach(img => {
                     img.src = '/assets/IMG_0430.webp'; 
@@ -1269,10 +1272,10 @@
                 setTimeout(() => {
                     alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
                 }, 100);
+            } else {
+                localStorage.setItem('selectedTheme', themeName);
             }
             // --- END OVERRIDE LOGIC ---
-
-            localStorage.setItem('selectedTheme', themeName);
         }
 
         // ==========================================
