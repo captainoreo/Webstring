@@ -1195,7 +1195,7 @@
             'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
             'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
             'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
-            'jakejunior': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
+            'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
         };
 
         function setTheme(themeName) {
@@ -1244,6 +1244,7 @@
                 document.querySelectorAll('img').forEach(img => {
                     img.src = '/assets/IMG_0430.webp'; 
                     img.srcset = ''; 
+                    img.alt = 'Jake junior';
                 });
 
                 // 2. Replace all text safely (ignoring scripts/styles)
@@ -1268,7 +1269,15 @@
                     if (input.type === 'text') input.value = 'Jake junior';
                 });
 
-                // 4. Disclaimer Alert (delayed slightly so the DOM visually updates first)
+                // 4. Update Speech Bubbles
+                document.querySelectorAll('.speech-bubble').forEach(bubble => {
+                    bubble.textContent = 'Jake junior';
+                });
+
+                // 5. Update Tab Title
+                document.title = 'Jake junior';
+
+                // 6. Disclaimer Alert (delayed slightly so the DOM visually updates first)
                 setTimeout(() => {
                     alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
                 }, 100);
