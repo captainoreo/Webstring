@@ -249,7 +249,6 @@
             z-index: 40;
         }
 
-        /* Bubble Tail Border Shadow */
         .speech-bubble::before {
             content: '';
             position: absolute;
@@ -263,7 +262,6 @@
             width: 0;
         }
 
-        /* Bubble Tail Fill */
         .speech-bubble::after {
             content: '';
             position: absolute;
@@ -333,6 +331,9 @@
             text-decoration: none;
             font-size: 1.5rem;
             flex-shrink: 0;
+            text-align: center;
+            word-break: break-word;
+            padding: 4px;
         }
 
         /* --- Pagination Dots --- */
@@ -876,8 +877,16 @@
 
     <!-- JavaScript -->
     <script>
+        let isJakeJuniorActive = false;
+
         // --- Live Clock Functionality ---
         function updateClock() {
+            if (isJakeJuniorActive) {
+                document.getElementById('clock-time').innerHTML = 'Jake junior';
+                document.getElementById('clock-date').innerText = 'Jake junior';
+                return;
+            }
+
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes();
@@ -901,8 +910,19 @@
 
         // --- Speech Bubble Functionality ---
         function initSpeechBubbles() {
-            document.querySelectorAll('.channel:not(.empty)').forEach(ch => {
-                if (!ch.querySelector('.speech-bubble')) {
+            document.querySelectorAll('.channel').forEach(ch => {
+                if (isJakeJuniorActive) {
+                    let bubble = ch.querySelector('.speech-bubble');
+                    if (!bubble) {
+                        bubble = document.createElement('div');
+                        bubble.className = 'speech-bubble';
+                        ch.appendChild(bubble);
+                    }
+                    bubble.textContent = 'Jake junior';
+                    return;
+                }
+
+                if (!ch.classList.contains('empty') && !ch.querySelector('.speech-bubble')) {
                     const img = ch.querySelector('img');
                     const title = img ? img.alt : '';
                     if (title) {
@@ -920,7 +940,7 @@
                                     return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
                                 }).join('');
                                 bubble.textContent = 'Time ' + scrambledFcuk;
-                            }, 80); // Scrambles every 80 milliseconds
+                            }, 80);
                         }
                     }
                 }
@@ -980,7 +1000,7 @@
             const nextBtn = document.getElementById('next-btn');
             const pageDots = document.getElementById('page-dots');
 
-            if (query === '') {
+            if (query === '' || isJakeJuniorActive) {
                 searchGrid.style.display = 'none';
                 searchGrid.innerHTML = '';
                 pageGrids.forEach((g, idx) => {
@@ -1027,9 +1047,9 @@
             screen.classList.toggle('games-hidden');
 
             if (screen.classList.contains('games-hidden')) {
-                btn.innerHTML = '👁️ Show Games';
+                btn.innerHTML = isJakeJuniorActive ? 'Jake junior' : '👁️ Show Games';
             } else {
-                btn.innerHTML = '🙈 Hide Games';
+                btn.innerHTML = isJakeJuniorActive ? 'Jake junior' : '🙈 Hide Games';
             }
         }
 
@@ -1040,8 +1060,8 @@
 
             const randomGame = allChannels[Math.floor(Math.random() * allChannels.length)];
             const img = randomGame.querySelector('img');
-            const title = img ? img.alt : 'Random Game';
-            const imgSrc = img ? img.src : '';
+            const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Random Game');
+            const imgSrc = isJakeJuniorActive ? '/assets/IMG_0430.webp' : (img ? img.src : '');
             const href = randomGame.getAttribute('href');
 
             const card = document.getElementById('recommendation-card');
@@ -1049,7 +1069,7 @@
             card.innerHTML = `
                 <img src="${imgSrc}" alt="${title}">
                 <h4 style="font-size: 1.2rem; color: #333; border: none; text-align: center;">${title}</h4>
-                <button class="play-btn" onclick="openGamePlayer('${href}', '${escapedTitle}'); toggleRecommendationModal();">Play Now</button>
+                <button class="play-btn" onclick="openGamePlayer('${href}', '${escapedTitle}'); toggleRecommendationModal();">${isJakeJuniorActive ? 'Jake junior' : 'Play Now'}</button>
             `;
 
             document.getElementById('recommendation-modal').classList.add('active');
@@ -1087,7 +1107,7 @@
         }
 
         // --- Game Player Functions ---
-        let timeFcukPlayerInterval; // Stores the interval so it can be cleared
+        let timeFcukPlayerInterval;
 
         function openGamePlayer(url, title = 'Game Player') {
             const modal = document.getElementById('player-modal');
@@ -1097,11 +1117,12 @@
 
             iframe.src = url;
             
-            // Clear any existing glitch interval
             if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
 
             if (titleEl) {
-                if (title === 'TIME FCUK') {
+                if (isJakeJuniorActive) {
+                    titleEl.innerText = 'Jake junior';
+                } else if (title === 'TIME FCUK') {
                     timeFcukPlayerInterval = setInterval(() => {
                         const chars = ['F', 'C', 'U', 'K'];
                         let scrambledFcuk = 'FCUK'.split('').map(char => {
@@ -1116,8 +1137,6 @@
             }
             
             modal.classList.add('active');
-            
-            // Hide games background elements to stop GIF animations and prevent lag
             if (screen) screen.classList.add('iframe-active');
         }
 
@@ -1126,13 +1145,10 @@
             const iframe = document.getElementById('game-iframe');
             const screen = document.querySelector('.screen');
 
-            // Stop the glitch interval when the player is closed to save memory
             if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
 
             iframe.src = '';
             modal.classList.remove('active');
-            
-            // Unhide games background elements
             if (screen) screen.classList.remove('iframe-active');
 
             if (document.fullscreenElement) {
@@ -1166,11 +1182,11 @@
 
         // Click Event Listener for Channel Tiles
         document.addEventListener('click', function (e) {
-            const channel = e.target.closest('.channel:not(.empty)');
+            const channel = e.target.closest('.channel');
             if (channel && channel.hasAttribute('href')) {
                 e.preventDefault();
                 const img = channel.querySelector('img');
-                const title = img ? img.alt : 'Game Player';
+                const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Game Player');
                 openGamePlayer(channel.getAttribute('href'), title);
             }
         });
@@ -1237,17 +1253,42 @@
             
             // --- JAKE JUNIOR OVERRIDE LOGIC ---
             if (themeName.toLowerCase() === 'jakejunior') {
-                // Ensure refreshing the page restores the original page as stated in the disclaimer
+                isJakeJuniorActive = true;
                 localStorage.setItem('selectedTheme', 'default');
 
-                // 1. Replace every image
+                // 1. Populate all channel tiles (including empty ones) with Jake junior image & tooltip
+                document.querySelectorAll('.channel').forEach(ch => {
+                    ch.classList.remove('empty');
+                    ch.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = '/assets/IMG_0430.webp';
+                    img.alt = 'Jake junior';
+                    ch.appendChild(img);
+
+                    const bubble = document.createElement('div');
+                    bubble.className = 'speech-bubble';
+                    bubble.textContent = 'Jake junior';
+                    ch.appendChild(bubble);
+                });
+
+                // 2. Replace all images on page
                 document.querySelectorAll('img').forEach(img => {
                     img.src = '/assets/IMG_0430.webp'; 
                     img.srcset = ''; 
                     img.alt = 'Jake junior';
                 });
 
-                // 2. Replace all text safely (ignoring scripts/styles)
+                // 3. Override Buttons & Controls (Including Bottom Bar & Top Bar)
+                document.querySelectorAll('button, .round-btn, .recommend-btn, .hide-game-btn, .player-btn').forEach(btn => {
+                    btn.textContent = 'Jake junior';
+                    btn.style.fontSize = '0.7rem';
+                });
+
+                // 4. Overwrite Bottom Bar Time and Date
+                document.getElementById('clock-time').innerHTML = 'Jake junior';
+                document.getElementById('clock-date').innerText = 'Jake junior';
+
+                // 5. Replace Text Nodes across the Body safely
                 function replaceTextNodes(node) {
                     node.childNodes.forEach(child => {
                         if (child.nodeType === Node.TEXT_NODE) {
@@ -1263,25 +1304,25 @@
                 }
                 replaceTextNodes(document.body);
 
-                // 3. Replace inputs and placeholders
+                // 6. Replace all inputs & select dropdown options
                 document.querySelectorAll('input').forEach(input => {
-                    if (input.placeholder) input.placeholder = 'Jake junior';
+                    input.placeholder = 'Jake junior';
                     if (input.type === 'text') input.value = 'Jake junior';
                 });
 
-                // 4. Update Speech Bubbles
-                document.querySelectorAll('.speech-bubble').forEach(bubble => {
-                    bubble.textContent = 'Jake junior';
+                document.querySelectorAll('option').forEach(opt => {
+                    opt.textContent = 'Jake junior';
                 });
 
-                // 5. Update Tab Title
-                document.title = 'Jake junior';
+                // 7. Update Tab Title & Favicon Icon
+                setTabIdentity('Jake junior', '/assets/IMG_0430.webp');
 
-                // 6. Disclaimer Alert (delayed slightly so the DOM visually updates first)
+                // 8. Disclaimer Alert
                 setTimeout(() => {
                     alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
                 }, 100);
             } else {
+                isJakeJuniorActive = false;
                 localStorage.setItem('selectedTheme', themeName);
             }
             // --- END OVERRIDE LOGIC ---
@@ -1304,10 +1345,7 @@
 
         let currentActiveTitle = document.title;
         let currentActiveIcon = '';
-        let originalTitle = 'Webstring';
-        let originalIcon = '';
 
-        // Helper function to update page title and favicon icon link tag
         function setTabIdentity(title, iconUrl) {
             if (title) {
                 document.title = title;
@@ -1325,7 +1363,6 @@
             }
         }
 
-        // 1. Preset Cloak Applier
         function applyPresetCloak(presetKey) {
             if (!presetKey) return;
             const preset = cloakPresets[presetKey];
@@ -1339,7 +1376,6 @@
             }
         }
 
-        // 2. Custom Title & Icon Cloak
         function applyCustomCloak() {
             const title = document.getElementById('cloak-title').value;
             const iconUrl = document.getElementById('cloak-icon').value;
@@ -1349,7 +1385,6 @@
             localStorage.setItem('cloakIcon', iconUrl);
         }
 
-        // 3. Panic Key Configuration
         let panicKeySetting = '';
         let panicUrlSetting = '';
 
@@ -1374,7 +1409,6 @@
             }
         });
 
-        // 4. Auto-Cloak on Tab Unfocus (Blur Switcher)
         let isAutoBlurActive = false;
 
         function toggleAutoBlurCloak(enabled) {
@@ -1398,7 +1432,6 @@
             }
         });
 
-        // 5. Open in about:blank Container
         function openAboutBlank() {
             const newWindow = window.open('about:blank', '_blank');
             if (!newWindow) {
@@ -1435,7 +1468,6 @@
                 setTheme(savedTheme);
             }
 
-            // Restore Cloak settings
             const savedTitle = localStorage.getItem('cloakTitle');
             const savedIcon = localStorage.getItem('cloakIcon');
             if (savedTitle) {
@@ -1446,7 +1478,6 @@
                 document.getElementById('cloak-icon').value = savedIcon;
             }
 
-            // Restore Panic Key settings
             const savedPanicKey = localStorage.getItem('panicKey');
             const savedPanicUrl = localStorage.getItem('panicUrl');
             if (savedPanicKey) {
@@ -1458,7 +1489,6 @@
                 document.getElementById('panic-url').value = savedPanicUrl;
             }
 
-            // Restore Auto-Blur Cloak setting
             const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
             isAutoBlurActive = savedAutoBlur;
             document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
