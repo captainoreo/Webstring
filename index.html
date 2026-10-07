@@ -16,13 +16,13 @@
 <div class="top-bar">
     <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
     <select id="sort-select" class="recommend-btn" onchange="sortGames(this.value)">
-        <option value="default">✨ Default Order</option>
-        <option value="recent">🕒 Recent First</option>
-        <option value="az">🔤 Title (A-Z)</option>
-        <option value="za">🔤 Title (Z-A)</option>
-        <option value="ports">🖥️ Ports First</option>
-        <option value="emulated">🕹️ Emulated / Retro First</option>
-        <option value="flash">⚡ Flash Games First</option>
+        <option value="default">Default</option>
+        <option value="recent">Recent</option>
+        <option value="az">Title (A-Z)</option>
+        <option value="za">Title (Z-A)</option>
+        <option value="ports">Ports</option>
+        <option value="emulated">Emulated</option>
+        <option value="flash">Flash</option>
     </select>
     <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
     <button class="hide-game-btn" id="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Games</button>
