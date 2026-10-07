@@ -13,11 +13,12 @@
     <div class="screen">
         
         <!-- Top Bar -->
-        <div class="top-bar">
-            <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
-            <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
-            <button class="hide-game-btn" id="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Games</button>
-        </div>
+<div class="top-bar">
+    <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
+    <button class="recommend-btn" id="sort-btn" onclick="sortGames()">🔤 Sort A-Z</button>
+    <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
+    <button class="hide-game-btn" id="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Games</button>
+</div>
 
         <!-- Navigation Arrows -->
         <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
