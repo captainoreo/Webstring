@@ -112,6 +112,47 @@ function goToPage(pageIndex) {
     }
 }
 
+// --- Sort Games Functionality ---
+let isSortedAZ = false;
+
+function sortGames() {
+    // Select channels strictly from the main pages (ignoring cloned search results)
+    const allChannels = Array.from(document.querySelectorAll('.pages-container .grid.page .channel:not(.empty)'));
+    
+    // Sort channels alphabetically based on the image alt text
+    allChannels.sort((a, b) => {
+        const imgA = a.querySelector('img');
+        const imgB = b.querySelector('img');
+        const titleA = imgA ? imgA.alt.toLowerCase() : '';
+        const titleB = imgB ? imgB.alt.toLowerCase() : '';
+        
+        return isSortedAZ ? titleB.localeCompare(titleA) : titleA.localeCompare(titleB);
+    });
+
+    // Toggle the sort state
+    isSortedAZ = !isSortedAZ;
+    
+    // Update the button UI (respecting the Jake Junior theme if active)
+    const sortBtn = document.getElementById('sort-btn');
+    if (sortBtn) {
+        sortBtn.innerHTML = isJakeJuniorActive ? 'Jake junior' : (isSortedAZ ? '🔤 Sort Z-A' : '🔤 Sort A-Z');
+    }
+
+    // Redistribute the sorted channels back into the page grids (12 per page)
+    const pages = document.querySelectorAll('.pages-container .grid.page');
+    const itemsPerPage = 12;
+
+    allChannels.forEach((channel, index) => {
+        const pageIndex = Math.floor(index / itemsPerPage);
+        if (pages[pageIndex]) {
+            pages[pageIndex].appendChild(channel);
+        }
+    });
+    
+    // Jump back to the first page to show the beginning of the list
+    goToPage(0);
+}
+
 // --- Search Bar Functionality ---
 function handleSearch() {
     const query = document.getElementById('game-search').value.toLowerCase().trim();
