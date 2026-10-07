@@ -461,7 +461,7 @@ const cloakPresets = {
     'wikipedia': { title: 'Wikipedia, the free encyclopedia', icon: 'https://en.wikipedia.org/static/favicon/wikipedia.ico' },
     'desmos': { title: 'Desmos | Graphing Calculator', icon: 'https://www.desmos.com/favicon.ico' },
     'clever': { title: 'Clever | Portal', icon: 'https://assets.clever.com/assets/p-clever-favicon.ico' },
-    'reset': { title: 'Webstring', icon: '' }
+    'reset': { title: 'Webstring', icon: '/assets/vnznaj.svg' }
 };
 
 let currentActiveTitle = document.title;
