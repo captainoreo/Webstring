@@ -113,43 +113,134 @@ function goToPage(pageIndex) {
 }
 
 // --- Sort Games Functionality ---
-let isSortedAZ = false;
+let originalChannelsOrder = [];
 
-function sortGames() {
-    // Select channels strictly from the main pages (ignoring cloned search results)
-    const allChannels = Array.from(document.querySelectorAll('.pages-container .grid.page .channel:not(.empty)'));
-    
-    // Sort channels alphabetically based on the image alt text
-    allChannels.sort((a, b) => {
-        const imgA = a.querySelector('img');
-        const imgB = b.querySelector('img');
-        const titleA = imgA ? imgA.alt.toLowerCase() : '';
-        const titleB = imgB ? imgB.alt.toLowerCase() : '';
-        
-        return isSortedAZ ? titleB.localeCompare(titleA) : titleA.localeCompare(titleB);
-    });
-
-    // Toggle the sort state
-    isSortedAZ = !isSortedAZ;
-    
-    // Update the button UI (respecting the Jake Junior theme if active)
-    const sortBtn = document.getElementById('sort-btn');
-    if (sortBtn) {
-        sortBtn.innerHTML = isJakeJuniorActive ? 'Jake junior' : (isSortedAZ ? '🔤 Sort Z-A' : '🔤 Sort A-Z');
+function sortGames(sortType = 'default') {
+    // Capture initial DOM order on first run
+    if (originalChannelsOrder.length === 0) {
+        originalChannelsOrder = Array.from(document.querySelectorAll('.pages-container .grid.page .channel:not(.empty)'));
     }
 
-    // Redistribute the sorted channels back into the page grids (12 per page)
+    let sorted = [...originalChannelsOrder];
+
+    const getTitle = (el) => {
+        const img = el.querySelector('img');
+        return img ? img.alt.toLowerCase() : '';
+    };
+
+    const isEmulated = (el) => {
+        const href = el.getAttribute('href') || '';
+        return href.toLowerCase().includes('/games/cl');
+    };
+
+    // Helper to rank emulated games
+    const getEmulatedRank = (title) => {
+        if (title === 'metal slug') return 1;
+        if (title.includes('metal slug 2')) return 2;
+        if (title.includes('solatorobo')) return 3;
+        if (title === 'mortal kombat') return 4;
+        if (title.includes('mortal kombat 2') || title.includes('mortal kombat ii')) return 5;
+        if (title === 'doom') return 6;
+        if (title.includes('doom 2') || title.includes('doom ii')) return 7;
+        if (title.includes('klonoa')) return 8;
+        if (title.includes('vib-ribbon') || title.includes('vib ribbon')) return 9;
+        if (title.includes('no mouth and i must scream')) return 10;
+        if (title === 'mother' || title === 'mother 1' || title.includes('earthbound beginnings')) return 11;
+        if (title === 'mother 2' || title === 'earthbound') return 12;
+        if (title.includes('mother 3')) return 13;
+        if (title.includes('jojo')) return 14;
+        
+        if (title.includes('sonic')) {
+            if (title === 'sonic the hedgehog' || title.includes('sonic 1')) return 15.1;
+            if (title.includes('2')) return 15.2;
+            if (title.includes('3')) return 15.3;
+            if (title.includes('knuckles')) return 15.4;
+            if (title.endsWith(' r') || title.includes(' r ')) return 15.5;
+            return 15.6; 
+        }
+        
+        if (title.includes('good boy galaxy')) return 16;
+        if (title.includes('mega man') || title.includes('megaman')) return 17;
+        if (title.includes('kirby')) return 18;
+        if (title.includes('ristar')) return 19;
+        if (title.includes('dynamite headdy')) return 20;
+
+        return 999; 
+    };
+
+    // Helper to rank flash games
+    const getFlashRank = (title) => {
+        if (title.includes('binding of isaac')) return 1;
+        if (title === 'run') return 2; // Exact match to avoid catching 'run 2'
+        if (title === 'run 2') return 3;
+        if (title.includes('big money')) return 4;
+        if (title.includes('get to the top although there is no top')) return 5;
+        if (title.includes('time fcuk')) return 6;
+        return 999; 
+    };
+
+    switch (sortType) {
+        case 'recent':
+            sorted.reverse();
+            break;
+        case 'az':
+            sorted.sort((a, b) => getTitle(a).localeCompare(getTitle(b)));
+            break;
+        case 'za':
+            sorted.sort((a, b) => getTitle(b).localeCompare(getTitle(a)));
+            break;
+        case 'flash':
+            sorted.sort((a, b) => {
+                const rankA = getFlashRank(getTitle(a));
+                const rankB = getFlashRank(getTitle(b));
+                
+                if (rankA !== rankB) return rankA - rankB;
+                
+                return getTitle(a).localeCompare(getTitle(b));
+            });
+            break;
+        case 'emulated':
+            sorted.sort((a, b) => {
+                const aEmu = isEmulated(a);
+                const bEmu = isEmulated(b);
+                
+                if (aEmu && !bEmu) return -1;
+                if (!aEmu && bEmu) return 1;
+                
+                if (aEmu && bEmu) {
+                    const rankA = getEmulatedRank(getTitle(a));
+                    const rankB = getEmulatedRank(getTitle(b));
+                    if (rankA !== rankB) return rankA - rankB;
+                }
+                
+                return getTitle(a).localeCompare(getTitle(b));
+            });
+            break;
+        case 'ports':
+            sorted.sort((a, b) => {
+                const aPort = !isEmulated(a);
+                const bPort = !isEmulated(b);
+                if (aPort && !bPort) return -1;
+                if (!aPort && bPort) return 1;
+                return getTitle(a).localeCompare(getTitle(b));
+            });
+            break;
+        case 'default':
+        default:
+            break;
+    }
+
+    // Redistribute channels across the 8 page grids
     const pages = document.querySelectorAll('.pages-container .grid.page');
     const itemsPerPage = 12;
 
-    allChannels.forEach((channel, index) => {
+    sorted.forEach((channel, index) => {
         const pageIndex = Math.floor(index / itemsPerPage);
         if (pages[pageIndex]) {
             pages[pageIndex].appendChild(channel);
         }
     });
-    
-    // Jump back to the first page to show the beginning of the list
+
     goToPage(0);
 }
 
