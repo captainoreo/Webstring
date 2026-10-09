@@ -16,14 +16,14 @@ const themes = {
     'teto': { bg: '#fde8ee', mascotImg: '/assets/IMG_0156.png' },
     'rin':  { bg: '#fffbe6', mascotImg: '/assets/IMG_0154.png' },
     'gumi': { bg: '#f0f0f4', mascotImg: '/assets/IMG_0158.webp' },
-    'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png' },
-    'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif' },
+    'madobe': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png' },
+    'dylan': { bg: '#181825', bgImg: '/assets/IMG_0122.gif' },
     'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp' },
     'halloween': { bg: '#170a1c' },
     'christmas': { bg: '#0b2033' },
     'bleach': { bg: '#050505', mascotImg: '/assets/IMG_0521.webp' },
-    'blueexorcist': { bg: '#02040a', mascotImg: '/assets/IMG_0522.webp' },
-    'assassination': { bg: '#1b3322', mascotImg: '/assets/IMG_0523.webp' },
+    'blue exorcist': { bg: '#02040a', mascotImg: '/assets/IMG_0522.webp' },
+    'assassination classroom': { bg: '#1b3322', mascotImg: '/assets/IMG_0523.webp' },
     'win98teal': { bg: '#008080' } 
 };
 
