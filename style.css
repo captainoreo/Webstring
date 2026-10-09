@@ -611,3 +611,25 @@ body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .t
 body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; }
 body.theme-dark .dot { background-color: rgba(255, 255, 255, 0.3); }
 body.theme-dark .dot.active { background-color: var(--accent-color); }
+
+/* Mobile & Small Screen Layout Fixes */
+@media (max-height: 600px), (max-width: 800px) {
+    .pages-container {
+        overflow-y: auto;
+    }
+    
+    .grid {
+        height: auto;
+        grid-template-rows: auto;
+        grid-auto-rows: minmax(120px, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    .arrow {
+        display: none !important;
+    }
+}
