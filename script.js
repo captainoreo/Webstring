@@ -700,84 +700,9 @@ function loadSavedData() {
     const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
     isAutoBlurActive = savedAutoBlur;
     document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
-}// ==========================================
-// --- INJECT ADVANCED THEME STYLES ---
-// ==========================================
-function injectAdvancedThemeStyles() {
-    const styleBlock = document.createElement('style');
-    styleBlock.innerHTML = `
-        /* Assassination Classroom - Mascot Visibility Fix */
-        /* (Kept because it is a layout fix, not an animation) */
-        body[data-theme="assassination"] #vocaloid-mascot {
-            height: auto !important;
-            max-height: 65vh !important;
-            bottom: 70px !important;
-            right: 3% !important;
-            object-fit: contain !important;
-            z-index: 10 !important;
-        }
-
-        /* =======================================
-           WINDOWS 7 AERO UI (Nanami Madobe)
-           ======================================= */
-        body[data-theme="img0121"] { 
-            font-family: "Segoe UI", Tahoma, sans-serif !important; 
-        }
-        body[data-theme="img0121"] .channel { 
-            background: rgba(255, 255, 255, 0.15) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.5) !important; 
-            border-radius: 4px !important; 
-            box-shadow: inset 0 0 10px rgba(255,255,255,0.3), 0 4px 6px rgba(0,0,0,0.4) !important; 
-            backdrop-filter: blur(5px) !important; 
-            transition: all 0.2s; 
-        }
-        body[data-theme="img0121"] .channel:hover { 
-            background: rgba(255, 255, 255, 0.3) !important; 
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.6), 0 6px 12px rgba(0,0,0,0.5) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.8) !important; 
-            transform: scale(1.02); 
-        }
-        body[data-theme="img0121"] .bottom-bar { 
-            background: linear-gradient(to bottom, rgba(122,176,218,0.85) 0%, rgba(85,152,203,0.85) 45%, rgba(13,101,165,0.85) 50%, rgba(55,142,200,0.85) 100%) !important; 
-            border-top: 1px solid rgba(255,255,255,0.6) !important; 
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 -2px 10px rgba(0,0,0,0.5) !important; 
-            backdrop-filter: blur(10px) !important; 
-            border-radius: 0 !important; 
-            height: 48px !important; 
-        }
-        body[data-theme="img0121"] .top-bar { 
-            background: linear-gradient(to bottom, rgba(122,176,218,0.75), rgba(13,101,165,0.75)) !important; 
-            border-bottom: 1px solid rgba(255,255,255,0.5) !important; 
-            backdrop-filter: blur(10px) !important; 
-            border-radius: 0 0 8px 8px !important; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important; 
-        }
-        body[data-theme="img0121"] .theme-menu, body[data-theme="img0121"] .player-modal { 
-            background: rgba(15, 25, 40, 0.6) !important; 
-            border: 1px solid rgba(255, 255, 255, 0.5) !important; 
-            border-radius: 8px !important; 
-            box-shadow: inset 0 0 8px rgba(255,255,255,0.4), 0 15px 30px rgba(0,0,0,0.6) !important; 
-            backdrop-filter: blur(15px) !important; 
-        }
-        body[data-theme="img0121"] button, body[data-theme="img0121"] .round-btn { 
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.2)) !important; 
-            border: 1px solid rgba(255,255,255,0.5) !important; 
-            border-radius: 4px !important; 
-            color: #fff !important; 
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8); 
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4) !important; 
-        }
-        body[data-theme="img0121"] button:hover, body[data-theme="img0121"] .round-btn:hover { 
-            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.1)) !important; 
-            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.8) !important; 
-            border-color: #3b82f6 !important; 
-        }
-    `;
-    document.head.appendChild(styleBlock);
+}themeName);
+    }
 }
 
-// Ensure the styles are injected when the window loads
-window.addEventListener('DOMContentLoaded', () => {
-    injectAdvancedThemeStyles();
-});
+
 loadSavedData();
