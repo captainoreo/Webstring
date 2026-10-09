@@ -700,9 +700,6 @@ function loadSavedData() {
     const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
     isAutoBlurActive = savedAutoBlur;
     document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
-}themeName);
-    }
 }
-
 
 loadSavedData();
