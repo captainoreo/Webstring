@@ -1,301 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webstring</title>
-    <link rel="icon" href="/assets/vnznaj.svg" type="image/gif">
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebString 98</title>
+  
+  <!-- External CSS Libraries and Files -->
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="screen">
-        
-        <!-- Top Bar -->
-<div class="top-bar">
-    <input type="text" id="game-search" placeholder="🔍 Search games..." oninput="handleSearch()">
-    <button class="recommend-btn" onclick="recommendGame()">🎲 Recommend</button>
-    <button class="hide-game-btn" id="hide-game-btn" onclick="toggleHideGameScreen()">🙈 Hide Games</button>
-</div>
-
-        <!-- Navigation Arrows -->
-        <div class="arrow arrow-left" id="prev-btn" onclick="changePage(-1)"></div>
-        <div class="arrow arrow-right" id="next-btn" onclick="changePage(1)"></div>
-
-        <!-- Vocaloid Mascot Image -->
-        <img id="vocaloid-mascot" class="vocaloid-mascot" src="" alt="Vocaloid Mascot">
-
-        <div class="pages-container" id="pages-container">
-            <!-- PAGE 1 (Games 1-12) -->
-            <div class="grid page active" id="page-0">
-                <a href="/games/60 Seconds! Reatomized.html" class="channel"><img src="/assets/IMG_9887.gif" alt="60 Seconds! Reatomized"></a>
-                <a href="/games/Bad Piggies.html" class="channel"><img src="/assets/IMG_9888.gif" alt="Bad Piggies"></a>
-                <a href="/games/Balatro.html" class="channel"><img src="/assets/IMG_9889.gif" alt="Balatro"></a>
-                <a href="/games/BeatBlock.html" class="channel"><img src="/assets/IMG_9890.gif" alt="BeatBlock"></a>
-                <a href="/games/FISH.html" class="channel"><img src="/assets/IMG_9891.gif" alt="FISH"></a>
-                <a href="/games/Grand Theft Auto 3.html" class="channel"><img src="/assets/IMG_9892.gif" alt="Grand Theft Auto 3"></a>
-                <a href="/games/Grand Theft Auto_ Vice City.html" class="channel"><img src="/assets/IMG_9893.gif" alt="GTA Vice City"></a>
-                <a href="/games/Hollow Knight.html" class="channel"><img src="/assets/IMG_9894.gif" alt="Hollow Knight"></a>
-                <a href="/games/Hollow Knight_ Silksong.html" class="channel"><img src="/assets/IMG_9895.gif" alt="Hollow Knight Silksong"></a>
-                <a href="/games/In Stars and Time.html" class="channel"><img src="/assets/IMG_9896.jpeg" alt="In Stars and Time"></a>
-                <a href="/games/Kirby ~ Soft & Wet.html" class="channel"><img src="/assets/IMG_9897.png" alt="Kirby Soft & Wet"></a>
-                <a href="/games/OMORI.html" class="channel"><img src="/assets/IMG_9898.gif" alt="OMORI"></a>
-            </div>
-
-            <!-- PAGE 2 (Games 13-24) -->
-            <div class="grid page" id="page-1">
-                <a href="/games/Off.html" class="channel"><img src="/assets/IMG_9899.gif" alt="Off"></a>
-                <a href="/games/One Shot_ World Machine edition.html" class="channel"><img src="/assets/IMG_9900.gif" alt="One Shot World Machine"></a>
-                <a href="/games/PikuNiku.html" class="channel"><img src="/assets/IMG_9901.gif" alt="PikuNiku"></a>
-                <a href="/games/PvZ.html" class="channel"><img src="/assets/IMG_9902.gif" alt="PvZ"></a>
-                <a href="/games/Stardew Valley.html" class="channel"><img src="/assets/IMG_9903.gif" alt="Stardew Valley"></a>
-                <a href="/games/Terraria.html" class="channel"><img src="/assets/IMG_9904.gif" alt="Terraria"></a>
-                <a href="/games/WebFishing.html" class="channel"><img src="/assets/IMG_9905.gif" alt="WebFishing"></a>
-                <a href="/games/clbindingofisaccsheeptime.html" class="channel"><img src="/assets/IMG_9906.gif" alt="Binding of Isaac"></a>
-                <a href="/games/clcavestory.html" class="channel"><img src="/assets/IMG_9907.gif" alt="Cave Story"></a>
-                <a href="/games/clmetalslug.html" class="channel"><img src="/assets/IMG_9908.gif" alt="Metal Slug"></a>
-                <a href="/games/clmetalslug2.html" class="channel"><img src="/assets/IMG_9909.gif" alt="Metal Slug 2"></a>
-                <a href="/games/clsolatrobo.html" class="channel"><img src="/assets/IMG_9911.webp" alt="Solatorobo"></a>
-            </div>
-
-            <!-- PAGE 3 (Games 25-36) -->
-            <div class="grid page" id="page-2">
-                <a href="/games/clundertale.html" class="channel"><img src="/assets/IMG_9912.gif" alt="Undertale"></a>
-                <a href="/games/clFNAF.html" class="channel"><img src="/assets/IMG_9945.jpeg" alt="FNAF 1"></a>
-                <a href="/games/clFNAF2.html" class="channel"><img src="/assets/IMG_9946.jpeg" alt="FNAF 2"></a>
-                <a href="/games/clFNAF3.html" class="channel"><img src="/assets/IMG_9947.jpeg" alt="FNAF 3"></a>
-                <a href="/games/clFNAF4.html" class="channel"><img src="/assets/IMG_9948.jpeg" alt="FNAF 4"></a>
-                <a href="/games/clfnafsl.html" class="channel"><img src="/assets/IMG_9949.jpeg" alt="FNAF Sister Location"></a>
-                <a href="/games/clfnafps.html" class="channel"><img src="/assets/IMG_9950.jpeg" alt="FNAF Pizzeria Simulator"></a>
-                <a href="/games/clmortalkombata.html" class="channel"><img src="/assets/IMG_9951.jpeg" alt="Mortal Kombat"></a>
-                <a href="/games/clmortalkombat2a.html" class="channel"><img src="/assets/IMG_9952.jpeg" alt="Mortal Kombat 2"></a>
-                <a href="/games/clrun.html" class="channel"><img src="/assets/IMG_0329.jpeg" alt="Run"></a>
-                <a href="/games/clrun-2.html" class="channel"><img src="/assets/IMG_0330.jpeg" alt="Run 2"></a>
-                <a href="/games/cldoomdos.html" class="channel"><img src="/assets/IMG_9955.jpeg" alt="Doom DOS"></a>
-            </div>
-
-            <!-- PAGE 4 (Games 37-48) -->
-            <div class="grid page" id="page-3">
-                <a href="/games/cldoom2dos.html" class="channel"><img src="/assets/IMG_9956.jpeg" alt="Doom 2 DOS"></a>
-                <a href="/games/clspelunky.html" class="channel"><img src="/assets/IMG_9957.png" alt="Spelunky"></a>
-                <a href="/games/clfivenightsatfrickbears3.html" class="channel"><img src="/assets/IMG_9958.jpeg" alt="Five Nights at Frickbear's 3"></a>
-                <a href="/games/clscratchoptions.html" class="channel"><img src="/assets/IMG_9959.png" alt="Scratch Options"></a>
-                <a href="/games/Endacopia.html" class="channel"><img src="/assets/IMG_9964.jpeg" alt="Endacopia"></a>
-                <a href="/games/ULTRAKILL.html" class="channel"><img src="/assets/IMG_9965.jpeg" alt="ULTRAKILL"></a>
-                <a href="/games/clklonoachd.html" class="channel"><img src="/assets/IMG_0117.jpeg" alt="Klonoa"></a>
-                <a href="/games/Bendy and the Ink Machine_ ALL CHAPTERS.html" class="channel"><img src="/assets/IMG_0255.jpeg" alt="Bendy and the Ink Machine"></a>
-                <a href="/games/Vib-Ribbon.html" class="channel"><img src="/assets/IMG_0256.jpeg" alt="Vib-Ribbon"></a>
-                <a href="/games/Clover Pit.html" class="channel"><img src="/assets/IMG_0257.jpeg" alt="Clover Pit"></a>
-                <a href="/games/Just Shapes & Beats.html" class="channel"><img src="/assets/IMG_0262.jpeg" alt="Just Shapes & Beats"></a>
-                <a href="/games/I Have No Mouth, and I Must Scream.html" class="channel"><img src="/assets/IMG_0259.jpeg" alt="I Have No Mouth, and I Must Scream"></a>
-            </div>
-
-            <!-- PAGE 5 (Games 49-60) -->
-            <div class="grid page" id="page-4">
-                <a href="/games/Plague Inc.html" class="channel"><img src="/assets/IMG_0260.webp" alt="Plague Inc"></a>
-                <a href="/games/PEAK.html" class="channel"><img src="/assets/IMG_0261.jpeg" alt="PEAK"></a>
-                <a href="/games/BigMoney.html" class="channel"><img src="/assets/IMG_0273.png" alt="Big Money"></a>
-                <a href="/games/GTTTATINT.html" class="channel"><img src="/assets/IMG_0274.png" alt="Get to the top although there is no top"></a>
-                <a href="/games/TimeFcuk.html" class="channel"><img src="/assets/IMG_0275.jpeg" alt="TIME FCUK"></a>
-                <a href="/games/clearthboundbeginnings.html" class="channel"><img src="/assets/IMG_0390.jpeg" alt="Mother 1"></a>
-                <a href="/games/clearthboundsnes.html" class="channel"><img src="/assets/IMG_0391.jpeg" alt="Mother 2"></a>
-                <a href="/games/clearthbound3.html" class="channel"><img src="/assets/IMG_0392.jpeg" alt="Mother 3"></a>
-                <a href="/games/fez.html" class="channel"><img src="/assets/IMG_0393.jpeg" alt="Fez"></a>
-                <a href="/games/Team Fortress 2.html" class="channel"><img src="/assets/IMG_0399.jpeg" alt="Team Fortress 2"></a>
-                <a href="/games/Geometry Dash.html" class="channel"><img src="/assets/IMG_0400.jpeg" alt="Geometry Dash"></a>
-                <a href="/games/JoJo's Bizarre Adventure_ Heritage for the Future.html" class="channel"><img src="/assets/IMG_0401.jpeg" alt="JoJo's Bizarre Adventure"></a>
-            </div>
-
-            <!-- PAGE 6 (Games 61-72) -->
-            <div class="grid page" id="page-5">
-                <a href="/games/Lethal Company.html" class="channel"><img src="/assets/IMG_0402.jpeg" alt="Lethal Company"></a>
-                <a href="/games/Totally Accurate Battle Simulator (TABS).html" class="channel"><img src="/assets/IMG_0403.jpeg" alt="Totally Accurate Battle Simulator (TABS)"></a>
-                <a href="/games/Your Only Move Is HUSTLE.html" class="channel"><img src="/assets/IMG_0404.jpeg" alt="Your Only Move Is HUSTLE"></a>
-                <a href="/games/Baldi's Basics Plus.html" class="channel"><img src="/assets/IMG_0425.jpeg" alt="Baldi's basics plus"></a>
-                <a href="/games/clsonicthehedgehog.html" class="channel"><img src="/assets/IMG_0458.jpeg" alt="Sonic the Hedgehog"></a>
-                <a href="/games/clsonicthehedgehog2.html" class="channel"><img src="/assets/IMG_0459.jpeg" alt="Sonic the Hedgehog 2"></a>
-                <a href="/games/clsonicthehedgehog3.html" class="channel"><img src="/assets/IMG_0460.png" alt="Sonic the Hedgehog 3"></a>
-                <a href="/games/clsonicandknuckles.html" class="channel"><img src="/assets/IMG_0461.jpeg" alt="Sonic and Knuckles"></a>
-                <a href="/games/clgoodboygalaxy.html" class="channel"><img src="/assets/IMG_0462.jpeg" alt="Good Boy galaxy"></a>
-                <a href="/games/rimworld.html" class="channel"><img src="/assets/IMG_0463.jpeg" alt="Rimworld"></a>
-                <a href="/games/cuphead.html" class="channel"><img src="/assets/IMG_0467.png" alt="Cuphead"></a>
-                <a href="/games/scp.html" class="channel"><img src="/assets/IMG_0468.jpeg" alt="SCP: Containment breach"></a>
-            </div>
-            <!-- PAGE 7 (Games 73-84) -->
-            <div class="grid page" id="page-6">
-                <a href="/games/clmegaman.html" class="channel"><img src="/assets/IMG_0480.jpeg" alt="Mega Man"></a>
-                <a href="/games/clmegaman2.html" class="channel"><img src="/assets/IMG_0481.jpeg" alt="Mega Man 2"></a>
-                <a href="/games/clmegaman3.html" class="channel"><img src="/assets/IMG_0482.jpeg" alt="Mega Man 3"></a>
-                <a href="/games/clmegaman4.html" class="channel"><img src="/assets/IMG_0483.jpeg" alt="Mega Man 4"></a>
-                <a href="/games/clmegaman5.html" class="channel"><img src="/assets/IMG_0484.jpeg" alt="Mega Man 5"></a>
-                <a href="/games/clmegaman6.html" class="channel"><img src="/assets/IMG_0485.jpeg" alt="Mega Man 6"></a>
-                <a href="/games/clmegaman7.html" class="channel"><img src="/assets/IMG_0486.jpeg" alt="Mega Man 7"></a>
-                <a href="/games/clmegaman8.html" class="channel"><img src="/assets/IMG_0487.webp" alt="Mega Man 8"></a>
-                <a href="/games/clkirbycanvascurse.html" class="channel"><img src="/assets/IMG_0493.jpeg" alt="Kirby Canvas Curse"></a>
-                <a href="/games/clkirbysqueaksquad.html" class="channel"><img src="/assets/IMG_0489.png" alt="Kirby Squeak Squad"></a>
-                <a href="/games/clkirbysuperstarultra.html" class="channel"><img src="/assets/IMG_0495.jpeg" alt="Kirby Super Star Ultra"></a>
-                <a href="/games/clkirbymassattack.html" class="channel"><img src="/assets/IMG_0496.jpeg" alt="Kirby Mass Attack"></a>
-            </div>
-
-            <!-- PAGE 8 (Games 85-96) -->
-            <div class="grid page" id="page-7">
-                <a href="/games/clristar.html" class="channel"><img src="/assets/IMG_0497.jpeg" alt="Ristar"></a>
-                <a href="/games/cldynamiteheaddy.html" class="channel"><img src="/assets/IMG_0498.jpeg" alt="Dynamite Headdy"></a>
-                <a href="/games/clsonicr.html" class="channel"><img src="/assets/IMG_0499.jpeg" alt="Sonic R"></a>
-                <a href="/games/clyumenikki.html" class="channel"><img src="/assets/IMG_0500.jpeg" alt="Yume Nikki"></a>
-                <a href="/games/clsupermario.html" class="channel"><img src="/assets/IMG_0503.jpeg" alt="Super Mario Bros."></a>
-                <a href="/games/clmariolostlevels.html" class="channel"><img src="/assets/IMG_0504.webp" alt="Super Mario Bros 2 JP"></a>
-                <a href="/games/clsupermariobros2us.html" class="channel"><img src="/assets/IMG_0505.jpeg" alt="Super Mario Bros 2 US"></a>
-                <a href="/games/clmario3.html" class="channel"><img src="/assets/IMG_0506.jpeg" alt="Super Mario Bros 3"></a>
-            </div>
-
-            <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
-        </div>
-
-        <!-- Theme Menu -->
-        <div id="theme-menu" class="theme-menu">
-            <h3>Customization</h3>
-            <h4>Preset Themes</h4>
-            <div class="menu-options">
-                <button onclick="setTheme('default')">Classic Wii</button>
-                <button onclick="setTheme('dark')">Dark Mode</button>
-                <button onclick="setTheme('neon')">Neon Cyber</button>
-                <button onclick="setTheme('sage')">Sage Matcha</button>
-                <button onclick="setTheme('sunset')">Sunset Glow</button>
-                <button onclick="setTheme('ocean')">Ocean Breeze</button>
-                <button onclick="setTheme('midnight')">Midnight Gold</button>
-                <button onclick="setTheme('berry')">Berry Pink</button>
-                <button onclick="setTheme('evil')">Evil</button>
-                <button onclick="setTheme('kind')">Kind</button>
-                <button onclick="setTheme('allred')">ALL RED</button>
-                <button onclick="setTheme('allblue')">ALL Blue</button>
-                <button onclick="setTheme('miku')">Hatsune Miku</button>
-                <button onclick="setTheme('teto')">Kasane Teto</button>
-                <button onclick="setTheme('rin')">Kagamine Rin</button>
-                <button onclick="setTheme('gumi')">Gumi</button>
-                <button onclick="setTheme('img0121')">Nanami Madobe</button>
-                <button onclick="setTheme('img0122')">Dylan</button>
-                <button onclick="setTheme('jakejunior')">Jake Junior</button>
-                <button onclick="setTheme('halloween')">Halloween</button>
-                <button onclick="setTheme('christmas')">Christmas</button>
-                <button onclick="setTheme('bleach')">Bleach</button>
-                <button onclick="setTheme('blueexorcist')">Blue Exorcist</button>
-                <button onclick="setTheme('assassination')">Assassination Classroom</button>
-            </div>
-            <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
-        </div>
-
-        <!-- Expanded Settings & Advanced Tab Cloaking Menu -->
-        <div id="settings-menu" class="theme-menu">
-            <h3>⚙ Settings & Privacy</h3>
-            
-            <h4>🎭 Quick Cloak Presets</h4>
-            <div class="cloak-form-group">
-                <select id="cloak-presets" onchange="applyPresetCloak(this.value)">
-                    <option value="">Select a Preset...</option>
-                    <option value="drive">Google Drive</option>
-                    <option value="classroom">Google Classroom</option>
-                    <option value="docs">Google Docs</option>
-                    <option value="canvas">Canvas LMS</option>
-                    <option value="wikipedia">Wikipedia</option>
-                    <option value="desmos">Desmos Graphing Calculator</option>
-                    <option value="clever">Clever Portal</option>
-                    <option value="reset">Reset to Default</option>
-                </select>
-            </div>
-
-            <h4>✏️ Custom Cloak</h4>
-            <div class="cloak-form-group">
-                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. My Drive)">
-                <input type="text" id="cloak-icon" placeholder="Favicon Image URL">
-                <button onclick="applyCustomCloak()" style="width: 100%;">Apply Custom Cloak</button>
-            </div>
-
-            <h4>🚨 Panic Key & Redirect</h4>
-            <div class="cloak-form-group">
-                <input type="text" id="panic-key" placeholder="Panic Key (e.g. ` or Escape)" maxlength="10">
-                <input type="text" id="panic-url" placeholder="Panic Redirect URL (e.g. https://google.com)">
-                <button onclick="savePanicSettings()" style="width: 100%;">Save Panic Options</button>
-            </div>
-
-            <h4>🛡️ Advanced Cloaking Options</h4>
-            <div class="cloak-checkbox-group">
-                <label for="auto-blur-cloak">Auto-Cloak on Tab Unfocus</label>
-                <input type="checkbox" id="auto-blur-cloak" onchange="toggleAutoBlurCloak(this.checked)">
-            </div>
-
-            <button onclick="openAboutBlank()" style="width: 100%; margin-top: 5px; background: #3b82f6; color: white; border-color: #2563eb;">
-                🚀 Open Page in about:blank
-            </button>
-
-            <h4>📜 About & Credits</h4>
-            <button onclick="toggleCreditsModal()" style="width: 100%; margin-top: 5px; background: #10b981; color: white; border-color: #059669;">
-                📜 View Credits
-            </button>
-            
-            <button class="close-btn" onclick="toggleSettingsMenu()">Close</button>
-        </div>
-
-        <!-- Credits Modal -->
-        <div id="credits-modal" class="theme-menu">
-            <h3>📜 Credits & Acknowledgments</h3>
-            <div style="text-align: left; font-size: 0.88rem; color: #444; margin: 15px 0; max-height: 50vh; overflow-y: auto; padding-right: 5px;">
-                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🌐 Webstring</h4>
-                <p style="margin-bottom: 8px;">The lebron james of game site</p>
-                
-                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎨 UI & Design</h4>
-                <p style="margin-bottom: 5px;">• Inspired by Nintendo Wii System Menu & Channel UI</p>
-                <p style="margin-bottom: 5px;">• Custom themes featuring Vocaloid mascots (Hatsune Miku, Kasane Teto, Kagamine Rin, Gumi)</p>
-
-                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎮 Games & Media</h4>
-                <p style="margin-bottom: 5px;">• All game titles, assets, and images belong to their respective original creators and developers. screw you gn-math for putting ads everywhere on your site</p>
-
-                <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">💖 Special Thanks</h4>
-                <p style="margin-bottom: 5px;">• Thanks to Josh who was the only contributor for this site</p>
-            </div>
-            <button class="close-btn" onclick="toggleCreditsModal()">Close</button>
-        </div>
-
-        <!-- Recommendation Modal -->
-        <div id="recommendation-modal" class="theme-menu">
-            <h3>🎲 Game Recommendation</h3>
-            <div class="recommendation-card" id="recommendation-card"></div>
-            <button onclick="recommendGame()" style="width: 100%; margin-top: 10px;">Try Another</button>
-            <button class="close-btn" onclick="toggleRecommendationModal()">Close</button>
-        </div>
-
-        <!-- Game Player UI Overlay Modal -->
-        <div id="player-modal" class="player-modal">
-            <div class="player-bar">
-                <div class="player-title" id="player-title-text">🎮 Playing Game</div>
-                <div class="player-controls">
-                    <button class="player-btn" onclick="reloadGameIframe()">🔄 Reload</button>
-                    <button class="player-btn" onclick="toggleIframeFullscreen()">⛶ Fullscreen</button>
-                    <button class="player-btn close-btn-player" onclick="closeGamePlayer()">✕ Close</button>
-                </div>
-            </div>
-            <div class="player-iframe-wrapper" id="player-iframe-wrapper">
-                <iframe id="game-iframe" class="player-iframe" allow="fullscreen"></iframe>
-            </div>
-        </div>
-
-        <div class="bottom-bar">
-            <div class="footer-content">
-                <div class="round-btn" onclick="toggleThemeMenu()">🎨</div>
-                
-                <div class="time-date">
-                    <div class="page-dots" id="page-dots"></div>
-                    <div class="time" id="clock-time">-- -- <span class="am">--</span></div>
-                    <div class="date" id="clock-date">--- -/-</div>
-                </div>
-
-                <div class="round-btn" onclick="toggleSettingsMenu()">⚙️</div>
-            </div>
-        </div>
+  <!-- Desktop Environment -->
+  <div class="desktop" id="desktopArea">
+    <div class="icon" ondblclick="openWindow('gamesWindow')">
+      <img src="https://win98icons.alexmeub.com/icons/png/joystick-0.png" alt="Games">
+      <br><span>Games</span>
+    </div>
+    
+    <div class="icon" ondblclick="openWindow('themesWindow')">
+      <img src="https://win98icons.alexmeub.com/icons/png/display_properties-1.png" alt="Themes">
+      <br><span>Themes</span>
     </div>
 
-    <!-- Link to the external JavaScript file -->
-    <script src="script.js"></script>
+    <!-- Restored Mascot Image -->
+    <img id="desktop-mascot" class="vocaloid-mascot" src="" alt="Theme Mascot">
+  </div>
+
+  <!-- Games Explorer Window -->
+  <div class="window" id="gamesWindow" style="left: 100px; top: 50px; width: 450px;">
+    <div class="title-bar" id="gamesWindowHeader">
+      <div class="title-bar-text">C:\Games Explorer</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize" onclick="closeWindow('gamesWindow')"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close" onclick="closeWindow('gamesWindow')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="game-grid">
+        <div class="game-card" onclick="playGame('https://example.com/game1', 'Slope')">
+          <img src="https://via.placeholder.com/100x100?text=Slope" alt="Slope">
+          <p>Slope.exe</p>
+        </div>
+        <div class="game-card" onclick="playGame('https://example.com/game2', '1v1.lol')">
+          <img src="https://via.placeholder.com/100x100?text=1v1" alt="1v1.lol">
+          <p>1v1.exe</p>
+        </div>
+        <div class="game-card" onclick="playGame('https://example.com/game3', 'Retro Bowl')">
+          <img src="https://via.placeholder.com/100x100?text=Retro" alt="Retro Bowl">
+          <p>Retro.exe</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legacy Themes Window -->
+  <div class="window" id="themesWindow" style="left: 250px; top: 100px; width: 300px;">
+    <div class="title-bar" id="themesWindowHeader">
+      <div class="title-bar-text">Display Properties (Legacy)</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="closeWindow('themesWindow')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <fieldset>
+        <legend>Desktop Background</legend>
+        <div id="theme-list">
+          <!-- Dynamically populated by JS -->
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <!-- Game Player Window (iFrame) -->
+  <div class="window" id="gamePlayerWindow" style="left: 150px; top: 80px; width: 640px; height: 480px;">
+    <div class="title-bar" id="gamePlayerWindowHeader">
+      <div class="title-bar-text" id="gameTitle">Now Playing</div>
+      <div class="title-bar-controls">
+        <button aria-label="Maximize" onclick="maximizeGame()"></button>
+        <button aria-label="Close" onclick="closeWindow('gamePlayerWindow')"></button>
+      </div>
+    </div>
+    <div class="window-body" style="margin:0; padding:0; height: calc(100% - 32px); overflow: hidden;">
+      <iframe id="gameFrame" src="" style="width: 100%; height: 100%; border: none; background: #000;"></iframe>
+    </div>
+  </div>
+
+  <!-- Windows Taskbar -->
+  <div class="taskbar">
+    <button class="start-btn">
+      <img src="https://win98icons.alexmeub.com/icons/png/windows_slanted-1.png" alt="Start">
+      Start
+    </button>
+    <div class="taskbar-clock" id="clock">12:00 PM</div>
+  </div>
+
+  <!-- External JavaScript File -->
+  <script src="script.js"></script>
 </body>
 </html>
