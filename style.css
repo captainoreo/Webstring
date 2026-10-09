@@ -180,22 +180,22 @@ body {
 }
 
 .channel {
-    aspect-ratio: 16 / 9;
-    background: #f0f0f0;
-    border-radius: 8px;
-    border: 2px solid #d4d4d4;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+    background: var(--channel-bg);
+    border-radius: 15px;
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     position: relative;
     overflow: visible !important;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.2s;
     text-decoration: none; 
     color: #555;
     font-size: 0.85rem;
     font-weight: bold;
+    min-height: 100px;
     z-index: 1;
 }
 
@@ -203,25 +203,19 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover; 
-    border-radius: 6px;
+    border-radius: 13px;
 }
 
 .channel:hover { 
     transform: scale(1.05); 
     background: #fff;
     color: #000;
-    border-color: #5ce1e6;
     z-index: 35 !important;
-}
-
-.channel.empty {
-    background: repeating-linear-gradient(to bottom, #e8e8e8, #e8e8e8 2px, #dfdfdf 2px, #dfdfdf 4px);
-    border-color: #d4d4d4;
 }
 
 .channel.empty:hover {
     transform: none;
-    border-color: #d4d4d4;
+    background: var(--channel-bg);
 }
 
 /* --- Wii Style Speech Bubble --- */
@@ -285,40 +279,22 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 80px;
-    background: #e3e3e3;
-    border-top: 4px solid #62b5e5;
+    height: 120px;
+    background: var(--bottom-bar-gradient);
     pointer-events: none;
     z-index: 20;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
 
-/* Center clock curve */
 .bottom-bar::before {
     content: '';
     position: absolute;
     top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40%;
-    max-width: 450px;
+    left: -10%;
+    width: 120%;
     height: 60px;
-    background: #e3e3e3;
-    border-top: 4px solid #62b5e5;
+    background: var(--bottom-bar-bg);
+    border-top: 3px solid var(--accent-color);
     border-radius: 50% 50% 0 0;
-}
-
-/* Hides the straight flat blue line under the curve */
-.bottom-bar::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 38%;
-    max-width: 430px;
-    height: 8px;
-    background: #e3e3e3;
 }
 
 .footer-content {
@@ -326,37 +302,31 @@ body {
     z-index: 2;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
+    align-items: flex-end;
+    padding: 0 5% 20px 5%;
     height: 100%;
     pointer-events: auto;
 }
 
 .round-btn {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #fff, #e0e0e0);
     border-radius: 50%;
-    background: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 50%, #d4d4d4 51%, #ffffff 100%);
-    border: 3px solid #b3b3b3;
-    box-shadow: 0 3px 5px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.8);
+    border: 3px solid var(--accent-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #888;
     font-weight: bold;
-    cursor: pointer;
+    color: #888;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1), inset 0 -3px 5px rgba(0,0,0,0.1);
+    position: relative;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     flex-shrink: 0;
     text-align: center;
     word-break: break-word;
     padding: 4px;
-    transition: border-color 0.2s, color 0.2s;
-}
-
-.round-btn:hover {
-    border-color: #62b5e5;
-    color: #62b5e5;
 }
 
 /* --- Pagination Dots --- */
@@ -388,14 +358,10 @@ body {
     box-shadow: 0 0 6px var(--accent-color);
 }
 
-.time-date { 
-    text-align: center; 
-    color: #666; 
-    transform: translateY(-8px); /* Pushes time slightly up into the curve */
-}
-.time { font-family: 'Courier New', monospace; font-size: 2.2rem; letter-spacing: 5px; }
-.am { font-family: 'Arial', sans-serif; font-size: 1rem; letter-spacing: 0; }
-.date { font-size: 1.2rem; font-weight: bold; margin-top: -5px; }
+.time-date { text-align: center; color: #666; margin-bottom: 5px; }
+.time { font-family: 'Courier New', monospace; font-size: 2.5rem; letter-spacing: 5px; }
+.am { font-family: 'Arial', sans-serif; font-size: 1.2rem; letter-spacing: 0; }
+.date { font-size: 1.5rem; font-weight: bold; margin-top: -5px; }
 
 /* --- Menus & Modals --- */
 .theme-menu {
@@ -512,19 +478,16 @@ body {
 .player-modal {
     display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 85vw;
-    height: 85vh;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 200;
     flex-direction: column;
-    padding: 0;
+    padding: 20px;
     box-sizing: border-box;
-    background: linear-gradient(to bottom, #e0f2fe, #bae6fd);
-    border-radius: 30px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    overflow: hidden;
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.15);
     transition: opacity 0.3s ease;
 }
 
@@ -532,11 +495,77 @@ body {
     display: flex;
 }
 
+.player-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    border-radius: 25px;
+    border: 2px solid var(--accent-color);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+    z-index: 201;
+    flex-shrink: 0;
+}
+
+.player-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.player-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.player-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--accent-color);
+    background: linear-gradient(135deg, #fff, #e0e0e0);
+    color: #333;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.player-btn:hover {
+    transform: scale(1.05);
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.player-btn.close-btn-player {
+    border-color: #ff6b6b;
+    color: #ee5252;
+}
+
+.player-btn.close-btn-player:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+
 .player-iframe-wrapper {
     width: 100%;
     flex-grow: 1;
-    background: transparent;
-    border: none;
+    background: var(--channel-bg);
+    border-radius: 20px;
+    border: 3px solid var(--accent-color);
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 8px 25px rgba(0,0,0,0.15);
     overflow: hidden;
     position: relative;
     display: flex;
@@ -546,79 +575,39 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    background: transparent;
+    background: #fff;
 }
 
-.player-bar {
-    width: 100%;
-    height: 85px;
-    background: repeating-linear-gradient(
-        to bottom,
-        #dcdcdc,
-        #dcdcdc 2px,
-        #cccccc 2px,
-        #cccccc 4px
-    );
-    border-top: 2px solid #a3a3a3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 10%;
-    z-index: 201;
-    flex-shrink: 0;
+/* Dark Theme Player Adaptations */
+body.theme-dark .player-bar {
+    background: rgba(35, 35, 35, 0.9);
+}
+body.theme-dark .player-title {
+    color: #fff;
+}
+body.theme-dark .player-btn {
+    background: linear-gradient(135deg, #555, #333);
+    color: #fff;
+}
+body.theme-dark .player-btn:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+body.theme-dark .player-btn.close-btn-player {
+    color: #ff6b6b;
+}
+body.theme-dark .player-btn.close-btn-player:hover {
+    background: #ff6b6b;
+    color: #fff;
 }
 
-/* Hidden to match accurate channel start screen */
-.player-title {
-    display: none;
-}
-
-.player-controls {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    align-items: center;
-}
-
-.player-btn {
-    width: 200px;
-    height: 50px;
-    border-radius: 40px;
-    background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 45%, #e0e0e0 50%, #ffffff 100%);
-    border: 3px solid #62b5e5 !important; /* Force blue Wii border */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 3px rgba(255,255,255,0.9);
-    color: #444 !important;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: "Arial", sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.1s;
-    white-space: nowrap;
-}
-
-.player-btn:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 3px rgba(0,0,0,0.3), inset 0 2px 5px rgba(0,0,0,0.2);
-    background: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 45%, #d0d0d0 50%, #f0f0f0 100%);
-}
-
-.player-btn:hover {
-    transform: scale(1.02);
-    background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 45%, #e0e0e0 50%, #ffffff 100%);
-    color: #444 !important;
-}
-
-/* Dark Theme Player Adaptations (Keeps Wii aesthetic but dims background slightly) */
+/* --- Theme Classes --- */
 body.theme-dark { background-color: #111; }
 body.theme-dark .screen { 
     background: var(--main-bg); 
     background-image: repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px);
 }
 body.theme-dark .time-date, body.theme-dark .time-date .time, body.theme-dark .time-date .am, body.theme-dark .time-date .date { color: #ddd; }
-body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; border-color: #777; }
+body.theme-dark .round-btn { background: linear-gradient(135deg, #555, #333); color: #fff; }
 body.theme-dark .dot { background-color: rgba(255, 255, 255, 0.3); }
 body.theme-dark .dot.active { background-color: var(--accent-color); }
