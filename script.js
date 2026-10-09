@@ -700,8 +700,7 @@ function loadSavedData() {
     const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
     isAutoBlurActive = savedAutoBlur;
     document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
-}
-// ==========================================
+}// ==========================================
 // --- INJECT ADVANCED THEME ANIMATIONS ---
 // ==========================================
 function injectAdvancedThemeStyles() {
@@ -733,9 +732,9 @@ function injectAdvancedThemeStyles() {
         /* Assassination Classroom - Mach 20 Speed & Color Shifting */
         @keyframes mach-20 {
             0% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
-            25% { transform: translateX(-3px) scale(1.05); border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } /* Angry */
+            25% { transform: translateX(-3px) scale(1.05); border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
             50% { transform: translateX(3px) scale(1.05); border-color: #ffb700; box-shadow: 0 0 15px #ffb700; }
-            75% { transform: translateX(-3px) scale(1.05); border-color: #ff71cd; box-shadow: 0 0 15px #ff71cd; } /* Relaxed */
+            75% { transform: translateX(-3px) scale(1.05); border-color: #ff71cd; box-shadow: 0 0 15px #ff71cd; }
             100% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
         }
         body[data-theme="assassination"] .channel:hover {
@@ -753,7 +752,59 @@ function injectAdvancedThemeStyles() {
             z-index: 10 !important;
         }
 
-        /* Hatsune Miku - Digital Sound Wave Pulse */
+        /* ================================================= */
+        /* VOCALOID BACKGROUND AUDIO VISUALIZER (CSS ONLY)   */
+        /* ================================================= */
+
+        /* Define Theme Colors for the Visualizer */
+        body[data-theme="miku"] { --eq-color: #39c5bb; }
+        body[data-theme="teto"] { --eq-color: #e6005c; }
+        body[data-theme="rin"]  { --eq-color: #ffb700; }
+        body[data-theme="gumi"] { --eq-color: #76c800; }
+
+        /* The Equalizer Keyframes */
+        @keyframes vocaloid-eq {
+            0%, 100% { background-size: 3% 10%, 3% 25%, 3% 15%, 3% 40%, 3% 20%, 3% 30%, 3% 10%, 3% 35%, 3% 20%, 3% 15%; }
+            20%      { background-size: 3% 30%, 3% 10%, 3% 35%, 3% 20%, 3% 40%, 3% 15%, 3% 25%, 3% 10%, 3% 45%, 3% 20%; }
+            40%      { background-size: 3% 15%, 3% 40%, 3% 20%, 3% 30%, 3% 10%, 3% 45%, 3% 15%, 3% 25%, 3% 10%, 3% 35%; }
+            60%      { background-size: 3% 40%, 3% 15%, 3% 30%, 3% 10%, 3% 45%, 3% 20%, 3% 35%, 3% 15%, 3% 25%, 3% 10%; }
+            80%      { background-size: 3% 20%, 3% 35%, 3% 10%, 3% 45%, 3% 25%, 3% 10%, 3% 40%, 3% 20%, 3% 15%, 3% 30%; }
+        }
+
+        /* Attach the Visualizer to Vocaloid Themes */
+        body[data-theme="miku"]::before,
+        body[data-theme="teto"]::before,
+        body[data-theme="rin"]::before,
+        body[data-theme="gumi"]::before {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; 
+            opacity: 0.15; /* Subtle enough not to make text unreadable */
+            pointer-events: none; /* Let clicks pass through to the page */
+            filter: drop-shadow(0 0 10px var(--eq-color)); /* Adds a digital glow */
+            background-image:
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color)),
+                linear-gradient(var(--eq-color), var(--eq-color));
+            background-position:
+                5% 100%, 15% 100%, 25% 100%, 35% 100%, 45% 100%,
+                55% 100%, 65% 100%, 75% 100%, 85% 100%, 95% 100%;
+            background-repeat: no-repeat;
+            animation: vocaloid-eq 0.75s infinite ease-in-out;
+        }
+
+        /* Hatsune Miku - Hover Animation */
         @keyframes miku-pulse {
             0% { box-shadow: 0 0 10px #39c5bb, 0 0 20px rgba(57, 197, 187, 0.4); transform: scale(1.02) translateY(0); }
             50% { box-shadow: 0 0 25px #39c5bb, 0 0 40px rgba(57, 197, 187, 0.6); transform: scale(1.06) translateY(-4px); border-color: #55ebd8; }
@@ -764,7 +815,7 @@ function injectAdvancedThemeStyles() {
             border: 2px solid #39c5bb !important;
         }
 
-        /* Kasane Teto - Chimera Drill Wiggle */
+        /* Kasane Teto - Hover Animation */
         @keyframes teto-drill {
             0% { transform: scale(1.05) rotate(0deg); box-shadow: 0 5px 15px #e6005c; }
             25% { transform: scale(1.05) rotate(-3deg); box-shadow: -5px 5px 20px #e6005c; border-color: #ff3385; }
@@ -776,7 +827,7 @@ function injectAdvancedThemeStyles() {
             border: 2px solid #e6005c !important;
         }
 
-        /* Kagamine Rin - Energetic Spark */
+        /* Kagamine Rin - Hover Animation */
         @keyframes rin-spark {
             0% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.8); transform: scale(1.03); }
             50% { box-shadow: 0 0 0 12px rgba(255, 183, 0, 0); transform: scale(1.07); border-color: #ffcc00; }
@@ -787,7 +838,7 @@ function injectAdvancedThemeStyles() {
             border: 2px solid #ffb700 !important;
         }
 
-        /* GUMI - Megpoid Synth Glitch */
+        /* GUMI - Hover Animation */
         @keyframes gumi-synth {
             0% { box-shadow: 0 0 5px #76c800; border-color: #76c800; transform: skewX(0deg) scale(1.03); }
             20% { box-shadow: -4px 0 15px #76c800; border-color: #99ff00; transform: skewX(-2deg) scale(1.04); }
@@ -802,58 +853,14 @@ function injectAdvancedThemeStyles() {
         }
 
         /* Windows 7 Base Adjustments */
-        body[data-theme="img0121"] {
-            font-family: "Segoe UI", Tahoma, sans-serif !important;
-        }
-        body[data-theme="img0121"] .channel {
-            background: rgba(255, 255, 255, 0.15) !important;
-            border: 1px solid rgba(255, 255, 255, 0.5) !important;
-            border-radius: 4px !important;
-            box-shadow: inset 0 0 10px rgba(255,255,255,0.3), 0 4px 6px rgba(0,0,0,0.4) !important;
-            backdrop-filter: blur(5px) !important;
-            transition: all 0.2s;
-        }
-        body[data-theme="img0121"] .channel:hover {
-            background: rgba(255, 255, 255, 0.3) !important;
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.6), 0 6px 12px rgba(0,0,0,0.5) !important;
-            border: 1px solid rgba(255, 255, 255, 0.8) !important;
-            transform: scale(1.02);
-        }
-        body[data-theme="img0121"] .bottom-bar {
-            background: linear-gradient(to bottom, rgba(122,176,218,0.85) 0%, rgba(85,152,203,0.85) 45%, rgba(13,101,165,0.85) 50%, rgba(55,142,200,0.85) 100%) !important;
-            border-top: 1px solid rgba(255,255,255,0.6) !important;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 -2px 10px rgba(0,0,0,0.5) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 0 !important;
-            height: 48px !important;
-        }
-        body[data-theme="img0121"] .top-bar {
-            background: linear-gradient(to bottom, rgba(122,176,218,0.75), rgba(13,101,165,0.75)) !important;
-            border-bottom: 1px solid rgba(255,255,255,0.5) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 0 0 8px 8px !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-        }
-        body[data-theme="img0121"] .theme-menu, body[data-theme="img0121"] .player-modal {
-            background: rgba(15, 25, 40, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.5) !important;
-            border-radius: 8px !important;
-            box-shadow: inset 0 0 8px rgba(255,255,255,0.4), 0 15px 30px rgba(0,0,0,0.6) !important;
-            backdrop-filter: blur(15px) !important;
-        }
-        body[data-theme="img0121"] button, body[data-theme="img0121"] .round-btn {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.2)) !important;
-            border: 1px solid rgba(255,255,255,0.5) !important;
-            border-radius: 4px !important;
-            color: #fff !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4) !important;
-        }
-        body[data-theme="img0121"] button:hover, body[data-theme="img0121"] .round-btn:hover {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.1)) !important;
-            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.8) !important;
-            border-color: #3b82f6 !important;
-        }
+        body[data-theme="img0121"] { font-family: "Segoe UI", Tahoma, sans-serif !important; }
+        body[data-theme="img0121"] .channel { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.5) !important; border-radius: 4px !important; box-shadow: inset 0 0 10px rgba(255,255,255,0.3), 0 4px 6px rgba(0,0,0,0.4) !important; backdrop-filter: blur(5px) !important; transition: all 0.2s; }
+        body[data-theme="img0121"] .channel:hover { background: rgba(255, 255, 255, 0.3) !important; box-shadow: inset 0 0 15px rgba(255,255,255,0.6), 0 6px 12px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255, 255, 255, 0.8) !important; transform: scale(1.02); }
+        body[data-theme="img0121"] .bottom-bar { background: linear-gradient(to bottom, rgba(122,176,218,0.85) 0%, rgba(85,152,203,0.85) 45%, rgba(13,101,165,0.85) 50%, rgba(55,142,200,0.85) 100%) !important; border-top: 1px solid rgba(255,255,255,0.6) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 -2px 10px rgba(0,0,0,0.5) !important; backdrop-filter: blur(10px) !important; border-radius: 0 !important; height: 48px !important; }
+        body[data-theme="img0121"] .top-bar { background: linear-gradient(to bottom, rgba(122,176,218,0.75), rgba(13,101,165,0.75)) !important; border-bottom: 1px solid rgba(255,255,255,0.5) !important; backdrop-filter: blur(10px) !important; border-radius: 0 0 8px 8px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important; }
+        body[data-theme="img0121"] .theme-menu, body[data-theme="img0121"] .player-modal { background: rgba(15, 25, 40, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.5) !important; border-radius: 8px !important; box-shadow: inset 0 0 8px rgba(255,255,255,0.4), 0 15px 30px rgba(0,0,0,0.6) !important; backdrop-filter: blur(15px) !important; }
+        body[data-theme="img0121"] button, body[data-theme="img0121"] .round-btn { background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.2)) !important; border: 1px solid rgba(255,255,255,0.5) !important; border-radius: 4px !important; color: #fff !important; text-shadow: 0 1px 2px rgba(0,0,0,0.8); box-shadow: inset 0 1px 2px rgba(255,255,255,0.4) !important; }
+        body[data-theme="img0121"] button:hover, body[data-theme="img0121"] .round-btn:hover { background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.1)) !important; box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.8) !important; border-color: #3b82f6 !important; }
     `;
     document.head.appendChild(styleBlock);
 }
