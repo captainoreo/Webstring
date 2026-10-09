@@ -52,7 +52,6 @@ function initSpeechBubbles() {
                 bubble.textContent = title;
                 ch.appendChild(bubble);
 
-                // Custom glitch feature specifically for Time Fcuk
                 if (title === 'TIME FCUK') {
                     setInterval(() => {
                         const chars = ['F', 'C', 'U', 'K'];
@@ -160,7 +159,6 @@ function handleSearch() {
     }
 }
 
-// --- Toggle Hide Games Mode ---
 function toggleHideGameScreen() {
     const screen = document.querySelector('.screen');
     const btn = document.getElementById('hide-game-btn');
@@ -174,7 +172,6 @@ function toggleHideGameScreen() {
     }
 }
 
-// --- Game Recommendation Functionality ---
 function recommendGame() {
     const allChannels = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty)'));
     if (allChannels.length === 0) return;
@@ -202,7 +199,6 @@ function recommendGame() {
 function toggleRecommendationModal() {
     document.getElementById('recommendation-modal').classList.toggle('active');
 }
-
 function toggleThemeMenu() {
     const menu = document.getElementById('theme-menu');
     menu.classList.toggle('active');
@@ -210,7 +206,6 @@ function toggleThemeMenu() {
     document.getElementById('recommendation-modal').classList.remove('active');
     document.getElementById('credits-modal').classList.remove('active');
 }
-
 function toggleSettingsMenu() {
     const menu = document.getElementById('settings-menu');
     menu.classList.toggle('active');
@@ -218,7 +213,6 @@ function toggleSettingsMenu() {
     document.getElementById('recommendation-modal').classList.remove('active');
     document.getElementById('credits-modal').classList.remove('active');
 }
-
 function toggleCreditsModal() {
     const menu = document.getElementById('credits-modal');
     menu.classList.toggle('active');
@@ -237,7 +231,6 @@ function openGamePlayer(url, title = 'Game Player') {
     const screen = document.querySelector('.screen');
 
     iframe.src = url;
-    
     if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
 
     if (titleEl) {
@@ -301,7 +294,6 @@ function toggleIframeFullscreen() {
     }
 }
 
-// Click Event Listener for Channel Tiles
 document.addEventListener('click', function (e) {
     const channel = e.target.closest('.channel');
     if (channel && channel.hasAttribute('href')) {
@@ -330,14 +322,19 @@ const themes = {
     'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
     'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
     'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
-    'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
+    
+    // Windows 7 Theme (Nanami Madobe)
+    'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: 'transparent', barGrad: 'none', dark: true },
+    
     'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
     'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
-    'halloween': { bg: '#1a1110', channel: '#2b1408', accent: '#ff7300', barBg: '#120914', barGrad: 'linear-gradient(to bottom, #120914, #000000)', dark: true },
-    'christmas': { bg: '#f0f8ff', channel: '#ffffff', accent: '#d42426', barBg: '#e6f2f5', barGrad: 'linear-gradient(to bottom, #e6f2f5, #b8d4db)', dark: false },
-    'bleach': { bg: '#121212', channel: '#242424', accent: '#d60000', barBg: '#1a1a1a', barGrad: 'linear-gradient(to bottom, #1a1a1a, #000000)', dark: true },
-    'blueexorcist': { bg: '#0d111a', channel: '#161f30', accent: '#00a8ff', barBg: '#090c14', barGrad: 'linear-gradient(to bottom, #090c14, #04050a)', dark: true },
-    'assassination': { bg: '#2b2b2b', channel: '#3d3d3d', accent: '#ffe600', barBg: '#1c1c1c', barGrad: 'linear-gradient(to bottom, #1c1c1c, #0a0a0a)', dark: true }
+    'halloween': { bg: '#170a1c', channel: 'rgba(43, 20, 8, 0.85)', accent: '#ff7300', barBg: '#1c0d22', barGrad: 'linear-gradient(to bottom, #2b1133, #000000)', dark: true },
+    
+    // Animated Anime Themes
+    'christmas': { bg: '#0b2033', channel: 'rgba(255, 255, 255, 0.65)', accent: '#d42426', barBg: '#0f4024', barGrad: 'linear-gradient(to bottom, #0f4024, #051a0e)', dark: true },
+    'bleach': { bg: '#050505', channel: 'rgba(30, 10, 10, 0.8)', accent: '#ff0000', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #260000, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
+    'blueexorcist': { bg: '#02040a', channel: 'rgba(10, 20, 40, 0.8)', accent: '#00d4ff', barBg: '#040b17', barGrad: 'linear-gradient(to bottom, #001f3f, #000000)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
+    'assassination': { bg: '#1b3322', channel: 'rgba(20, 20, 20, 0.6)', accent: '#ffe600', barBg: '#382414', barGrad: 'linear-gradient(to bottom, #382414, #1c1109)', dark: true, mascotImg: '/assets/IMG_0523.webp' }
 };
 
 function setTheme(themeName) {
@@ -349,6 +346,9 @@ function setTheme(themeName) {
     document.documentElement.style.setProperty('--bottom-bar-bg', t.barBg);
     document.documentElement.style.setProperty('--bottom-bar-gradient', t.barGrad);
     
+    // Tag the body for dynamic CSS injection features
+    document.body.setAttribute('data-theme', themeName);
+
     const screen = document.querySelector('.screen');
     if (screen) {
         if (t.bgImg) {
@@ -381,8 +381,6 @@ function setTheme(themeName) {
     if (themeName.toLowerCase() === 'jakejunior') {
         isJakeJuniorActive = true;
         localStorage.setItem('selectedTheme', 'default');
-
-        // 1. Populate all channel tiles (including empty ones) with Jake junior image & tooltip
         document.querySelectorAll('.channel').forEach(ch => {
             ch.classList.remove('empty');
             ch.innerHTML = '';
@@ -390,31 +388,22 @@ function setTheme(themeName) {
             img.src = '/assets/IMG_0430.webp';
             img.alt = 'Jake junior';
             ch.appendChild(img);
-
             const bubble = document.createElement('div');
             bubble.className = 'speech-bubble';
             bubble.textContent = 'Jake junior';
             ch.appendChild(bubble);
         });
-
-        // 2. Replace all images on page
         document.querySelectorAll('img').forEach(img => {
             img.src = '/assets/IMG_0430.webp'; 
             img.srcset = ''; 
             img.alt = 'Jake junior';
         });
-
-        // 3. Override Buttons & Controls (Including Bottom Bar & Top Bar)
         document.querySelectorAll('button, .round-btn, .recommend-btn, .hide-game-btn, .player-btn').forEach(btn => {
             btn.textContent = 'Jake junior';
             btn.style.fontSize = '0.7rem';
         });
-
-        // 4. Overwrite Bottom Bar Time and Date
         document.getElementById('clock-time').innerHTML = 'Jake junior';
         document.getElementById('clock-date').innerText = 'Jake junior';
-
-        // 5. Replace Text Nodes across the Body safely
         function replaceTextNodes(node) {
             node.childNodes.forEach(child => {
                 if (child.nodeType === Node.TEXT_NODE) {
@@ -429,21 +418,14 @@ function setTheme(themeName) {
             });
         }
         replaceTextNodes(document.body);
-
-        // 6. Replace all inputs & select dropdown options
         document.querySelectorAll('input').forEach(input => {
             input.placeholder = 'Jake junior';
             if (input.type === 'text') input.value = 'Jake junior';
         });
-
         document.querySelectorAll('option').forEach(opt => {
             opt.textContent = 'Jake junior';
         });
-
-        // 7. Update Tab Title & Favicon Icon
         setTabIdentity('Jake junior', '/assets/IMG_0430.webp');
-
-        // 8. Disclaimer Alert
         setTimeout(() => {
             alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
         }, 100);
@@ -451,13 +433,117 @@ function setTheme(themeName) {
         isJakeJuniorActive = false;
         localStorage.setItem('selectedTheme', themeName);
     }
-    // --- END OVERRIDE LOGIC ---
+}
+
+// ==========================================
+// --- INJECT ADVANCED THEME ANIMATIONS ---
+// ==========================================
+function injectAdvancedThemeStyles() {
+    const styleBlock = document.createElement('style');
+    styleBlock.innerHTML = `
+        /* Bleach - Getsuga Hover Aura */
+        @keyframes getsuga-pulse {
+            0% { box-shadow: 0 0 10px #ff0000, inset 0 0 5px #cc0000; }
+            50% { box-shadow: 0 0 35px #ff0000, inset 0 0 20px #cc0000; border-color: #ff3333; }
+            100% { box-shadow: 0 0 10px #ff0000, inset 0 0 5px #cc0000; }
+        }
+        body[data-theme="bleach"] .channel:hover {
+            animation: getsuga-pulse 0.8s infinite alternate !important;
+            border: 2px solid #ff0000 !important;
+            transform: scale(1.05);
+        }
+
+        /* Blue Exorcist - Flickering Flames */
+        @keyframes blue-flame {
+            0% { box-shadow: 0 5px 15px #00a8ff; transform: translateY(0px) scale(1.03); }
+            50% { box-shadow: 0 20px 40px #00d4ff, 0 -5px 15px rgba(0, 212, 255, 0.6); transform: translateY(-4px) scale(1.05); }
+            100% { box-shadow: 0 5px 15px #00a8ff; transform: translateY(0px) scale(1.03); }
+        }
+        body[data-theme="blueexorcist"] .channel:hover {
+            animation: blue-flame 0.7s infinite alternate !important;
+            border: 2px solid #00d4ff !important;
+        }
+
+        /* Assassination Classroom - Mach 20 Speed & Color Shifting */
+        @keyframes mach-20 {
+            0% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
+            25% { transform: translateX(-3px) scale(1.05); border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } /* Angry */
+            50% { transform: translateX(3px) scale(1.05); border-color: #ffb700; box-shadow: 0 0 15px #ffb700; }
+            75% { transform: translateX(-3px) scale(1.05); border-color: #ff71cd; box-shadow: 0 0 15px #ff71cd; } /* Relaxed */
+            100% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
+        }
+        body[data-theme="assassination"] .channel:hover {
+            animation: mach-20 0.3s infinite !important;
+            border-width: 3px !important;
+        }
+
+        /* =======================================
+           WINDOWS 7 AERO UI (Nanami Madobe)
+           ======================================= */
+        body[data-theme="img0121"] {
+            font-family: "Segoe UI", Tahoma, sans-serif !important;
+        }
+        /* Windows 7 Channels (Icons) */
+        body[data-theme="img0121"] .channel {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            border-radius: 4px !important;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.3), 0 4px 6px rgba(0,0,0,0.4) !important;
+            backdrop-filter: blur(5px) !important;
+            transition: all 0.2s;
+        }
+        body[data-theme="img0121"] .channel:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.6), 0 6px 12px rgba(0,0,0,0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+            transform: scale(1.02);
+        }
+        /* Windows 7 Taskbar (Bottom Bar) */
+        body[data-theme="img0121"] .bottom-bar {
+            background: linear-gradient(to bottom, rgba(122,176,218,0.85) 0%, rgba(85,152,203,0.85) 45%, rgba(13,101,165,0.85) 50%, rgba(55,142,200,0.85) 100%) !important;
+            border-top: 1px solid rgba(255,255,255,0.6) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 -2px 10px rgba(0,0,0,0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 0 !important;
+            height: 48px !important;
+        }
+        /* Windows 7 Window Frame (Top Bar) */
+        body[data-theme="img0121"] .top-bar {
+            background: linear-gradient(to bottom, rgba(122,176,218,0.75), rgba(13,101,165,0.75)) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 0 0 8px 8px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+        }
+        /* Windows 7 Modals */
+        body[data-theme="img0121"] .theme-menu, body[data-theme="img0121"] .player-modal {
+            background: rgba(15, 25, 40, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            border-radius: 8px !important;
+            box-shadow: inset 0 0 8px rgba(255,255,255,0.4), 0 15px 30px rgba(0,0,0,0.6) !important;
+            backdrop-filter: blur(15px) !important;
+        }
+        /* Windows 7 Buttons */
+        body[data-theme="img0121"] button, body[data-theme="img0121"] .round-btn {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.2)) !important;
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            border-radius: 4px !important;
+            color: #fff !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4) !important;
+        }
+        body[data-theme="img0121"] button:hover, body[data-theme="img0121"] .round-btn:hover {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.1)) !important;
+            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.8) !important;
+            border-color: #3b82f6 !important;
+        }
+    `;
+    document.head.appendChild(styleBlock);
 }
 
 // ==========================================
 // --- ADVANCED TAB CLOAKING SYSTEM ---
 // ==========================================
-
 const cloakPresets = {
     'drive': { title: 'Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
     'classroom': { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
@@ -496,7 +582,6 @@ function applyPresetCloak(presetKey) {
         setTabIdentity(preset.title, preset.icon);
         document.getElementById('cloak-title').value = preset.title;
         document.getElementById('cloak-icon').value = preset.icon;
-        
         localStorage.setItem('cloakTitle', preset.title);
         localStorage.setItem('cloakIcon', preset.icon);
     }
@@ -506,7 +591,6 @@ function applyCustomCloak() {
     const title = document.getElementById('cloak-title').value;
     const iconUrl = document.getElementById('cloak-icon').value;
     setTabIdentity(title, iconUrl);
-
     localStorage.setItem('cloakTitle', title);
     localStorage.setItem('cloakIcon', iconUrl);
 }
@@ -517,7 +601,6 @@ let panicUrlSetting = '';
 function savePanicSettings() {
     panicKeySetting = document.getElementById('panic-key').value.trim();
     panicUrlSetting = document.getElementById('panic-url').value.trim();
-
     localStorage.setItem('panicKey', panicKeySetting);
     localStorage.setItem('panicUrl', panicUrlSetting);
     alert('Panic Key settings saved!');
@@ -525,7 +608,6 @@ function savePanicSettings() {
 
 document.addEventListener('keydown', function (e) {
     if (!panicKeySetting) return;
-
     if (e.key.toLowerCase() === panicKeySetting.toLowerCase() || e.code.toLowerCase() === panicKeySetting.toLowerCase()) {
         let targetUrl = panicUrlSetting || 'https://www.google.com';
         if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
@@ -564,10 +646,8 @@ function openAboutBlank() {
         alert('Pop-up blocked! Please allow pop-ups to launch in about:blank.');
         return;
     }
-
     const doc = newWindow.document;
     const iframe = doc.createElement('iframe');
-    
     iframe.style.width = '100vw';
     iframe.style.height = '100vh';
     iframe.style.border = 'none';
@@ -575,16 +655,16 @@ function openAboutBlank() {
     iframe.style.top = '0';
     iframe.style.left = '0';
     iframe.src = window.location.href;
-
     doc.body.style.margin = '0';
     doc.body.style.height = '100vh';
     doc.body.appendChild(iframe);
-
     window.location.replace('https://www.google.com');
 }
 
 // --- Load Saved Data ---
 function loadSavedData() {
+    injectAdvancedThemeStyles(); // Initialize Dynamic Styles Once
+    
     renderDots();
     updatePaginationUI();
     initSpeechBubbles();
@@ -592,6 +672,8 @@ function loadSavedData() {
     const savedTheme = localStorage.getItem('selectedTheme');
     if (savedTheme) {
         setTheme(savedTheme);
+    } else {
+        setTheme('default');
     }
 
     const savedTitle = localStorage.getItem('cloakTitle');
