@@ -701,5 +701,165 @@ function loadSavedData() {
     isAutoBlurActive = savedAutoBlur;
     document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
 }
+// ==========================================
+// --- INJECT ADVANCED THEME ANIMATIONS ---
+// ==========================================
+function injectAdvancedThemeStyles() {
+    const styleBlock = document.createElement('style');
+    styleBlock.innerHTML = `
+        /* Bleach - Getsuga Hover Aura */
+        @keyframes getsuga-pulse {
+            0% { box-shadow: 0 0 10px #ff0000, inset 0 0 5px #cc0000; }
+            50% { box-shadow: 0 0 35px #ff0000, inset 0 0 20px #cc0000; border-color: #ff3333; }
+            100% { box-shadow: 0 0 10px #ff0000, inset 0 0 5px #cc0000; }
+        }
+        body[data-theme="bleach"] .channel:hover {
+            animation: getsuga-pulse 0.8s infinite alternate !important;
+            border: 2px solid #ff0000 !important;
+            transform: scale(1.05);
+        }
 
+        /* Blue Exorcist - Flickering Flames */
+        @keyframes blue-flame {
+            0% { box-shadow: 0 5px 15px #00a8ff; transform: translateY(0px) scale(1.03); }
+            50% { box-shadow: 0 20px 40px #00d4ff, 0 -5px 15px rgba(0, 212, 255, 0.6); transform: translateY(-4px) scale(1.05); }
+            100% { box-shadow: 0 5px 15px #00a8ff; transform: translateY(0px) scale(1.03); }
+        }
+        body[data-theme="blueexorcist"] .channel:hover {
+            animation: blue-flame 0.7s infinite alternate !important;
+            border: 2px solid #00d4ff !important;
+        }
+
+        /* Assassination Classroom - Mach 20 Speed & Color Shifting */
+        @keyframes mach-20 {
+            0% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
+            25% { transform: translateX(-3px) scale(1.05); border-color: #ff0000; box-shadow: 0 0 15px #ff0000; } /* Angry */
+            50% { transform: translateX(3px) scale(1.05); border-color: #ffb700; box-shadow: 0 0 15px #ffb700; }
+            75% { transform: translateX(-3px) scale(1.05); border-color: #ff71cd; box-shadow: 0 0 15px #ff71cd; } /* Relaxed */
+            100% { transform: translateX(0) scale(1.05); border-color: #ffe600; box-shadow: 0 0 15px #ffe600; }
+        }
+        body[data-theme="assassination"] .channel:hover {
+            animation: mach-20 0.3s infinite !important;
+            border-width: 3px !important;
+        }
+
+        /* Assassination Classroom - Mascot Visibility Fix */
+        body[data-theme="assassination"] #vocaloid-mascot {
+            height: auto !important;
+            max-height: 65vh !important;
+            bottom: 70px !important;
+            right: 3% !important;
+            object-fit: contain !important;
+            z-index: 10 !important;
+        }
+
+        /* Hatsune Miku - Digital Sound Wave Pulse */
+        @keyframes miku-pulse {
+            0% { box-shadow: 0 0 10px #39c5bb, 0 0 20px rgba(57, 197, 187, 0.4); transform: scale(1.02) translateY(0); }
+            50% { box-shadow: 0 0 25px #39c5bb, 0 0 40px rgba(57, 197, 187, 0.6); transform: scale(1.06) translateY(-4px); border-color: #55ebd8; }
+            100% { box-shadow: 0 0 10px #39c5bb, 0 0 20px rgba(57, 197, 187, 0.4); transform: scale(1.02) translateY(0); }
+        }
+        body[data-theme="miku"] .channel:hover {
+            animation: miku-pulse 0.6s infinite ease-in-out !important;
+            border: 2px solid #39c5bb !important;
+        }
+
+        /* Kasane Teto - Chimera Drill Wiggle */
+        @keyframes teto-drill {
+            0% { transform: scale(1.05) rotate(0deg); box-shadow: 0 5px 15px #e6005c; }
+            25% { transform: scale(1.05) rotate(-3deg); box-shadow: -5px 5px 20px #e6005c; border-color: #ff3385; }
+            75% { transform: scale(1.05) rotate(3deg); box-shadow: 5px 5px 20px #e6005c; border-color: #ff3385; }
+            100% { transform: scale(1.05) rotate(0deg); box-shadow: 0 5px 15px #e6005c; }
+        }
+        body[data-theme="teto"] .channel:hover {
+            animation: teto-drill 0.35s infinite linear !important;
+            border: 2px solid #e6005c !important;
+        }
+
+        /* Kagamine Rin - Energetic Spark */
+        @keyframes rin-spark {
+            0% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.8); transform: scale(1.03); }
+            50% { box-shadow: 0 0 0 12px rgba(255, 183, 0, 0); transform: scale(1.07); border-color: #ffcc00; }
+            100% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0); transform: scale(1.03); }
+        }
+        body[data-theme="rin"] .channel:hover {
+            animation: rin-spark 0.6s infinite ease-out !important;
+            border: 2px solid #ffb700 !important;
+        }
+
+        /* GUMI - Megpoid Synth Glitch */
+        @keyframes gumi-synth {
+            0% { box-shadow: 0 0 5px #76c800; border-color: #76c800; transform: skewX(0deg) scale(1.03); }
+            20% { box-shadow: -4px 0 15px #76c800; border-color: #99ff00; transform: skewX(-2deg) scale(1.04); }
+            40% { box-shadow: 4px 0 15px #76c800; border-color: #76c800; transform: skewX(2deg) scale(1.04); }
+            60% { box-shadow: -2px 0 10px #76c800; border-color: #99ff00; transform: skewX(-1deg) scale(1.04); }
+            80% { box-shadow: 2px 0 10px #76c800; border-color: #76c800; transform: skewX(1deg) scale(1.04); }
+            100% { box-shadow: 0 0 5px #76c800; border-color: #76c800; transform: skewX(0deg) scale(1.03); }
+        }
+        body[data-theme="gumi"] .channel:hover {
+            animation: gumi-synth 0.4s infinite !important;
+            border: 2px solid #76c800 !important;
+        }
+
+        /* Windows 7 Base Adjustments */
+        body[data-theme="img0121"] {
+            font-family: "Segoe UI", Tahoma, sans-serif !important;
+        }
+        body[data-theme="img0121"] .channel {
+            background: rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            border-radius: 4px !important;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.3), 0 4px 6px rgba(0,0,0,0.4) !important;
+            backdrop-filter: blur(5px) !important;
+            transition: all 0.2s;
+        }
+        body[data-theme="img0121"] .channel:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.6), 0 6px 12px rgba(0,0,0,0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+            transform: scale(1.02);
+        }
+        body[data-theme="img0121"] .bottom-bar {
+            background: linear-gradient(to bottom, rgba(122,176,218,0.85) 0%, rgba(85,152,203,0.85) 45%, rgba(13,101,165,0.85) 50%, rgba(55,142,200,0.85) 100%) !important;
+            border-top: 1px solid rgba(255,255,255,0.6) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 -2px 10px rgba(0,0,0,0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 0 !important;
+            height: 48px !important;
+        }
+        body[data-theme="img0121"] .top-bar {
+            background: linear-gradient(to bottom, rgba(122,176,218,0.75), rgba(13,101,165,0.75)) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 0 0 8px 8px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+        }
+        body[data-theme="img0121"] .theme-menu, body[data-theme="img0121"] .player-modal {
+            background: rgba(15, 25, 40, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.5) !important;
+            border-radius: 8px !important;
+            box-shadow: inset 0 0 8px rgba(255,255,255,0.4), 0 15px 30px rgba(0,0,0,0.6) !important;
+            backdrop-filter: blur(15px) !important;
+        }
+        body[data-theme="img0121"] button, body[data-theme="img0121"] .round-btn {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.2)) !important;
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            border-radius: 4px !important;
+            color: #fff !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.4) !important;
+        }
+        body[data-theme="img0121"] button:hover, body[data-theme="img0121"] .round-btn:hover {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.1)) !important;
+            box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.8) !important;
+            border-color: #3b82f6 !important;
+        }
+    `;
+    document.head.appendChild(styleBlock);
+}
+
+// Ensure the styles are injected when the window loads
+window.addEventListener('DOMContentLoaded', () => {
+    injectAdvancedThemeStyles();
+});
 loadSavedData();
