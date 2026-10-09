@@ -332,7 +332,12 @@ const themes = {
     'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
     'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
-    'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
+    'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
+    'halloween': { bg: '#1a1110', channel: '#2b1408', accent: '#ff7300', barBg: '#120914', barGrad: 'linear-gradient(to bottom, #120914, #000000)', dark: true },
+    'christmas': { bg: '#f0f8ff', channel: '#ffffff', accent: '#d42426', barBg: '#e6f2f5', barGrad: 'linear-gradient(to bottom, #e6f2f5, #b8d4db)', dark: false },
+    'bleach': { bg: '#121212', channel: '#242424', accent: '#d60000', barBg: '#1a1a1a', barGrad: 'linear-gradient(to bottom, #1a1a1a, #000000)', dark: true },
+    'blueexorcist': { bg: '#0d111a', channel: '#161f30', accent: '#00a8ff', barBg: '#090c14', barGrad: 'linear-gradient(to bottom, #090c14, #04050a)', dark: true },
+    'assassination': { bg: '#2b2b2b', channel: '#3d3d3d', accent: '#ffe600', barBg: '#1c1c1c', barGrad: 'linear-gradient(to bottom, #1c1c1c, #0a0a0a)', dark: true }
 };
 
 function setTheme(themeName) {
