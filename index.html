@@ -10,10 +10,18 @@
 
   <div class="wii-container" id="wiiContainer">
     
-    <!-- Wii Menu Header -->
-    <div class="wii-top-header">
-      <div class="wii-system-title">Wii Menu</div>
-      <div class="wii-page-indicator" id="pageIndicator">Page 1 / 8</div>
+    <!-- Top Controls Bar (Reference IMG_0527) -->
+    <div class="wii-top-controls">
+      <div class="search-box-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search games..." oninput="filterGames()">
+      </div>
+      <button class="wii-pill-control" onclick="recommendGame()">
+        <span>🎲 Recommend</span>
+      </button>
+      <button class="wii-pill-control hide-btn" onclick="toggleHideGames()">
+        <span>🙈 Hide Games</span>
+      </button>
     </div>
 
     <!-- Wii Channel Grid Area with Pagination Arrows -->
@@ -27,28 +35,27 @@
       <button class="wii-arrow right-arrow" onclick="changePage(1)">&#9654;</button>
     </div>
 
-    <!-- Wii Bottom Bar (Reference IMG_0526) -->
+    <!-- Wii Bottom Bar (Reference IMG_0527) -->
     <div class="wii-bottom-bar">
-      <button class="wii-circle-button left-btn" onclick="openThemeModal()" title="Wii Settings & Themes">
-        <span>Wii</span>
+      <button class="wii-circle-button left-btn" onclick="openThemeModal()" title="Themes & Customization">
+        <span class="palette-icon">🎨</span>
       </button>
       
-      <div class="wii-clock-container">
-        <div class="wii-time" id="clock">12:00 AM</div>
-        <div class="wii-date" id="dateDisplay">Fri 1/1</div>
+      <div class="wii-dots-indicator" id="dotsIndicator">
+        <!-- Dynamically generated page dashes -->
       </div>
 
-      <button class="wii-circle-button right-btn" onclick="openThemeModal()" title="Themes & Customization">
-        <span class="envelope-icon">✉</span>
+      <button class="wii-circle-button right-btn" onclick="openThemeModal()" title="Settings">
+        <span class="gear-icon">⚙️</span>
       </button>
     </div>
 
     <!-- Theme / Settings Modal -->
     <div class="wii-modal-overlay" id="themeModal" style="display: none;">
-      <div class="wii-modal-window">
+      <div class="wii-modal-window theme-window">
         <div class="wii-modal-header">
-          <span>Wii Settings - Display Properties</span>
-          <button class="wii-pill-btn" onclick="closeThemeModal()">Back</button>
+          <span>Display Properties & Themes</span>
+          <button class="wii-pill-btn" onclick="closeThemeModal()">Close</button>
         </div>
         <div class="wii-modal-body">
           <fieldset class="wii-fieldset">
@@ -59,7 +66,7 @@
       </div>
     </div>
 
-    <!-- Game Player Overlay / Internet Channel (Reference IMG_0529) -->
+    <!-- Game Player Modal -->
     <div class="wii-modal-overlay" id="gamePlayerModal" style="display: none;">
       <div class="wii-modal-window player-window">
         <div class="wii-modal-header">
