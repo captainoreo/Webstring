@@ -1,4 +1,4 @@
-// --- Theme Database ---
+// --- Theme Database ---[cite: 1]
 const themes = {
     'default': { bg: '#e4e7eb' },
     'dark': { bg: '#2a2a2a' },
@@ -27,7 +27,7 @@ const themes = {
     'win98teal': { bg: '#008080' } 
 };
 
-// --- Complete Game Library Array ---
+// --- Complete Game Library Array ---[cite: 2]
 const games = [
     { title: '60 Seconds! Reatomized', url: '/games/60 Seconds! Reatomized.html', img: '/assets/IMG_9887.gif' },
     { title: 'Bad Piggies', url: '/games/Bad Piggies.html', img: '/assets/IMG_9888.gif' },
@@ -124,7 +124,7 @@ const games = [
 ];
 
 let currentPage = 0;
-const itemsPerPage = 8; // 2 rows x 4 columns matching the reference view
+const itemsPerPage = 12; // 4 columns wide by 3 rows high = 12 games per page
 let filteredGames = [...games];
 
 // --- Render Channels & Page Dots ---
@@ -200,7 +200,7 @@ function toggleHideGames() {
     grid.style.visibility = gamesHidden ? 'hidden' : 'visible';
 }
 
-// --- Populate Theme Window Dynamically ---
+// --- Populate Theme Window Dynamically ---[cite: 1]
 const themeListContainer = document.getElementById('theme-list');
 for (const [key, theme] of Object.entries(themes)) {
     const row = document.createElement('div');
@@ -212,7 +212,7 @@ for (const [key, theme] of Object.entries(themes)) {
     themeListContainer.appendChild(row);
 }
 
-// --- Apply Theme Logic ---
+// --- Apply Theme Logic ---[cite: 1]
 function setLegacyTheme(themeName) {
     const t = themes[themeName];
     if (t.bgImg) {
@@ -269,7 +269,7 @@ function maximizeGame() {
   }
 }
 
-// --- Initialization ---
+// --- Initialization ---[cite: 1]
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('wii_webstring_theme') || 'default';
     setLegacyTheme(savedTheme);
