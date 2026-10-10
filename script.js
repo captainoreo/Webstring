@@ -1,229 +1,363 @@
-// --- Theme Database ---[cite: 1]
-const themes = {
-    'default': { bg: '#e4e7eb' },
-    'dark': { bg: '#2a2a2a' },
-    'neon': { bg: '#0f0c1b' },
-    'sage': { bg: '#e8f0e6' },
-    'sunset': { bg: '#fdeed9' },
-    'ocean': { bg: '#e0f2fe' },
-    'midnight': { bg: '#18181b' },
-    'berry': { bg: '#fce7f3' },
-    'evil': { bg: '#1a0000' },
-    'kind': { bg: '#f0fdf4' },
-    'allred': { bg: '#7f1d1d' },
-    'allblue': { bg: '#0c4a6e' },
-    'miku': { bg: '#e0f7f6', mascotImg: '/assets/IMG_0155.png' },
-    'teto': { bg: '#fde8ee', mascotImg: '/assets/IMG_0156.png' },
-    'rin':  { bg: '#fffbe6', mascotImg: '/assets/IMG_0154.png' },
-    'gumi': { bg: '#f0f0f4', mascotImg: '/assets/IMG_0158.webp' },
-    'madobe': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png' },
-    'dylan': { bg: '#181825', bgImg: '/assets/IMG_0122.gif' },
-    'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp' },
-    'halloween': { bg: '#170a1c' },
-    'christmas': { bg: '#0b2033' },
-    'bleach': { bg: '#050505', mascotImg: '/assets/IMG_0521.webp' },
-    'blue exorcist': { bg: '#02040a', mascotImg: '/assets/IMG_0522.webp' },
-    'assassination classroom': { bg: '#1b3322', mascotImg: '/assets/IMG_0523.webp' },
-    'win98teal': { bg: '#008080' } 
-};
+let isJakeJuniorActive = false;
 
-// --- Complete Game Library Array ---[cite: 2]
-const games = [
-    { title: '60 Seconds! Reatomized', url: '/games/60 Seconds! Reatomized.html', img: '/assets/IMG_9887.gif' },
-    { title: 'Bad Piggies', url: '/games/Bad Piggies.html', img: '/assets/IMG_9888.gif' },
-    { title: 'Balatro', url: '/games/Balatro.html', img: '/assets/IMG_9889.gif' },
-    { title: 'BeatBlock', url: '/games/BeatBlock.html', img: '/assets/IMG_9890.gif' },
-    { title: 'FISH', url: '/games/FISH.html', img: '/assets/IMG_9891.gif' },
-    { title: 'Grand Theft Auto 3', url: '/games/Grand Theft Auto 3.html', img: '/assets/IMG_9892.gif' },
-    { title: 'GTA Vice City', url: '/games/Grand Theft Auto_ Vice City.html', img: '/assets/IMG_9893.gif' },
-    { title: 'Hollow Knight', url: '/games/Hollow Knight.html', img: '/assets/IMG_9894.gif' },
-    { title: 'Hollow Knight Silksong', url: '/games/Hollow Knight_ Silksong.html', img: '/assets/IMG_9895.gif' },
-    { title: 'In Stars and Time', url: '/games/In Stars and Time.html', img: '/assets/IMG_9896.jpeg' },
-    { title: 'Kirby Soft & Wet', url: '/games/Kirby ~ Soft & Wet.html', img: '/assets/IMG_9897.png' },
-    { title: 'OMORI', url: '/games/OMORI.html', img: '/assets/IMG_9898.gif' },
-    { title: 'Off', url: '/games/Off.html', img: '/assets/IMG_9899.gif' },
-    { title: 'One Shot World Machine', url: '/games/One Shot_ World Machine edition.html', img: '/assets/IMG_9900.gif' },
-    { title: 'PikuNiku', url: '/games/PikuNiku.html', img: '/assets/IMG_9901.gif' },
-    { title: 'PvZ', url: '/games/PvZ.html', img: '/assets/IMG_9902.gif' },
-    { title: 'Stardew Valley', url: '/games/Stardew Valley.html', img: '/assets/IMG_9903.gif' },
-    { title: 'Terraria', url: '/games/Terraria.html', img: '/assets/IMG_9904.gif' },
-    { title: 'WebFishing', url: '/games/WebFishing.html', img: '/assets/IMG_9905.gif' },
-    { title: 'Binding of Isaac', url: '/games/clbindingofisaccsheeptime.html', img: '/assets/IMG_9906.gif' },
-    { title: 'Cave Story', url: '/games/clcavestory.html', img: '/assets/IMG_9907.gif' },
-    { title: 'Metal Slug', url: '/games/clmetalslug.html', img: '/assets/IMG_9908.gif' },
-    { title: 'Metal Slug 2', url: '/games/clmetalslug2.html', img: '/assets/IMG_9909.gif' },
-    { title: 'Solatorobo', url: '/games/clsolatrobo.html', img: '/assets/IMG_9911.webp' },
-    { title: 'Undertale', url: '/games/clundertale.html', img: '/assets/IMG_9912.gif' },
-    { title: 'FNAF 1', url: '/games/clFNAF.html', img: '/assets/IMG_9945.jpeg' },
-    { title: 'FNAF 2', url: '/games/clFNAF2.html', img: '/assets/IMG_9946.jpeg' },
-    { title: 'FNAF 3', url: '/games/clFNAF3.html', img: '/assets/IMG_9947.jpeg' },
-    { title: 'FNAF 4', url: '/games/clFNAF4.html', img: '/assets/IMG_9948.jpeg' },
-    { title: 'FNAF Sister Location', url: '/games/clfnafsl.html', img: '/assets/IMG_9949.jpeg' },
-    { title: 'FNAF Pizzeria Simulator', url: '/games/clfnafps.html', img: '/assets/IMG_9950.jpeg' },
-    { title: 'Mortal Kombat', url: '/games/clmortalkombata.html', img: '/assets/IMG_9951.jpeg' },
-    { title: 'Mortal Kombat 2', url: '/games/clmortalkombat2a.html', img: '/assets/IMG_9952.jpeg' },
-    { title: 'Run', url: '/games/clrun.html', img: '/assets/IMG_0329.jpeg' },
-    { title: 'Run 2', url: '/games/clrun-2.html', img: '/assets/IMG_0330.jpeg' },
-    { title: 'Doom DOS', url: '/games/cldoomdos.html', img: '/assets/IMG_9955.jpeg' },
-    { title: 'Doom 2 DOS', url: '/games/cldoom2dos.html', img: '/assets/IMG_9956.jpeg' },
-    { title: 'Spelunky', url: '/games/clspelunky.html', img: '/assets/IMG_9957.png' },
-    { title: 'Five Nights at Frickbear\'s 3', url: '/games/clfivenightsatfrickbears3.html', img: '/assets/IMG_9958.jpeg' },
-    { title: 'Scratch Options', url: '/games/clscratchoptions.html', img: '/assets/IMG_9959.png' },
-    { title: 'Endacopia', url: '/games/Endacopia.html', img: '/assets/IMG_9964.jpeg' },
-    { title: 'ULTRAKILL', url: '/games/ULTRAKILL.html', img: '/assets/IMG_9965.jpeg' },
-    { title: 'Klonoa', url: '/games/clklonoachd.html', img: '/assets/IMG_0117.jpeg' },
-    { title: 'Bendy and the Ink Machine', url: '/games/Bendy and the Ink Machine_ ALL CHAPTERS.html', img: '/assets/IMG_0255.jpeg' },
-    { title: 'Vib-Ribbon', url: '/games/Vib-Ribbon.html', img: '/assets/IMG_0256.jpeg' },
-    { title: 'Clover Pit', url: '/games/Clover Pit.html', img: '/assets/IMG_0257.jpeg' },
-    { title: 'Just Shapes & Beats', url: '/games/Just Shapes & Beats.html', img: '/assets/IMG_0262.jpeg' },
-    { title: 'I Have No Mouth', url: '/games/I Have No Mouth, and I Must Scream.html', img: '/assets/IMG_0259.jpeg' },
-    { title: 'Plague Inc', url: '/games/Plague Inc.html', img: '/assets/IMG_0260.webp' },
-    { title: 'PEAK', url: '/games/PEAK.html', img: '/assets/IMG_0261.jpeg' },
-    { title: 'Big Money', url: '/games/BigMoney.html', img: '/assets/IMG_0273.png' },
-    { title: 'Get to the top', url: '/games/GTTTATINT.html', img: '/assets/IMG_0274.png' },
-    { title: 'TIME FCUK', url: '/games/TimeFcuk.html', img: '/assets/IMG_0275.jpeg' },
-    { title: 'Mother 1', url: '/games/clearthboundbeginnings.html', img: '/assets/IMG_0390.jpeg' },
-    { title: 'Mother 2', url: '/games/clearthboundsnes.html', img: '/assets/IMG_0391.jpeg' },
-    { title: 'Mother 3', url: '/games/clearthbound3.html', img: '/assets/IMG_0392.jpeg' },
-    { title: 'Fez', url: '/games/fez.html', img: '/assets/IMG_0393.jpeg' },
-    { title: 'Team Fortress 2', url: '/games/Team Fortress 2.html', img: '/assets/IMG_0399.jpeg' },
-    { title: 'Geometry Dash', url: '/games/Geometry Dash.html', img: '/assets/IMG_0400.jpeg' },
-    { title: 'JoJo\'s Bizarre Adventure', url: '/games/JoJo\'s Bizarre Adventure_ Heritage for the Future.html', img: '/assets/IMG_0401.jpeg' },
-    { title: 'Lethal Company', url: '/games/Lethal Company.html', img: '/assets/IMG_0402.jpeg' },
-    { title: 'TABS', url: '/games/Totally Accurate Battle Simulator (TABS).html', img: '/assets/IMG_0403.jpeg' },
-    { title: 'YOMI HUSTLE', url: '/games/Your Only Move Is HUSTLE.html', img: '/assets/IMG_0404.jpeg' },
-    { title: 'Baldi\'s Basics Plus', url: '/games/Baldi\'s Basics Plus.html', img: '/assets/IMG_0425.jpeg' },
-    { title: 'Sonic the Hedgehog', url: '/games/clsonicthehedgehog.html', img: '/assets/IMG_0458.jpeg' },
-    { title: 'Sonic the Hedgehog 2', url: '/games/clsonicthehedgehog2.html', img: '/assets/IMG_0459.jpeg' },
-    { title: 'Sonic the Hedgehog 3', url: '/games/clsonicthehedgehog3.html', img: '/assets/IMG_0460.png' },
-    { title: 'Sonic and Knuckles', url: '/games/clsonicandknuckles.html', img: '/assets/IMG_0461.jpeg' },
-    { title: 'Good Boy Galaxy', url: '/games/clgoodboygalaxy.html', img: '/assets/IMG_0462.jpeg' },
-    { title: 'Rimworld', url: '/games/rimworld.html', img: '/assets/IMG_0463.jpeg' },
-    { title: 'Cuphead', url: '/games/cuphead.html', img: '/assets/IMG_0467.png' },
-    { title: 'SCP: Containment Breach', url: '/games/scp.html', img: '/assets/IMG_0468.jpeg' },
-    { title: 'Mega Man', url: '/games/clmegaman.html', img: '/assets/IMG_0480.jpeg' },
-    { title: 'Mega Man 2', url: '/games/clmegaman2.html', img: '/assets/IMG_0481.jpeg' },
-    { title: 'Mega Man 3', url: '/games/clmegaman3.html', img: '/assets/IMG_0482.jpeg' },
-    { title: 'Mega Man 4', url: '/games/clmegaman4.html', img: '/assets/IMG_0483.jpeg' },
-    { title: 'Mega Man 5', url: '/games/clmegaman5.html', img: '/assets/IMG_0484.jpeg' },
-    { title: 'Mega Man 6', url: '/games/clmegaman6.html', img: '/assets/IMG_0485.jpeg' },
-    { title: 'Mega Man 7', url: '/games/clmegaman7.html', img: '/assets/IMG_0486.jpeg' },
-    { title: 'Mega Man 8', url: '/games/clmegaman8.html', img: '/assets/IMG_0487.webp' },
-    { title: 'Kirby Canvas Curse', url: '/games/clkirbycanvascurse.html', img: '/assets/IMG_0493.jpeg' },
-    { title: 'Kirby Squeak Squad', url: '/games/clkirbysqueaksquad.html', img: '/assets/IMG_0489.png' },
-    { title: 'Kirby Super Star Ultra', url: '/games/clkirbysuperstarultra.html', img: '/assets/IMG_0495.jpeg' },
-    { title: 'Kirby Mass Attack', url: '/games/clkirbymassattack.html', img: '/assets/IMG_0496.jpeg' },
-    { title: 'Ristar', url: '/games/clristar.html', img: '/assets/IMG_0497.jpeg' },
-    { title: 'Dynamite Headdy', url: '/games/cldynamiteheaddy.html', img: '/assets/IMG_0498.jpeg' },
-    { title: 'Sonic R', url: '/games/clsonicr.html', img: '/assets/IMG_0499.jpeg' },
-    { title: 'Yume Nikki', url: '/games/clyumenikki.html', img: '/assets/IMG_0500.jpeg' },
-    { title: 'Super Mario Bros.', url: '/games/clsupermario.html', img: '/assets/IMG_0503.jpeg' },
-    { title: 'Super Mario Bros 2 JP', url: '/games/clmariolostlevels.html', img: '/assets/IMG_0504.webp' },
-    { title: 'Super Mario Bros 2 US', url: '/games/clsupermariobros2us.html', img: '/assets/IMG_0505.jpeg' },
-    { title: 'Super Mario Bros 3', url: '/games/clmario3.html', img: '/assets/IMG_0506.jpeg' }
-];
-
-let currentPage = 0;
-const itemsPerPage = 12; // 4 columns wide by 3 rows high = 12 games per page
-let filteredGames = [...games];
-
-// --- Render Channels & Page Dots ---
-function renderChannels() {
-    const grid = document.getElementById('channelGrid');
-    grid.innerHTML = '';
-    
-    const totalPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
-    if (currentPage >= totalPages) currentPage = totalPages - 1;
-    if (currentPage < 0) currentPage = 0;
-
-    const start = currentPage * itemsPerPage;
-    const end = start + itemsPerPage;
-    const pageGames = filteredGames.slice(start, end);
-
-    for (let i = 0; i < itemsPerPage; i++) {
-        const card = document.createElement('div');
-        card.className = 'wii-channel-card';
-        
-        if (pageGames[i]) {
-            const g = pageGames[i];
-            card.onclick = () => playGame(g.url, g.title);
-            card.innerHTML = `<img src="${g.img}" alt="${g.title}" title="${g.title}">`;
-        } else {
-            card.style.opacity = '0.2';
-            card.style.cursor = 'default';
-        }
-        grid.appendChild(card);
+// --- Live Clock Functionality ---
+function updateClock() {
+    if (isJakeJuniorActive) {
+        document.getElementById('clock-time').innerHTML = 'Jake junior';
+        document.getElementById('clock-date').innerText = 'Jake junior';
+        return;
     }
+
+    const now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
     
-    renderDots(totalPages);
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayName = days[now.getDay()];
+    const month = now.getMonth() + 1; 
+    const date = now.getDate();
+    
+    document.getElementById('clock-time').innerHTML = `${hours} ${minutes} <span class="am">${ampm}</span>`;
+    document.getElementById('clock-date').innerText = `${dayName} ${month}/${date}`;
 }
 
-function renderDots(totalPages) {
-    const dotsContainer = document.getElementById('dotsIndicator');
+updateClock();
+setInterval(updateClock, 1000);
+
+// --- Speech Bubble Functionality ---
+function initSpeechBubbles() {
+    document.querySelectorAll('.channel').forEach(ch => {
+        if (isJakeJuniorActive) {
+            let bubble = ch.querySelector('.speech-bubble');
+            if (!bubble) {
+                bubble = document.createElement('div');
+                bubble.className = 'speech-bubble';
+                ch.appendChild(bubble);
+            }
+            bubble.textContent = 'Jake junior';
+            return;
+        }
+
+        if (!ch.classList.contains('empty') && !ch.querySelector('.speech-bubble')) {
+            const img = ch.querySelector('img');
+            const title = img ? img.alt : '';
+            if (title) {
+                const bubble = document.createElement('div');
+                bubble.className = 'speech-bubble';
+                bubble.textContent = title;
+                ch.appendChild(bubble);
+
+                // Custom glitch feature specifically for Time Fcuk[cite: 7]
+                if (title === 'TIME FCUK') {
+                    setInterval(() => {
+                        const chars = ['F', 'C', 'U', 'K'];
+                        let scrambledFcuk = 'Fcuk'.split('').map(char => {
+                            const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                            return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
+                        }).join('');
+                        bubble.textContent = 'Time ' + scrambledFcuk;
+                    }, 80);
+                }
+            }
+        }
+    });
+}
+
+// --- Page Logic (4x3 Grid - 8 Pages Total) ---
+let currentPage = 0;
+const totalPages = 8;
+
+function renderDots() {
+    const dotsContainer = document.getElementById('page-dots');
     dotsContainer.innerHTML = '';
+    
     for (let i = 0; i < totalPages; i++) {
-        const span = document.createElement('span');
-        span.className = `dot-dash ${i === currentPage ? 'active' : ''}`;
-        span.innerText = '-';
-        dotsContainer.appendChild(span);
+        const dot = document.createElement('span');
+        dot.className = `dot ${i === currentPage ? 'active' : ''}`;
+        dot.onclick = () => goToPage(i);
+        dotsContainer.appendChild(dot);
     }
+}
+
+function updatePaginationUI() {
+    document.querySelectorAll('.pages-container .grid').forEach((grid, idx) => {
+        grid.classList.toggle('active', idx === currentPage);
+    });
+
+    document.getElementById('prev-btn').style.display = currentPage === 0 ? 'none' : 'block';
+    document.getElementById('next-btn').style.display = currentPage === totalPages - 1 ? 'none' : 'block';
+
+    document.querySelectorAll('.page-dots .dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentPage);
+    });
 }
 
 function changePage(direction) {
-    const totalPages = Math.ceil(filteredGames.length / itemsPerPage) || 1;
-    currentPage += direction;
-    if (currentPage < 0) currentPage = totalPages - 1;
-    if (currentPage >= totalPages) currentPage = 0;
-    renderChannels();
+    const newPage = currentPage + direction;
+    if (newPage >= 0 && newPage < totalPages) {
+        currentPage = newPage;
+        updatePaginationUI();
+    }
 }
 
-// --- Search Filtering ---
-function filterGames() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    filteredGames = games.filter(g => g.title.toLowerCase().includes(query));
-    currentPage = 0;
-    renderChannels();
+function goToPage(pageIndex) {
+    if (pageIndex >= 0 && pageIndex < totalPages) {
+        currentPage = pageIndex;
+        updatePaginationUI();
+    }
 }
 
-// --- Recommend Random Game ---
-function recommendGame() {
-    if (games.length === 0) return;
-    const randomGame = games[Math.floor(Math.random() * games.length)];
-    playGame(randomGame.url, randomGame.title);
-}
+// --- Search Bar Functionality ---
+function handleSearch() {
+    const query = document.getElementById('game-search').value.toLowerCase().trim();
+    const searchGrid = document.getElementById('search-results-grid');
+    const pageGrids = document.querySelectorAll('.pages-container .grid');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageDots = document.getElementById('page-dots');
 
-// --- Hide Games Toggle ---
-let gamesHidden = false;
-function toggleHideGames() {
-    gamesHidden = !gamesHidden;
-    const grid = document.getElementById('channelGrid');
-    grid.style.visibility = gamesHidden ? 'hidden' : 'visible';
-}
-
-// --- Populate Theme Window Dynamically ---[cite: 1]
-const themeListContainer = document.getElementById('theme-list');
-for (const [key, theme] of Object.entries(themes)) {
-    const row = document.createElement('div');
-    row.className = 'theme-row';
-    row.innerHTML = `
-        <input type="radio" id="theme-${key}" name="theme" value="${key}" onclick="setLegacyTheme('${key}')">
-        <label for="theme-${key}" style="cursor: pointer; width: 100%;">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
-    `;
-    themeListContainer.appendChild(row);
-}
-
-// --- Apply Theme Logic ---[cite: 1]
-function setLegacyTheme(themeName) {
-    const t = themes[themeName];
-    if (t.bgImg) {
-        document.body.style.backgroundImage = `url('${t.bgImg}')`;
-        document.body.style.backgroundColor = t.bg || '#000';
-    } else {
-        document.body.style.backgroundImage = 'none';
-        document.body.style.backgroundColor = t.bg;
+    if (query === '' || isJakeJuniorActive) {
+        searchGrid.style.display = 'none';
+        searchGrid.innerHTML = '';
+        pageGrids.forEach((g, idx) => {
+            g.classList.toggle('active', idx === currentPage);
+        });
+        pageDots.style.display = 'flex';
+        updatePaginationUI();
+        return;
     }
 
-    const mascot = document.getElementById('desktop-mascot');
+    pageGrids.forEach(g => g.classList.remove('active'));
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    pageDots.style.display = 'none';
+
+    searchGrid.innerHTML = '';
+    searchGrid.style.display = 'grid';
+
+    const allChannels = document.querySelectorAll('.pages-container .channel:not(.empty)');
+    let matchCount = 0;
+
+    allChannels.forEach(ch => {
+        const img = ch.querySelector('img');
+        const title = img ? img.alt.toLowerCase() : '';
+        if (title.includes(query)) {
+            const clone = ch.cloneNode(true);
+            searchGrid.appendChild(clone);
+            matchCount++;
+        }
+    });
+
+    if (matchCount === 0) {
+        searchGrid.innerHTML = '<div style="grid-column: 1 / -1; color: #777; font-size: 1.2rem; margin-top: 30px; text-align: center;">No games found.</div>';
+    } else {
+        initSpeechBubbles();
+    }
+}
+
+// --- Toggle Hide Games Mode ---
+function toggleHideGameScreen() {
+    const screen = document.querySelector('.screen');
+    const btn = document.getElementById('hide-game-btn');
+    
+    screen.classList.toggle('games-hidden');
+
+    if (screen.classList.contains('games-hidden')) {
+        btn.innerHTML = isJakeJuniorActive ? 'Jake junior' : '👁️ Show Games';
+    } else {
+        btn.innerHTML = isJakeJuniorActive ? 'Jake junior' : '🙈 Hide Games';
+    }
+}
+
+// --- Game Recommendation Functionality ---
+function recommendGame() {
+    const allChannels = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty)'));
+    if (allChannels.length === 0) return;
+
+    const randomGame = allChannels[Math.floor(Math.random() * allChannels.length)];
+    const img = randomGame.querySelector('img');
+    const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Random Game');
+    const imgSrc = isJakeJuniorActive ? '/assets/IMG_0430.webp' : (img ? img.src : '');
+    const href = randomGame.getAttribute('href');
+
+    const card = document.getElementById('recommendation-card');
+    const escapedTitle = title.replace(/'/g, "\\'");
+    card.innerHTML = `
+        <img src="${imgSrc}" alt="${title}">
+        <h4 style="font-size: 1.2rem; color: #333; border: none; text-align: center;">${title}</h4>
+        <button class="play-btn" onclick="openGamePlayer('${href}', '${escapedTitle}'); toggleRecommendationModal();">${isJakeJuniorActive ? 'Jake junior' : 'Play Now'}</button>
+    `;
+
+    document.getElementById('recommendation-modal').classList.add('active');
+    document.getElementById('theme-menu').classList.remove('active');
+    document.getElementById('settings-menu').classList.remove('active');
+    document.getElementById('credits-modal').classList.remove('active');
+}
+
+function toggleRecommendationModal() {
+    document.getElementById('recommendation-modal').classList.toggle('active');
+}
+
+function toggleThemeMenu() {
+    const menu = document.getElementById('theme-menu');
+    menu.classList.toggle('active');
+    document.getElementById('settings-menu').classList.remove('active');
+    document.getElementById('recommendation-modal').classList.remove('active');
+    document.getElementById('credits-modal').classList.remove('active');
+}
+
+function toggleSettingsMenu() {
+    const menu = document.getElementById('settings-menu');
+    menu.classList.toggle('active');
+    document.getElementById('theme-menu').classList.remove('active');
+    document.getElementById('recommendation-modal').classList.remove('active');
+    document.getElementById('credits-modal').classList.remove('active');
+}
+
+function toggleCreditsModal() {
+    const menu = document.getElementById('credits-modal');
+    menu.classList.toggle('active');
+    document.getElementById('theme-menu').classList.remove('active');
+    document.getElementById('settings-menu').classList.remove('active');
+    document.getElementById('recommendation-modal').classList.remove('active');
+}
+
+// --- Game Player Functions ---
+let timeFcukPlayerInterval;
+
+function openGamePlayer(url, title = 'Game Player') {
+    const modal = document.getElementById('player-modal');
+    const iframe = document.getElementById('game-iframe');
+    const titleEl = document.getElementById('player-title-text');
+    const screen = document.querySelector('.screen');
+
+    iframe.src = url;
+    
+    if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
+
+    if (titleEl) {
+        if (isJakeJuniorActive) {
+            titleEl.innerText = 'Jake junior';
+        } else if (title === 'TIME FCUK') {
+            timeFcukPlayerInterval = setInterval(() => {
+                const chars = ['F', 'C', 'U', 'K'];
+                let scrambledFcuk = 'FCUK'.split('').map(char => {
+                    const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                    return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
+                }).join('');
+                titleEl.innerText = `🎮 TIME ${scrambledFcuk}`;
+            }, 80);
+        } else {
+            titleEl.innerText = `🎮 ${title}`;
+        }
+    }
+    
+    modal.classList.add('active');
+    if (screen) screen.classList.add('iframe-active');
+}
+
+function closeGamePlayer() {
+    const modal = document.getElementById('player-modal');
+    const iframe = document.getElementById('game-iframe');
+    const screen = document.querySelector('.screen');
+
+    if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
+
+    iframe.src = '';
+    modal.classList.remove('active');
+    if (screen) screen.classList.remove('iframe-active');
+
+    if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+    }
+}
+
+function reloadGameIframe() {
+    const iframe = document.getElementById('game-iframe');
+    if (iframe.src) {
+        iframe.src = iframe.src;
+    }
+}
+
+function toggleIframeFullscreen() {
+    const wrapper = document.getElementById('player-iframe-wrapper');
+    if (!document.fullscreenElement) {
+        if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+        } else if (wrapper.webkitRequestFullscreen) {
+            wrapper.webkitRequestFullscreen();
+        } else if (wrapper.msRequestFullscreen) {
+            wrapper.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
+
+// Click Event Listener for Channel Tiles
+document.addEventListener('click', function (e) {
+    const channel = e.target.closest('.channel');
+    if (channel && channel.hasAttribute('href')) {
+        e.preventDefault();
+        const img = channel.querySelector('img');
+        const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Game Player');
+        openGamePlayer(channel.getAttribute('href'), title);
+    }
+});
+
+// --- Theme Database ---[cite: 7]
+const themes = {
+    'default': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
+    'dark': { bg: '#2a2a2a', channel: '#444444', accent: '#5ce1e6', barBg: '#333333', barGrad: 'linear-gradient(to bottom, #333333, #1a1a1a)', dark: true },
+    'neon': { bg: '#0f0c1b', channel: '#1d1838', accent: '#ff007f', barBg: '#130f26', barGrad: 'linear-gradient(to bottom, #130f26, #080612)', dark: true },
+    'sage': { bg: '#e8f0e6', channel: '#f2f7f0', accent: '#78ab78', barBg: '#dce8d8', barGrad: 'linear-gradient(to bottom, #dce8d8, #b8ceb4)', dark: false },
+    'sunset': { bg: '#fdeed9', channel: '#fff7ed', accent: '#ff7e5f', barBg: '#fbdcb9', barGrad: 'linear-gradient(to bottom, #fbdcb9, #f7c393)', dark: false },
+    'ocean': { bg: '#e0f2fe', channel: '#f0f9ff', accent: '#0284c7', barBg: '#bae6fd', barGrad: 'linear-gradient(to bottom, #bae6fd, #7dd3fc)', dark: false },
+    'midnight': { bg: '#18181b', channel: '#27272a', accent: '#eab308', barBg: '#1c1917', barGrad: 'linear-gradient(to bottom, #1c1917, #0c0a09)', dark: true },
+    'berry': { bg: '#fce7f3', channel: '#fdf2f8', accent: '#ec4899', barBg: '#fbcfe8', barGrad: 'linear-gradient(to bottom, #fbcfe8, #f472b6)', dark: false },
+    'evil': { bg: '#1a0000', channel: '#330000', accent: '#ff1a1a', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true },
+    'kind': { bg: '#f0fdf4', channel: '#ffffff', accent: '#4ade80', barBg: '#dcfce7', barGrad: 'linear-gradient(to bottom, #dcfce7, #bbf7d0)', dark: false },
+    'allred': { bg: '#7f1d1d', channel: '#991b1b', accent: '#f87171', barBg: '#881337', barGrad: 'linear-gradient(to bottom, #881337, #450a0a)', dark: true },
+    'allblue': { bg: '#0c4a6e', channel: '#075985', accent: '#38bdf8', barBg: '#0369a1', barGrad: 'linear-gradient(to bottom, #0369a1, #082f49)', dark: true },
+    'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0155.png' },
+    'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
+    'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
+    'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
+    'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
+    'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
+    'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
+};
+
+function setTheme(themeName) {
+    const t = themes[themeName] || themes['default'];
+    
+    document.documentElement.style.setProperty('--main-bg', t.bg);
+    document.documentElement.style.setProperty('--channel-bg', t.channel);
+    document.documentElement.style.setProperty('--accent-color', t.accent);
+    document.documentElement.style.setProperty('--bottom-bar-bg', t.barBg);
+    document.documentElement.style.setProperty('--bottom-bar-gradient', t.barGrad);
+    
+    const screen = document.querySelector('.screen');
+    if (screen) {
+        if (t.bgImg) {
+            screen.style.backgroundImage = `url('${t.bgImg}'), repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px)`;
+            screen.style.backgroundSize = 'cover';
+            screen.style.backgroundPosition = 'center';
+        } else {
+            screen.style.backgroundImage = 'repeating-linear-gradient(to bottom, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px)';
+            screen.style.backgroundSize = 'auto';
+            screen.style.backgroundPosition = 'initial';
+        }
+    }
+
+    const mascot = document.getElementById('vocaloid-mascot');
     if (t.mascotImg) {
         mascot.src = t.mascotImg;
         mascot.style.display = 'block';
@@ -232,52 +366,243 @@ function setLegacyTheme(themeName) {
         mascot.src = '';
     }
 
-    localStorage.setItem('wii_webstring_theme', themeName);
-}
-
-// --- Modal & Game Player Management ---
-function openThemeModal() {
-  document.getElementById('themeModal').style.display = 'flex';
-}
-function closeThemeModal() {
-  document.getElementById('themeModal').style.display = 'none';
-}
-
-function playGame(url, title) {
-  document.getElementById('gameTitle').innerText = title;
-  document.getElementById('gameFrame').src = url;
-  document.getElementById('gamePlayerModal').style.display = 'flex';
-}
-
-function closeGame() {
-  document.getElementById('gameFrame').src = ''; 
-  document.getElementById('gamePlayerModal').style.display = 'none';
-}
-
-let isMaximized = false;
-function maximizeGame() {
-  const modalWin = document.querySelector('.player-window');
-  if (isMaximized) {
-    modalWin.style.width = '85vw';
-    modalWin.style.height = '85vh';
-    isMaximized = false;
-  } else {
-    modalWin.style.width = '100vw';
-    modalWin.style.height = '100vh';
-    modalWin.style.borderRadius = '0';
-    isMaximized = true;
-  }
-}
-
-// --- Initialization ---[cite: 1]
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('wii_webstring_theme') || 'default';
-    setLegacyTheme(savedTheme);
-    
-    const themeRadio = document.getElementById(`theme-${savedTheme}`);
-    if (themeRadio) {
-        themeRadio.checked = true;
+    if (t.dark) {
+        document.body.classList.add('theme-dark');
+    } else {
+        document.body.classList.remove('theme-dark');
     }
     
-    renderChannels();
+    // --- JAKE JUNIOR OVERRIDE LOGIC ---
+    if (themeName.toLowerCase() === 'jakejunior') {
+        isJakeJuniorActive = true;
+        localStorage.setItem('selectedTheme', 'default');
+
+        document.querySelectorAll('.channel').forEach(ch => {
+            ch.classList.remove('empty');
+            ch.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = '/assets/IMG_0430.webp';
+            img.alt = 'Jake junior';
+            ch.appendChild(img);
+
+            const bubble = document.createElement('div');
+            bubble.className = 'speech-bubble';
+            bubble.textContent = 'Jake junior';
+            ch.appendChild(bubble);
+        });
+
+        document.querySelectorAll('img').forEach(img => {
+            img.src = '/assets/IMG_0430.webp'; 
+            img.srcset = ''; 
+            img.alt = 'Jake junior';
+        });
+
+        document.querySelectorAll('button, .round-btn, .recommend-btn, .hide-game-btn, .player-btn').forEach(btn => {
+            btn.textContent = 'Jake junior';
+            btn.style.fontSize = '0.7rem';
+        });
+
+        document.getElementById('clock-time').innerHTML = 'Jake junior';
+        document.getElementById('clock-date').innerText = 'Jake junior';
+
+        function replaceTextNodes(node) {
+            node.childNodes.forEach(child => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    if (child.nodeValue.trim() !== '') {
+                        child.nodeValue = 'Jake junior';
+                    }
+                } else if (child.nodeType === Node.ELEMENT_NODE) {
+                    if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                        replaceTextNodes(child);
+                    }
+                }
+            });
+        }
+        replaceTextNodes(document.body);
+
+        document.querySelectorAll('input').forEach(input => {
+            input.placeholder = 'Jake junior';
+            if (input.type === 'text') input.value = 'Jake junior';
+        });
+
+        document.querySelectorAll('option').forEach(opt => {
+            opt.textContent = 'Jake junior';
+        });
+
+        setTabIdentity('Jake junior', '/assets/IMG_0430.webp');
+
+        setTimeout(() => {
+            alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
+        }, 100);
+    } else {
+        isJakeJuniorActive = false;
+        localStorage.setItem('selectedTheme', themeName);
+    }
+}
+
+// ==========================================
+// --- ADVANCED TAB CLOAKING SYSTEM ---
+// ==========================================
+const cloakPresets = {
+    'drive': { title: 'Google Drive', icon: 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png' },
+    'classroom': { title: 'Classes', icon: 'https://ssl.gstatic.com/classroom/favicon.png' },
+    'docs': { title: 'Google Docs', icon: 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico' },
+    'canvas': { title: 'Dashboard', icon: 'https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico' },
+    'wikipedia': { title: 'Wikipedia, the free encyclopedia', icon: 'https://en.wikipedia.org/static/favicon/wikipedia.ico' },
+    'desmos': { title: 'Desmos | Graphing Calculator', icon: 'https://www.desmos.com/favicon.ico' },
+    'clever': { title: 'Clever | Portal', icon: 'https://assets.clever.com/assets/p-clever-favicon.ico' },
+    'reset': { title: 'Webstring', icon: '' }
+};
+
+let currentActiveTitle = document.title;
+let currentActiveIcon = '';
+
+function setTabIdentity(title, iconUrl) {
+    if (title) {
+        document.title = title;
+        currentActiveTitle = title;
+    }
+    if (iconUrl !== undefined) {
+        currentActiveIcon = iconUrl;
+        let link = document.querySelector("link[rel*='icon']");
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'shortcut icon';
+            document.head.appendChild(link);
+        }
+        link.href = iconUrl || '';
+    }
+}
+
+function applyPresetCloak(presetKey) {
+    if (!presetKey) return;
+    const preset = cloakPresets[presetKey];
+    if (preset) {
+        setTabIdentity(preset.title, preset.icon);
+        document.getElementById('cloak-title').value = preset.title;
+        document.getElementById('cloak-icon').value = preset.icon;
+        
+        localStorage.setItem('cloakTitle', preset.title);
+        localStorage.setItem('cloakIcon', preset.icon);
+    }
+}
+
+function applyCustomCloak() {
+    const title = document.getElementById('cloak-title').value;
+    const iconUrl = document.getElementById('cloak-icon').value;
+    setTabIdentity(title, iconUrl);
+
+    localStorage.setItem('cloakTitle', title);
+    localStorage.setItem('cloakIcon', iconUrl);
+}
+
+let panicKeySetting = '';
+let panicUrlSetting = '';
+
+function savePanicSettings() {
+    panicKeySetting = document.getElementById('panic-key').value.trim();
+    panicUrlSetting = document.getElementById('panic-url').value.trim();
+
+    localStorage.setItem('panicKey', panicKeySetting);
+    localStorage.setItem('panicUrl', panicUrlSetting);
+    alert('Panic Key settings saved!');
+}
+
+document.addEventListener('keydown', function (e) {
+    if (!panicKeySetting) return;
+
+    if (e.key.toLowerCase() === panicKeySetting.toLowerCase() || e.code.toLowerCase() === panicKeySetting.toLowerCase()) {
+        let targetUrl = panicUrlSetting || 'https://www.google.com';
+        if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+            targetUrl = 'https://' + targetUrl;
+        }
+        window.location.href = targetUrl;
+    }
 });
+
+let isAutoBlurActive = false;
+
+function toggleAutoBlurCloak(enabled) {
+    isAutoBlurActive = enabled;
+    localStorage.setItem('autoBlurCloak', enabled);
+}
+
+window.addEventListener('blur', () => {
+    if (isAutoBlurActive) {
+        document.title = 'Google Drive';
+        let link = document.querySelector("link[rel*='icon']");
+        if (link) link.href = cloakPresets['drive'].icon;
+    }
+});
+
+window.addEventListener('focus', () => {
+    if (isAutoBlurActive) {
+        document.title = currentActiveTitle;
+        let link = document.querySelector("link[rel*='icon']");
+        if (link) link.href = currentActiveIcon;
+    }
+});
+
+function openAboutBlank() {
+    const newWindow = window.open('about:blank', '_blank');
+    if (!newWindow) {
+        alert('Pop-up blocked! Please allow pop-ups to launch in about:blank.');
+        return;
+    }
+
+    const doc = newWindow.document;
+    const iframe = doc.createElement('iframe');
+    
+    iframe.style.width = '100vw';
+    iframe.style.height = '100vh';
+    iframe.style.border = 'none';
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.src = window.location.href;
+
+    doc.body.style.margin = '0';
+    doc.body.style.height = '100vh';
+    doc.body.appendChild(iframe);
+
+    window.location.replace('https://www.google.com');
+}
+
+// --- Load Saved Data ---
+function loadSavedData() {
+    renderDots();
+    updatePaginationUI();
+    initSpeechBubbles();
+
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    }
+
+    const savedTitle = localStorage.getItem('cloakTitle');
+    const savedIcon = localStorage.getItem('cloakIcon');
+    if (savedTitle) {
+        document.getElementById('cloak-title').value = savedTitle;
+        setTabIdentity(savedTitle, savedIcon || '');
+    }
+    if (savedIcon) {
+        document.getElementById('cloak-icon').value = savedIcon;
+    }
+
+    const savedPanicKey = localStorage.getItem('panicKey');
+    const savedPanicUrl = localStorage.getItem('panicUrl');
+    if (savedPanicKey) {
+        panicKeySetting = savedPanicKey;
+        document.getElementById('panic-key').value = savedPanicKey;
+    }
+    if (savedPanicUrl) {
+        panicUrlSetting = savedPanicUrl;
+        document.getElementById('panic-url').value = savedPanicUrl;
+    }
+
+    const savedAutoBlur = localStorage.getItem('autoBlurCloak') === 'true';
+    isAutoBlurActive = savedAutoBlur;
+    document.getElementById('auto-blur-cloak').checked = savedAutoBlur;
+}
+
+loadSavedData();
