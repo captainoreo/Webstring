@@ -39,9 +39,6 @@ for (const [key, theme] of Object.entries(themes)) {
     themeListContainer.appendChild(row);
 }
 
-// Select default theme radio visually
-document.getElementById('theme-default').checked = true;
-
 // --- Apply Legacy Theme Logic ---
 function setLegacyTheme(themeName) {
     const t = themes[themeName];
@@ -65,6 +62,9 @@ function setLegacyTheme(themeName) {
         mascot.style.display = 'none';
         mascot.src = '';
     }
+
+    // Save the selected theme to local storage
+    localStorage.setItem('webstring_98_theme', themeName);
 }
 
 // --- Taskbar Clock ---
@@ -148,6 +148,17 @@ makeDraggable('gamesWindow', 'gamesWindowHeader');
 makeDraggable('themesWindow', 'themesWindowHeader');
 makeDraggable('gamePlayerWindow', 'gamePlayerWindowHeader');
 
-// Set initial configuration
+// --- Initialization ---
 openWindow('gamesWindow');
-setLegacyTheme('default');
+
+// Load saved theme or fallback to default
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('webstring_98_theme') || 'default';
+    setLegacyTheme(savedTheme);
+    
+    // Check the radio button corresponding to the saved theme visually
+    const themeRadio = document.getElementById(`theme-${savedTheme}`);
+    if (themeRadio) {
+        themeRadio.checked = true;
+    }
+});
