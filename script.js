@@ -52,7 +52,7 @@ function initSpeechBubbles() {
                 bubble.textContent = title;
                 ch.appendChild(bubble);
 
-                // Custom glitch feature specifically for Time Fcuk[cite: 7]
+                // Custom glitch feature specifically for Time Fcuk
                 if (title === 'TIME FCUK') {
                     setInterval(() => {
                         const chars = ['F', 'C', 'U', 'K'];
@@ -312,6 +312,51 @@ document.addEventListener('click', function (e) {
     }
 });
 
+// --- Special Effects Handler ---
+function handleThemeEffects(effectType) {
+    const existingContainer = document.getElementById('theme-effects-container');
+    if (existingContainer) existingContainer.remove();
+
+    if (!effectType) return;
+
+    const container = document.createElement('div');
+    container.id = 'theme-effects-container';
+    container.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 5;';
+    document.querySelector('.screen').appendChild(container);
+
+    if (effectType === 'christmas') {
+        for (let i = 0; i < 40; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.style.cssText = `
+                position: absolute;
+                top: -20px;
+                left: ${Math.random() * 100}%;
+                color: rgba(255, 255, 255, ${Math.random() * 0.7 + 0.3});
+                font-size: ${Math.random() * 12 + 10}px;
+                animation: fallSnow ${Math.random() * 3 + 2}s linear infinite;
+                animation-delay: ${Math.random() * 5}s;
+            `;
+            container.appendChild(snowflake);
+        }
+    } else if (effectType === 'halloween') {
+        const symbols = ['🦇', '👻', '🎃', '✨'];
+        for (let i = 0; i < 20; i++) {
+            const spooky = document.createElement('div');
+            spooky.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            spooky.style.cssText = `
+                position: absolute;
+                top: ${Math.random() * 100}%;
+                left: -20px;
+                font-size: ${Math.random() * 16 + 12}px;
+                animation: floatSpooky ${Math.random() * 6 + 4}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 5}s;
+            `;
+            container.appendChild(spooky);
+        }
+    }
+}
+
 // --- Theme Database ---
 const themes = {
     'default': { bg: '#e8e8e8', channel: '#f0f0f0', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false },
@@ -327,18 +372,22 @@ const themes = {
     'allred': { bg: '#7f1d1d', channel: '#991b1b', accent: '#f87171', barBg: '#881337', barGrad: 'linear-gradient(to bottom, #881337, #450a0a)', dark: true },
     'allblue': { bg: '#0c4a6e', channel: '#075985', accent: '#38bdf8', barBg: '#0369a1', barGrad: 'linear-gradient(to bottom, #0369a1, #082f49)', dark: true },
     
-    // Vocaloid Mascots[cite: 1, 7]
+    // Seasonal Special Effects Themes
+    'halloween': { bg: '#0c0513', channel: '#1f102e', accent: '#ff7518', barBg: '#150a21', barGrad: 'linear-gradient(to bottom, #150a21, #08030d)', dark: true, effect: 'halloween' },
+    'christmas': { bg: '#0f172a', channel: '#1e293b', accent: '#ef4444', barBg: '#1e293b', barGrad: 'linear-gradient(to bottom, #1e293b, #0f172a)', dark: true, effect: 'christmas' },
+
+    // Vocaloid Mascots[cite: 1]
     'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0155.png' },
     'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
     'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
     'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
     
-    // Anime Mascots (Linked to IMG_0521.webp, IMG_0522.webp, and IMG_0523.webp)[cite: 1, 7, 9]
+    // Anime Mascots (Linked to IMG_0521.webp, IMG_0522.webp, and IMG_0523.webp)[cite: 1]
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
     
-    // Custom Background Themes[cite: 1, 7]
+    // Custom Background Themes[cite: 1]
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
     'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
     'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
@@ -365,6 +414,9 @@ function setTheme(themeName) {
             screen.style.backgroundPosition = 'initial';
         }
     }
+
+    // Trigger dynamic special effects animation handler
+    handleThemeEffects(t.effect);
 
     // Shared Mascot Handler Logic
     const mascot = document.getElementById('vocaloid-mascot');
