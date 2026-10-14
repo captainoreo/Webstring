@@ -70,7 +70,7 @@ function initSpeechBubbles() {
 
 // --- Page Logic (4x3 Grid - 8 Pages Total) ---
 let currentPage = 0;
-const totalPages = 8;
+const totalPages = 9;
 
 function renderDots() {
     const dotsContainer = document.getElementById('page-dots');
