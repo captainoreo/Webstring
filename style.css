@@ -370,10 +370,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 480px;
+    width: 520px;
     max-width: 90%; 
     max-height: 85vh; 
-    overflow-y: auto; 
+    overflow-y: hidden; 
     background: linear-gradient(to bottom, #ffffff, #e6e6e6);
     padding: 25px;
     border-radius: 15px;
@@ -381,16 +381,43 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     z-index: 100;
     text-align: center;
+    flex-direction: column;
 }
 
 .theme-menu.active {
-    display: block;
+    display: flex;
 }
 
-.theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; }
+.theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; flex-shrink: 0; }
 .theme-menu h4 { color: #666; margin: 12px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; text-align: left; }
 
-.menu-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 10px; }
+/* Categorized Menu Wrapper */
+.theme-categories {
+    overflow-y: auto;
+    max-height: 55vh;
+    padding-right: 8px;
+    margin-bottom: 10px;
+}
+
+.theme-category {
+    margin-bottom: 15px;
+}
+
+.theme-category h4 {
+    margin: 8px 0 6px 0;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    padding-bottom: 4px;
+    text-align: left;
+}
+
+.menu-options { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
+    gap: 8px; 
+}
+
 .theme-menu button, .theme-menu select, .theme-menu input { 
     padding: 8px 12px; 
     border: 1px solid #ccc; 
@@ -400,9 +427,10 @@ body {
     font-weight: bold; 
     transition: all 0.2s; 
 }
+
 .theme-menu button:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-.close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 15px; font-size: 1.1rem; }
+.close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; flex-shrink: 0; }
 
 /* Form Inputs in Menu */
 .cloak-form-group {
@@ -599,6 +627,11 @@ body.theme-dark .player-btn.close-btn-player {
 body.theme-dark .player-btn.close-btn-player:hover {
     background: #ff6b6b;
     color: #fff;
+}
+
+/* Dark Mode Modal Category Styles */
+body.theme-dark .theme-category h4 {
+    border-bottom-color: rgba(255, 255, 255, 0.2);
 }
 
 /* --- Theme Classes --- */
