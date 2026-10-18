@@ -1,133 +1,137 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | RimWorld by Ludeon Studios</title>
- <base
-      href="https://cdn.jsdelivr.net/gh/SomeRandomFella/portsandrips/rimworld/"
-    />
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css?v=unity-intro-v9">
-    <link rel="manifest" href="manifest.webmanifest">
-  </head>
-  <body>
-    <div id="unity-container">
-      <canvas id="unity-canvas" width=1300 height=900 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-    </div>
-    <script src="chunk-loader.js?v=parts-v1"></script>
-    <script>
-      var consoleRepeats = Object.create(null);
-      ["error", "warn"].forEach(function (level) {
-        var original = console[level].bind(console);
-        console[level] = function () {
-          var message = arguments.length ? String(arguments[0]) : "";
-          if (message.indexOf("WebGL: INVALID_ENUM: getInternalformatParameter") !== -1) return;
-          var key = level + ":" + message;
-          var count = (consoleRepeats[key] || 0) + 1;
-          consoleRepeats[key] = count;
-          if (count > 3) return;
-          var args = Array.prototype.slice.call(arguments);
-          setTimeout(function () { original.apply(console, args); }, 0);
-        };
-      });
+<head>
+  <base href="https://cdn.jsdelivr.net/gh/NotRexed/Unblocked-Games@latest/diceamillion/">
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Dice a Million</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #canvas { position: fixed; top: 0; left: 0; transform-origin: top left; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
-      window.addEventListener("load", function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
-        }
-      });
+  <script>
+  const canvas = document.getElementById('canvas');
 
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var warningBanner = document.querySelector("#unity-warning");
+  const origSetProperty = canvas.style.setProperty.bind(canvas.style);
+  canvas.style.setProperty = function(prop, val, priority) {
+    if (prop === 'width' || prop === 'height') return;
+    return origSetProperty(prop, val, priority);
+  };
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
-        }
-        var div = document.createElement('div');
-        div.textContent = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') {
-          div.style = 'background: red; padding: 10px;';
-        }
-        else {
-          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
-        }
-        updateBannerVisibility();
-      }
+  ['width', 'height'].forEach(prop => {
+    Object.defineProperty(canvas.style, prop, {
+      set: function() {},
+      get: function() { return ''; },
+      configurable: true
+    });
+  });
 
-      var buildUrl = "Build";
-      var buildRevision = "webgl-parts-980c1d308e2c";
-      var loaderUrl = buildUrl + "/RimWebWorld.loader.js?v=" + buildRevision;
-      var config = {
-        dataUrl: buildUrl + "/RimWebWorld.data?v=" + buildRevision,
-        frameworkUrl: buildUrl + "/RimWebWorld.framework.js?v=" + buildRevision,
-        codeUrl: buildUrl + "/RimWebWorld.wasm?v=" + buildRevision,
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Ludeon Studios",
-        productName: "RimWorld by Ludeon Studios",
-        productVersion: "1.6",
-        showBanner: unityShowBanner,
-        // Avoid multiplying GPU work by four on a 2x-DPI screen.
-        devicePixelRatio: 1,
-      };
+  function scaleCanvas() {
+    const cw = canvas.width;
+    const ch = canvas.height;
+    if (!cw || !ch) return;
+    const scaleX = window.innerWidth / cw;
+    const scaleY = window.innerHeight / ch;
+    canvas.style.transform = `scale(${scaleX}, ${scaleY})`;
+  }
 
-      // By default Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
+  new MutationObserver(scaleCanvas).observe(canvas, { attributes: true, attributeFilter: ['width', 'height'] });
+  window.addEventListener('resize', scaleCanvas);
+  setInterval(scaleCanvas, 200);
+  </script>
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
-
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        installUnityChunkLoader().then(() => createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        })).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          canvas.focus({ preventScroll: true });
-        }).catch((message) => {
-          loadingBar.style.display = "none";
-          unityShowBanner(String(message), "error");
+  <script>
+  const _open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function(method, url, ...args) {
+    if (typeof url === 'string' && url.includes('mus.dat')) {
+      const xhr = this;
+      const BASE = 'https://cdn.jsdelivr.net/gh/NotRexed/Unblocked-Games@latest/diceamillion/';
+      this.send = function() {
+        Promise.all([
+          fetch(BASE + 'mus.dat.part1').then(r => r.arrayBuffer()),
+          fetch(BASE + 'mus.dat.part2').then(r => r.arrayBuffer()),
+          fetch(BASE + 'mus.dat.part3').then(r => r.arrayBuffer()),
+        ]).then(([p1, p2, p3]) => {
+          const combined = new Uint8Array(p1.byteLength + p2.byteLength + p3.byteLength);
+          combined.set(new Uint8Array(p1), 0);
+          combined.set(new Uint8Array(p2), p1.byteLength);
+          combined.set(new Uint8Array(p3), p1.byteLength + p2.byteLength);
+          Object.defineProperty(xhr, 'response', { value: combined.buffer });
+          Object.defineProperty(xhr, 'status', { value: 200 });
+          Object.defineProperty(xhr, 'readyState', { value: 4 });
+          if (xhr.onload) xhr.onload();
         });
       };
-      script.onerror = function () {
-        loadingBar.style.display = "none";
-        unityShowBanner("Could not load the game. Please refresh to try again.", "error");
-      };
-      document.body.appendChild(script);
-    </script>
-  </body>
+      return _open.call(this, method, url, ...args);
+    }
+    return _open.call(this, method, url, ...args);
+  };
+  </script>
+
+  <script>
+  function manifestFiles() {
+    return ["runner.data","runner.js","runner.wasm","audio-worklet.js","game.unx","mus.dat","snd.dat","resources/eb.mp4"].join(";");
+  }
+  function manifestFilesMD5() {
+    return ["f72bbdcbdcd1d3841ceaa4a4e25311a5","b7692ef32b6fab43c77fb58735db6034","75dbb242c2e3c7a074418a2ed001b1fa","e8f1e8db8cf996f8715a6f2164c2e44e","fc7cc2bc1c5fa5c557eb1734440275a1","48d4f0d2c6d41ff77166028cf5cd0447","0e648dc17529bd2dcd011b106c3af2e4","df927c8b5ff0d54d9460330091b5b0ba"];
+  }
+  function onFirstFrameRendered() {}
+  var g_pWadLoadCallback = undefined;
+  function setWadLoadCallback(cb) { g_pWadLoadCallback = cb; if (cb) cb(); }
+  var g_pAddAsyncMethod = -1;
+  function setAddAsyncMethod(m) { g_pAddAsyncMethod = m; }
+  var g_pJSExceptionHandler = undefined;
+  function setJSExceptionHandler(h) { g_pJSExceptionHandler = h; }
+  function hasJSExceptionHandler() { return typeof g_pJSExceptionHandler === 'function'; }
+  function doJSExceptionHandler(j) { if (hasJSExceptionHandler()) g_pJSExceptionHandler(JSON.parse(j)); }
+  </script>
+
+  <script>
+  var Module = {
+    preRun: [],
+    postRun: [],
+    print: function(text) { console.log(text); },
+    printErr: function(text) { console.error(text); },
+    canvas: document.getElementById('canvas'),
+    setStatus: function(text) { console.log('Status:', text); },
+    totalDependencies: 0,
+    monitorRunDependencies: function(left) {
+      this.totalDependencies = Math.max(this.totalDependencies, left);
+    },
+    audioContext: (function() {
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        return new AC();
+      } catch(e) { return null; }
+    })(),
+  };
+  document.addEventListener('click', function() {
+    if (Module.audioContext && Module.audioContext.state === 'suspended') {
+      Module.audioContext.resume();
+    }
+  }, { once: true });
+  </script>
+
+  <script>
+  (async function() {
+    const BASE = 'https://cdn.jsdelivr.net/gh/NotRexed/Unblocked-Games@latest/diceamillion/';
+    const res = await fetch(BASE + 'runner.js');
+    let text = await res.text();
+    text = text.replace(/new Worker\(["']([^"']+)["']\)/g, (match, url) => {
+      if (!url.startsWith('http')) return `new Worker("${BASE}${url}")`;
+      return match;
+    });
+    const blob = new Blob([text], { type: 'application/javascript' });
+    const script = document.createElement('script');
+    script.src = URL.createObjectURL(blob);
+    document.body.appendChild(script);
+  })();
+  </script>
+</body>
 </html>
