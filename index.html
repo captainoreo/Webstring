@@ -164,36 +164,71 @@
             <div class="search-results-grid" id="search-results-grid" style="display: none;"></div>
         </div>
 
-        <!-- Theme Menu -->
+        <!-- Categorized Theme Menu -->
         <div id="theme-menu" class="theme-menu">
             <h3>Customization</h3>
-            <h4>Preset Themes</h4>
-            <div class="menu-options">
-                <button onclick="setTheme('default')">Classic Wii</button>
-                <button onclick="setTheme('dark')">Dark Mode</button>
-                <button onclick="setTheme('neon')">Neon Cyber</button>
-                <button onclick="setTheme('sage')">Sage Matcha</button>
-                <button onclick="setTheme('sunset')">Sunset Glow</button>
-                <button onclick="setTheme('ocean')">Ocean Breeze</button>
-                <button onclick="setTheme('midnight')">Midnight Gold</button>
-                <button onclick="setTheme('berry')">Berry Pink</button>
-                <button onclick="setTheme('evil')">Evil</button>
-                <button onclick="setTheme('kind')">Kind</button>
-                <button onclick="setTheme('allred')">ALL RED</button>
-                <button onclick="setTheme('allblue')">ALL Blue</button>
-                <button onclick="setTheme('halloween')">🎃 Halloween</button>
-                <button onclick="setTheme('christmas')">🎄 Christmas</button>
-                <button onclick="setTheme('miku')">Hatsune Miku</button>
-                <button onclick="setTheme('teto')">Kasane Teto</button>
-                <button onclick="setTheme('rin')">Kagamine Rin</button>
-                <button onclick="setTheme('gumi')">Gumi</button>
-                <button onclick="setTheme('bleach')">Bleach</button>
-                <button onclick="setTheme('blue exorcist')">Blue Exorcist</button>
-                <button onclick="setTheme('assassination classroom')">Assassination Classroom</button>
-                <button onclick="setTheme('img0121')">Nanami Madobe</button>
-                <button onclick="setTheme('img0122')">Dylan</button>
-                <button onclick="setTheme('jakejunior')">Jake Junior</button>
+
+            <div class="theme-categories">
+                <!-- Standard & Color Themes -->
+                <div class="theme-category">
+                    <h4>Standard & Color Themes</h4>
+                    <div class="menu-options">
+                        <button onclick="setTheme('default')">Classic Wii</button>
+                        <button onclick="setTheme('dark')">Dark Mode</button>
+                        <button onclick="setTheme('neon')">Neon Cyber</button>
+                        <button onclick="setTheme('sage')">Sage Matcha</button>
+                        <button onclick="setTheme('sunset')">Sunset Glow</button>
+                        <button onclick="setTheme('ocean')">Ocean Breeze</button>
+                        <button onclick="setTheme('midnight')">Midnight Gold</button>
+                        <button onclick="setTheme('berry')">Berry Pink</button>
+                        <button onclick="setTheme('evil')">Evil</button>
+                        <button onclick="setTheme('kind')">Kind</button>
+                        <button onclick="setTheme('allred')">ALL RED</button>
+                        <button onclick="setTheme('allblue')">ALL Blue</button>
+                    </div>
+                </div>
+
+                <!-- Seasonal Special Effects Themes -->
+                <div class="theme-category">
+                    <h4>Seasonal & Special Effects</h4>
+                    <div class="menu-options">
+                        <button onclick="setTheme('halloween')">🎃 Halloween</button>
+                        <button onclick="setTheme('christmas')">🎄 Christmas</button>
+                    </div>
+                </div>
+
+                <!-- Vocaloid Mascots -->
+                <div class="theme-category">
+                    <h4>Vocaloid Themes</h4>
+                    <div class="menu-options">
+                        <button onclick="setTheme('miku')">Hatsune Miku</button>
+                        <button onclick="setTheme('teto')">Kasane Teto</button>
+                        <button onclick="setTheme('rin')">Kagamine Rin</button>
+                        <button onclick="setTheme('gumi')">Gumi</button>
+                    </div>
+                </div>
+
+                <!-- Anime Mascots -->
+                <div class="theme-category">
+                    <h4>Anime Themes</h4>
+                    <div class="menu-options">
+                        <button onclick="setTheme('bleach')">Bleach</button>
+                        <button onclick="setTheme('blue exorcist')">Blue Exorcist</button>
+                        <button onclick="setTheme('assassination classroom')">Assassination Classroom</button>
+                    </div>
+                </div>
+
+                <!-- Custom Background Themes -->
+                <div class="theme-category">
+                    <h4>Custom & Easter Egg Themes</h4>
+                    <div class="menu-options">
+                        <button onclick="setTheme('img0121')">Nanami Madobe</button>
+                        <button onclick="setTheme('img0122')">Dylan</button>
+                        <button onclick="setTheme('jakejunior')">Jake Junior</button>
+                    </div>
+                </div>
             </div>
+
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
