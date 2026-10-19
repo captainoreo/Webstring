@@ -389,27 +389,78 @@ body {
 }
 
 .theme-menu h3 { color: #333; margin-bottom: 15px; font-size: 1.5rem; flex-shrink: 0; }
-.theme-menu h4 { color: #666; margin: 12px 0 8px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; text-align: left; }
 
 /* Categorized Menu Wrapper */
-.theme-categories {
+.theme-categories, .settings-sections {
     overflow-y: auto;
-    max-height: 55vh;
+    max-height: 58vh;
     padding-right: 8px;
     margin-bottom: 10px;
 }
 
-.theme-category {
-    margin-bottom: 15px;
+.theme-category, .settings-category {
+    margin-bottom: 18px;
 }
 
-.theme-category h4 {
-    margin: 8px 0 6px 0;
+.theme-category h4, .settings-category h4 {
+    margin: 8px 0 8px 0;
     font-size: 0.95rem;
     color: var(--accent-color);
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding-bottom: 4px;
     text-align: left;
+}
+
+/* Settings Menu Specific Components */
+.setting-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.setting-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.cloak-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--accent-color);
+    background: var(--accent-color);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.15s, background-color 0.15s;
+}
+
+.action-btn:hover {
+    transform: scale(1.02);
+    filter: brightness(1.05);
+}
+
+.action-btn.launch-btn {
+    background: #3b82f6;
+    border-color: #2563eb;
+    margin-top: 6px;
+}
+
+.action-btn.credits-btn {
+    background: #10b981;
+    border-color: #059669;
 }
 
 .menu-options { 
@@ -432,23 +483,6 @@ body {
 
 .close-btn { background: #ff6b6b !important; color: white !important; border-color: #ee5252 !important; width: 100%; margin-top: 10px; font-size: 1.1rem; flex-shrink: 0; }
 
-/* Form Inputs in Menu */
-.cloak-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
-    text-align: left;
-    font-size: 0.85rem;
-    color: #444;
-}
-
-.cloak-form-group input, .cloak-form-group select {
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 0.85rem;
-}
-
 .cloak-checkbox-group {
     display: flex;
     align-items: center;
@@ -457,7 +491,6 @@ body {
     padding: 8px 12px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    margin-bottom: 8px;
     font-size: 0.85rem;
     color: #333;
 }
@@ -630,8 +663,15 @@ body.theme-dark .player-btn.close-btn-player:hover {
 }
 
 /* Dark Mode Modal Category Styles */
-body.theme-dark .theme-category h4 {
+body.theme-dark .theme-category h4, body.theme-dark .settings-category h4 {
     border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+body.theme-dark .setting-card {
+    background: rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+body.theme-dark .setting-label {
+    color: #bbb;
 }
 
 /* --- Theme Classes --- */
