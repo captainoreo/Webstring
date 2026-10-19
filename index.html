@@ -232,54 +232,77 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
-        <!-- Expanded Settings & Advanced Tab Cloaking Menu -->
+        <!-- Categorized Settings & Advanced Tab Cloaking Menu -->
         <div id="settings-menu" class="theme-menu">
             <h3>⚙ Settings & Privacy</h3>
             
-            <h4>🎭 Quick Cloak Presets</h4>
-            <div class="cloak-form-group">
-                <select id="cloak-presets" onchange="applyPresetCloak(this.value)">
-                    <option value="">Select a Preset...</option>
-                    <option value="drive">Google Drive</option>
-                    <option value="classroom">Google Classroom</option>
-                    <option value="docs">Google Docs</option>
-                    <option value="canvas">Canvas LMS</option>
-                    <option value="wikipedia">Wikipedia</option>
-                    <option value="desmos">Desmos Graphing Calculator</option>
-                    <option value="clever">Clever Portal</option>
-                    <option value="reset">Reset to Default</option>
-                </select>
+            <div class="settings-sections">
+                <!-- Tab Cloaking Category -->
+                <div class="settings-category">
+                    <h4>🎭 Tab Cloaking & Disguise</h4>
+                    
+                    <div class="setting-card">
+                        <label for="cloak-presets" class="setting-label">Quick Presets</label>
+                        <select id="cloak-presets" onchange="applyPresetCloak(this.value)">
+                            <option value="">Select a Preset...</option>
+                            <option value="drive">Google Drive</option>
+                            <option value="classroom">Google Classroom</option>
+                            <option value="docs">Google Docs</option>
+                            <option value="canvas">Canvas LMS</option>
+                            <option value="wikipedia">Wikipedia</option>
+                            <option value="desmos">Desmos Graphing Calculator</option>
+                            <option value="clever">Clever Portal</option>
+                            <option value="reset">Reset to Default</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-card">
+                        <label class="setting-label">Custom Tab Identity</label>
+                        <div class="cloak-form-group">
+                            <input type="text" id="cloak-title" placeholder="Tab Title (e.g. My Drive)">
+                            <input type="text" id="cloak-icon" placeholder="Favicon Image URL">
+                            <button onclick="applyCustomCloak()" class="action-btn">Apply Custom Cloak</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency & Security Category -->
+                <div class="settings-category">
+                    <h4>🚨 Emergency & Panic Options</h4>
+                    <div class="setting-card">
+                        <div class="cloak-form-group">
+                            <input type="text" id="panic-key" placeholder="Panic Key (e.g. ` or Escape)" maxlength="10">
+                            <input type="text" id="panic-url" placeholder="Redirect URL (e.g. https://google.com)">
+                            <button onclick="savePanicSettings()" class="action-btn">Save Panic Settings</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stealth & Advanced Category -->
+                <div class="settings-category">
+                    <h4>🛡️ Stealth & Launch Options</h4>
+                    <div class="setting-card">
+                        <div class="cloak-checkbox-group">
+                            <label for="auto-blur-cloak">Auto-Cloak on Tab Unfocus</label>
+                            <input type="checkbox" id="auto-blur-cloak" onchange="toggleAutoBlurCloak(this.checked)">
+                        </div>
+                        <button onclick="openAboutBlank()" class="action-btn launch-btn">
+                            🚀 Open Page in about:blank
+                        </button>
+                    </div>
+                </div>
+
+                <!-- About & Credits Category -->
+                <div class="settings-category">
+                    <h4>📜 About & Info</h4>
+                    <div class="setting-card">
+                        <button onclick="toggleCreditsModal()" class="action-btn credits-btn">
+                            📜 View Credits & Acknowledgments
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <h4>✏️ Custom Cloak</h4>
-            <div class="cloak-form-group">
-                <input type="text" id="cloak-title" placeholder="Tab Title (e.g. My Drive)">
-                <input type="text" id="cloak-icon" placeholder="Favicon Image URL">
-                <button onclick="applyCustomCloak()" style="width: 100%;">Apply Custom Cloak</button>
-            </div>
-
-            <h4>🚨 Panic Key & Redirect</h4>
-            <div class="cloak-form-group">
-                <input type="text" id="panic-key" placeholder="Panic Key (e.g. ` or Escape)" maxlength="10">
-                <input type="text" id="panic-url" placeholder="Panic Redirect URL (e.g. https://google.com)">
-                <button onclick="savePanicSettings()" style="width: 100%;">Save Panic Options</button>
-            </div>
-
-            <h4>🛡️ Advanced Cloaking Options</h4>
-            <div class="cloak-checkbox-group">
-                <label for="auto-blur-cloak">Auto-Cloak on Tab Unfocus</label>
-                <input type="checkbox" id="auto-blur-cloak" onchange="toggleAutoBlurCloak(this.checked)">
-            </div>
-
-            <button onclick="openAboutBlank()" style="width: 100%; margin-top: 5px; background: #3b82f6; color: white; border-color: #2563eb;">
-                🚀 Open Page in about:blank
-            </button>
-
-            <h4>📜 About & Credits</h4>
-            <button onclick="toggleCreditsModal()" style="width: 100%; margin-top: 5px; background: #10b981; color: white; border-color: #059669;">
-                📜 View Credits
-            </button>
-            
             <button class="close-btn" onclick="toggleSettingsMenu()">Close</button>
         </div>
 
@@ -291,14 +314,14 @@
                 <p style="margin-bottom: 8px;">The lebron james of game site</p>
                 
                 <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎨 UI & Design</h4>
-                <p style="margin-bottom: 5px;">• Inspired by Nintendo Wii System Menu & Channel UI</p>
-                <p style="margin-bottom: 5px;">• Custom themes featuring Vocaloid & anime mascots</p>
+                <p style="margin-bottom: 5px;">• Inspired by Nintendo Wii System Menu & Channel UI[cite: 1, 2]</p>
+                <p style="margin-bottom: 5px;">• Custom themes featuring Vocaloid & anime mascots[cite: 1, 2]</p>
 
                 <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">🎮 Games & Media</h4>
                 <p style="margin-bottom: 5px;">• All game titles, assets, and images belong to their respective original creators and developers.</p>
 
                 <h4 style="margin: 10px 0 5px 0; border-bottom: 1px solid #ccc; padding-bottom: 3px;">💖 Special Thanks</h4>
-                <p style="margin-bottom: 5px;">• Thanks to Josh who was the only contributor for this site</p>
+                <p style="margin-bottom: 5px;">• Thanks to Josh who was the only contributor for this site[cite: 2]</p>
             </div>
             <button class="close-btn" onclick="toggleCreditsModal()">Close</button>
         </div>
