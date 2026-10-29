@@ -326,6 +326,18 @@
             <button class="close-btn" onclick="toggleCreditsModal()">Close</button>
         </div>
 
+        <!-- Music Player Modal -->
+        <div id="music-menu" class="theme-menu">
+            <h3>🎵 Music Player</h3>
+            <div style="padding: 15px; text-align: center;">
+                <audio id="bg-music" controls loop style="width: 100%;">
+                    <source src="/assets/music.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
+        </div>
+
         <!-- Recommendation Modal -->
         <div id="recommendation-modal" class="theme-menu">
             <h3>🎲 Game Recommendation</h3>
@@ -352,7 +364,10 @@
         <!-- Wii Bottom Bar -->
         <div class="bottom-bar">
             <div class="footer-content">
-                <div class="round-btn" onclick="toggleThemeMenu()" title="Themes">🎨</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <div class="round-btn" onclick="toggleThemeMenu()" title="Themes">🎨</div>
+                    <div class="round-btn" onclick="toggleMusicMenu()" title="Music Player" style="width: 36px; height: 36px; font-size: 1rem; display: flex; align-items: center; justify-content: center;">🎵</div>
+                </div>
                 
                 <div class="time-date">
                     <div class="page-dots" id="page-dots"></div>
