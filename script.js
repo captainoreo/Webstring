@@ -389,11 +389,11 @@ const themes = {
     'halloween': { bg: '#0c0513', channel: '#1f102e', accent: '#ff7518', barBg: '#150a21', barGrad: 'linear-gradient(to bottom, #150a21, #08030d)', dark: true, effect: 'halloween' },
     'christmas': { bg: '#0f172a', channel: '#1e293b', accent: '#ef4444', barBg: '#1e293b', barGrad: 'linear-gradient(to bottom, #1e293b, #0f172a)', dark: true, effect: 'christmas' },
 
-    // Vocaloid Mascots[cite: 1]
-    'miku': { bg: '#e0f7f6', channel: '#ffffff', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: false, mascotImg: '/assets/IMG_0155.png' },
-    'teto': { bg: '#fde8ee', channel: '#ffffff', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: false, mascotImg: '/assets/IMG_0156.png' },
-    'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
-    'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
+    // Vocaloid Mascots (with Custom Wallpapers)[cite: 3]
+    'miku': { bg: '#1a1a24', bgImg: '/assets/IMG_0697.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: true, mascotImg: '/assets/IMG_0155.png' },
+    'teto': { bg: '#1a1a24', bgImg: '/assets/IMG_0698.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: true, mascotImg: '/assets/IMG_0156.png' },
+    'rin':  { bg: '#1a1a24', bgImg: '/assets/IMG_0699.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: true, mascotImg: '/assets/IMG_0154.png' },
+    'gumi': { bg: '#1a1a24', bgImg: '/assets/IMG_0700.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: true, mascotImg: '/assets/IMG_0158.webp' },
     
     // Anime Mascots[cite: 1]
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
