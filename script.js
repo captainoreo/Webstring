@@ -197,6 +197,7 @@ function recommendGame() {
     document.getElementById('theme-menu').classList.remove('active');
     document.getElementById('settings-menu').classList.remove('active');
     document.getElementById('credits-modal').classList.remove('active');
+    document.getElementById('music-menu').classList.remove('active');
 }
 
 function toggleRecommendationModal() {
@@ -209,6 +210,7 @@ function toggleThemeMenu() {
     document.getElementById('settings-menu').classList.remove('active');
     document.getElementById('recommendation-modal').classList.remove('active');
     document.getElementById('credits-modal').classList.remove('active');
+    document.getElementById('music-menu').classList.remove('active');
 }
 
 function toggleSettingsMenu() {
@@ -217,6 +219,7 @@ function toggleSettingsMenu() {
     document.getElementById('theme-menu').classList.remove('active');
     document.getElementById('recommendation-modal').classList.remove('active');
     document.getElementById('credits-modal').classList.remove('active');
+    document.getElementById('music-menu').classList.remove('active');
 }
 
 function toggleCreditsModal() {
@@ -225,6 +228,16 @@ function toggleCreditsModal() {
     document.getElementById('theme-menu').classList.remove('active');
     document.getElementById('settings-menu').classList.remove('active');
     document.getElementById('recommendation-modal').classList.remove('active');
+    document.getElementById('music-menu').classList.remove('active');
+}
+
+function toggleMusicMenu() {
+    const menu = document.getElementById('music-menu');
+    menu.classList.toggle('active');
+    document.getElementById('theme-menu').classList.remove('active');
+    document.getElementById('settings-menu').classList.remove('active');
+    document.getElementById('recommendation-modal').classList.remove('active');
+    document.getElementById('credits-modal').classList.remove('active');
 }
 
 // --- Game Player Functions ---
@@ -382,7 +395,7 @@ const themes = {
     'rin':  { bg: '#fffbe6', channel: '#ffffff', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: false, mascotImg: '/assets/IMG_0154.png' },
     'gumi': { bg: '#f0f0f4', channel: '#ffffff', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: false, mascotImg: '/assets/IMG_0158.webp' },
     
-    // Anime Mascots (Linked to IMG_0521.webp, IMG_0522.webp, and IMG_0523.webp)[cite: 1]
+    // Anime Mascots[cite: 1]
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
