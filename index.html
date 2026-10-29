@@ -330,11 +330,23 @@
         <!-- Music Player Modal -->
         <div id="music-menu" class="theme-menu">
             <h3>🎵 Music Player</h3>
-            <div style="padding: 15px; text-align: center;">
-                <audio id="bg-music" controls loop style="width: 100%;">
-                    <source src="/assets/music.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+            <div class="music-player-container" style="padding: 10px; text-align: center;">
+                <!-- Now Playing Album Cover & Info -->
+                <div class="now-playing-display" style="display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+                    <img id="music-album-art" src="/assets/IMG_0703.webp" alt="Album Art" style="width: 55px; height: 55px; object-fit: cover; border-radius: 6px;">
+                    <div style="text-align: left; overflow: hidden;">
+                        <div id="music-track-title" style="font-weight: bold; font-size: 0.95rem; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Select a track</div>
+                        <div id="music-track-artist" style="font-size: 0.8rem; color: #666;">Webstring Audio</div>
+                    </div>
+                </div>
+
+                <!-- Audio Element -->
+                <audio id="bg-music" style="width: 100%; margin-bottom: 10px;" controls></audio>
+
+                <!-- Playlist View -->
+                <div class="playlist-tracks" id="playlist-tracks" style="max-height: 180px; overflow-y: auto; text-align: left; border: 1px solid #ddd; border-radius: 6px; background: #fff;">
+                    <!-- Dynamically populated tracks -->
+                </div>
             </div>
             <button class="close-btn" onclick="toggleMusicMenu()">Close</button>
         </div>
