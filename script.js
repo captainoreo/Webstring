@@ -395,10 +395,11 @@ const themes = {
     'rin':  { bg: '#1a1a24', bgImg: '/assets/IMG_0699.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: true, mascotImg: '/assets/IMG_0154.png' },
     'gumi': { bg: '#1a1a24', bgImg: '/assets/IMG_0700.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: true, mascotImg: '/assets/IMG_0158.webp' },
     
-    // Anime Mascots[cite: 1]
+    // Anime & Game Mascots[cite: 1]
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
+    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp' },
     
     // Custom Background Themes[cite: 1]
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
