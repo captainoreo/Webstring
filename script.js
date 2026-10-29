@@ -240,6 +240,77 @@ function toggleMusicMenu() {
     document.getElementById('credits-modal').classList.remove('active');
 }
 
+// --- Music Player Playlist Configuration ---
+const musicPlaylist = [
+    { title: "Safe Haven", artist: "Garoad", src: "/Music/Garoad - Safe Haven.mp3", cover: "/assets/IMG_0703.webp" },
+    { title: "Beneath the Mask (Instrumental)", artist: "Lyn", src: "/Music/Beneath the Mask -instrumental version- - Lyn.mp3", cover: "/assets/IMG_0703.webp" },
+    { title: "Little Man Legends", artist: "Sleepville", src: "/Music/Sleepville - Little Man Legends.mp3", cover: "/assets/IMG_0703.webp" },
+    { title: "Camera (Album)", artist: "Nintendo DSi Music", src: "/Music/Nintendo DSi Music - Camera (Album) - GeralbD1985.mp3", cover: "/assets/IMG_0703.webp" },
+    { title: "Training Day", artist: "MTraining", src: "/Music/MTraining Day.mp3", cover: "/assets/IMG_0703.webp" },
+    { title: "On Melancholy Hill", artist: "Gorillaz", src: "/Music/On Melancholy Hill - Gorillaz.mp3", cover: "/assets/IMG_0703.webp" }
+];
+
+let currentTrackIndex = 0;
+
+function initMusicPlayer() {
+    const playlistContainer = document.getElementById('playlist-tracks');
+    const audioPlayer = document.getElementById('bg-music');
+    if (!playlistContainer || !audioPlayer) return;
+
+    playlistContainer.innerHTML = '';
+
+    musicPlaylist.forEach((track, index) => {
+        const item = document.createElement('div');
+        item.className = `playlist-item ${index === currentTrackIndex ? 'active-track' : ''}`;
+        item.style.cssText = 'padding: 8px 10px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;';
+        item.innerHTML = `<span>🎵 ${track.title}</span> <span style="font-size: 0.75rem; color: #888;">${track.artist}</span>`;
+        
+        item.onmouseover = () => item.style.background = '#f5f5f5';
+        item.onmouseout = () => item.style.background = index === currentTrackIndex ? '#e2f0d9' : '#fff';
+        
+        item.onclick = () => {
+            playTrack(index);
+        };
+        playlistContainer.appendChild(item);
+    });
+
+    if (musicPlaylist.length > 0 && !audioPlayer.src) {
+        loadTrack(0, false);
+    }
+
+    audioPlayer.onended = () => {
+        currentTrackIndex = (currentTrackIndex + 1) % musicPlaylist.length;
+        playTrack(currentTrackIndex);
+    };
+}
+
+function loadTrack(index, autoPlay = true) {
+    currentTrackIndex = index;
+    const track = musicPlaylist[index];
+    const audioPlayer = document.getElementById('bg-music');
+    const titleEl = document.getElementById('music-track-title');
+    const artistEl = document.getElementById('music-track-artist');
+    const coverEl = document.getElementById('music-album-art');
+
+    if (audioPlayer) audioPlayer.src = track.src;
+    if (titleEl) titleEl.innerText = track.title;
+    if (artistEl) artistEl.innerText = track.artist;
+    if (coverEl) coverEl.src = track.cover;
+
+    const items = document.querySelectorAll('.playlist-item');
+    items.forEach((it, idx) => {
+        it.style.background = idx === currentTrackIndex ? '#e2f0d9' : '#fff';
+    });
+
+    if (autoPlay && audioPlayer) {
+        audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
+    }
+}
+
+function playTrack(index) {
+    loadTrack(index, true);
+}
+
 // --- Game Player Functions ---
 let timeFcukPlayerInterval;
 
@@ -649,6 +720,7 @@ function loadSavedData() {
     renderDots();
     updatePaginationUI();
     initSpeechBubbles();
+    initMusicPlayer();
 
     const savedTheme = localStorage.getItem('selectedTheme');
     if (savedTheme) {
