@@ -1,6 +1,6 @@
 let isJakeJuniorActive = false;
 
-// --- Inject Custom Persona 5 Fonts Dynamically ---
+// --- Inject Custom Persona Fonts Dynamically ---
 const customFontStyles = document.createElement('style');
 customFontStyles.innerHTML = `
     @font-face {
@@ -12,19 +12,19 @@ customFontStyles.innerHTML = `
         src: url('/assets/p5hatty-1.ttf') format('truetype');
     }
 
-    /* Apply p5hatty-1.ttf to everything else when Persona 5 theme is active */
-    body.theme-persona5, 
-    body.theme-persona5 button, 
-    body.theme-persona5 input, 
-    body.theme-persona5 select,
-    body.theme-persona5 .theme-menu,
-    body.theme-persona5 .player-bar {
+    /* Apply p5hatty-1.ttf across the site when any Persona theme is active */
+    body.theme-persona5, body.theme-persona4, body.theme-persona3,
+    body.theme-persona5 button, body.theme-persona4 button, body.theme-persona3 button, 
+    body.theme-persona5 input, body.theme-persona4 input, body.theme-persona3 input, 
+    body.theme-persona5 select, body.theme-persona4 select, body.theme-persona3 select,
+    body.theme-persona5 .theme-menu, body.theme-persona4 .theme-menu, body.theme-persona3 .theme-menu,
+    body.theme-persona5 .player-bar, body.theme-persona4 .player-bar, body.theme-persona3 .player-bar {
         font-family: 'P5HattyFont', sans-serif !important;
     }
 
-    /* Specifically change only the clock font to Persona5MenuFontPrototype-Regular.ttf */
-    body.theme-persona5 .time-date .time,
-    body.theme-persona5 .time-date .date {
+    /* Specifically change only the clock font to Persona5MenuFontPrototype-Regular.ttf for Persona themes */
+    body.theme-persona5 .time-date .time, body.theme-persona4 .time-date .time, body.theme-persona3 .time-date .time,
+    body.theme-persona5 .time-date .date, body.theme-persona4 .time-date .date, body.theme-persona3 .time-date .date {
         font-family: 'Persona5Font', sans-serif !important;
     }
 `;
@@ -82,7 +82,6 @@ function initSpeechBubbles() {
                 bubble.textContent = title;
                 ch.appendChild(bubble);
 
-                // Custom glitch feature specifically for Time Fcuk
                 if (title === 'TIME FCUK') {
                     setInterval(() => {
                         const chars = ['F', 'C', 'U', 'K'];
@@ -500,7 +499,11 @@ const themes = {
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
-    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp' },
+    
+    // Persona Themes (Updated with menu styles matching the reference image)[cite: 4, 6]
+    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona5' },
+    'persona4': { bg: '#003366', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona4' },
+    'persona3': { bg: '#001a33', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona3' },
     
     // Custom Background Themes[cite: 1]
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
@@ -543,11 +546,10 @@ function setTheme(themeName) {
         mascot.src = '';
     }
 
-    // Toggle custom font classes for Persona 5 theme
-    if (themeName === 'persona5') {
-        document.body.classList.add('theme-persona5');
-    } else {
-        document.body.classList.remove('theme-persona5');
+    // Toggle custom font classes for Persona themes
+    document.body.classList.remove('theme-persona5', 'theme-persona4', 'theme-persona3');
+    if (t.themeClass) {
+        document.body.classList.add(t.themeClass);
     }
 
     if (t.dark) {
