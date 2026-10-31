@@ -1,5 +1,18 @@
 let isJakeJuniorActive = false;
 
+// --- Inject Custom Fonts Dynamically ---
+const customFontStyles = document.createElement('style');
+customFontStyles.innerHTML = `
+    @font-face {
+        font-family: 'Persona5Font';
+        src: url('/assets/Persona5MenuFontPrototype-Regular.ttf') format('truetype');
+    }
+    body.theme-persona5, body.theme-persona5 button, body.theme-persona5 input, body.theme-persona5 select {
+        font-family: 'Persona5Font', sans-serif !important;
+    }
+`;
+document.head.appendChild(customFontStyles);
+
 // --- Live Clock Functionality ---
 function updateClock() {
     if (isJakeJuniorActive) {
@@ -470,7 +483,7 @@ const themes = {
     'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
-    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp' },
+    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp', customClass: 'theme-persona5' },
     
     // Custom Background Themes[cite: 1]
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
@@ -511,6 +524,13 @@ function setTheme(themeName) {
     } else {
         mascot.style.display = 'none';
         mascot.src = '';
+    }
+
+    // Toggle custom font / classes
+    if (themeName === 'persona5') {
+        document.body.classList.add('theme-persona5');
+    } else {
+        document.body.classList.remove('theme-persona5');
     }
 
     if (t.dark) {
