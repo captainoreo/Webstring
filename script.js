@@ -502,8 +502,8 @@ const themes = {
     
     // Persona Themes (Updated with menu styles matching the reference image)[cite: 4, 6]
     'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona5' },
-    'persona4': { bg: '#003366', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona4' },
-    'persona3': { bg: '#001a33', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona3' },
+    'persona4': { bg: '#003366', bgImg: '/assets/IMG_0710.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: '/assets/IMG_0712.png', themeClass: 'theme-persona4' },
+    'persona3': { bg: '#001a33', bgImg: '/assets/IMG_0709.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: '/assets/IMG_0713.webp', themeClass: 'theme-persona3' },
     
     // Custom Background Themes[cite: 1]
     'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
