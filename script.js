@@ -97,9 +97,9 @@ function initSpeechBubbles() {
     });
 }
 
-// --- Page Logic (4x3 Grid - 8 Pages Total) ---
+// --- Page Logic (4x3 Grid - 10 Pages Total) ---
 let currentPage = 0;
-const totalPages = 9;
+const totalPages = 10;
 
 function renderDots() {
     const dotsContainer = document.getElementById('page-dots');
@@ -340,38 +340,49 @@ function playTrack(index) {
     loadTrack(index, true);
 }
 
-// --- Game Player Functions ---
+// --- Game Player Functions with WS-99 Loading Screen ---
 let timeFcukPlayerInterval;
 
 function openGamePlayer(url, title = 'Game Player') {
-    const modal = document.getElementById('player-modal');
-    const iframe = document.getElementById('game-iframe');
-    const titleEl = document.getElementById('player-title-text');
-    const screen = document.querySelector('.screen');
-
-    iframe.src = url;
-    
-    if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
-
-    if (titleEl) {
-        if (isJakeJuniorActive) {
-            titleEl.innerText = 'Jake junior';
-        } else if (title === 'TIME FCUK') {
-            timeFcukPlayerInterval = setInterval(() => {
-                const chars = ['F', 'C', 'U', 'K'];
-                let scrambledFcuk = 'FCUK'.split('').map(char => {
-                    const randomChar = chars[Math.floor(Math.random() * chars.length)];
-                    return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
-                }).join('');
-                titleEl.innerText = `🎮 TIME ${scrambledFcuk}`;
-            }, 80);
-        } else {
-            titleEl.innerText = `🎮 ${title}`;
-        }
+    const loadingOverlay = document.getElementById('wii-loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.classList.add('active');
     }
-    
-    modal.classList.add('active');
-    if (screen) screen.classList.add('iframe-active');
+
+    setTimeout(() => {
+        if (loadingOverlay) {
+            loadingOverlay.classList.remove('active');
+        }
+
+        const modal = document.getElementById('player-modal');
+        const iframe = document.getElementById('game-iframe');
+        const titleEl = document.getElementById('player-title-text');
+        const screen = document.querySelector('.screen');
+
+        iframe.src = url;
+        
+        if (timeFcukPlayerInterval) clearInterval(timeFcukPlayerInterval);
+
+        if (titleEl) {
+            if (isJakeJuniorActive) {
+                titleEl.innerText = 'Jake junior';
+            } else if (title === 'TIME FCUK') {
+                timeFcukPlayerInterval = setInterval(() => {
+                    const chars = ['F', 'C', 'U', 'K'];
+                    let scrambledFcuk = 'FCUK'.split('').map(char => {
+                        const randomChar = chars[Math.floor(Math.random() * chars.length)];
+                        return char === char.toUpperCase() ? randomChar.toUpperCase() : randomChar;
+                    }).join('');
+                    titleEl.innerText = `🎮 TIME ${scrambledFcuk}`;
+                }, 80);
+            } else {
+                titleEl.innerText = `🎮 ${title}`;
+            }
+        }
+        
+        modal.classList.add('active');
+        if (screen) screen.classList.add('iframe-active');
+    }, 800);
 }
 
 function closeGamePlayer() {
@@ -793,3 +804,119 @@ function loadSavedData() {
 }
 
 loadSavedData();
+
+// --- Save and Load Data (Backup & Restore) Functions ---
+function exportDataJSON() {
+    const backupData = {
+        selectedTheme: localStorage.getItem('selectedTheme'),
+        cloakTitle: localStorage.getItem('cloakTitle'),
+        cloakIcon: localStorage.getItem('cloakIcon'),
+        panicKey: localStorage.getItem('panicKey'),
+        panicUrl: localStorage.getItem('panicUrl'),
+        autoBlurCloak: localStorage.getItem('autoBlurCloak')
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "webstring_backup.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function importDataJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            
+            if (importedData.selectedTheme !== undefined && importedData.selectedTheme !== null) {
+                localStorage.setItem('selectedTheme', importedData.selectedTheme);
+            }
+            if (importedData.cloakTitle !== undefined && importedData.cloakTitle !== null) {
+                localStorage.setItem('cloakTitle', importedData.cloakTitle);
+            }
+            if (importedData.cloakIcon !== undefined && importedData.cloakIcon !== null) {
+                localStorage.setItem('cloakIcon', importedData.cloakIcon);
+            }
+            if (importedData.panicKey !== undefined && importedData.panicKey !== null) {
+                localStorage.setItem('panicKey', importedData.panicKey);
+            }
+            if (importedData.panicUrl !== undefined && importedData.panicUrl !== null) {
+                localStorage.setItem('panicUrl', importedData.panicUrl);
+            }
+            if (importedData.autoBlurCloak !== undefined && importedData.autoBlurCloak !== null) {
+                localStorage.setItem('autoBlurCloak', importedData.autoBlurCloak);
+            }
+
+            alert('Data successfully loaded! Applying settings...');
+            loadSavedData();
+        } catch (error) {
+            alert('Error parsing JSON file. Please make sure it is a valid Webstring backup file.');
+            console.error(error);
+        }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+
+// --- Inject WS-99 Loading Screen Styles ---
+const wiiLoadingStyles = document.createElement('style');
+wiiLoadingStyles.innerHTML = `
+    .wii-loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .wii-loading-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .wii-loading-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        gap: 15px;
+        width: 80%;
+        max-width: 700px;
+        height: 60%;
+        max-height: 400px;
+    }
+
+    .wii-loading-box {
+        background: #2a2a2a;
+        border: 3px solid #3a3a3a;
+        border-radius: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        font-size: 1.5rem;
+        font-weight: bold;
+        font-family: sans-serif;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        animation: wiiPulse 1.2s infinite alternate;
+    }
+
+    @keyframes wiiPulse {
+        0% { background: #222; color: #555; }
+        100% { background: #333; color: #777; }
+    }
+`;
+document.head.appendChild(wiiLoadingStyles);
