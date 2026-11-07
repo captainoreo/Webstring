@@ -158,6 +158,21 @@
                 <a href="/games/ROAM0120.EXE.html" class="channel"><img src="/assets/IMG_0687.png" alt="ROAM0120.EXE"></a>
                 <a href="/games/TING-WD.html" class="channel"><img src="/assets/IMG_0688.jpeg" alt="There is no game Wrong dimension"></a>
                 <a href="/games/pvzDS.html" class="channel"><img src="/assets/IMG_0730.webp" alt="PVZ DS edition"></a>
+                <a href="/games/Castle Crashers.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Castle Crashers"></a>
+            </div>
+
+            <div class="grid page" id="page-9">
+                <a href="/games/Minecraft_ Story Mode.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Minecraft Story Mode"></a>
+                <a href="/games/clpapascheeseria.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Papa's Cheeseria"></a>
+                <a href="/games/clpapassushiria.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Papa's Sushiria"></a>
+                <a href="/games/meccachameleon.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Mecca Chameleon"></a>
+                <a href="/games/Papersplease.html" class="channel"><img src="/assets/IMG_0730.webp" alt="Papers, Please"></a>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
+                <div class="channel empty"></div>
                 <div class="channel empty"></div>
             </div>
 
@@ -295,6 +310,20 @@
                     </div>
                 </div>
 
+
+                <!-- Data Backup & Restore Category -->
+                <div class="settings-category">
+                    <h4>💾 Data Backup & Restore</h4>
+                    <div class="setting-card">
+                        <p style="font-size: 0.85rem; color: #555; margin-bottom: 8px;">Export or import your saved settings and configurations as a JSON file.</p>
+                        <div class="cloak-form-group" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button onclick="exportDataJSON()" class="action-btn">📥 Download Data (JSON)</button>
+                            <label for="import-data-file" class="action-btn" style="cursor: pointer; text-align: center; display: inline-block;">📤 Load Data (JSON)</label>
+                            <input type="file" id="import-data-file" accept=".json" style="display: none;" onchange="importDataJSON(event)">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- About & Credits Category -->
                 <div class="settings-category">
                     <h4>📜 About & Info</h4>
@@ -373,6 +402,24 @@
             </div>
             <div class="player-iframe-wrapper" id="player-iframe-wrapper">
                 <iframe id="game-iframe" class="player-iframe" allow="fullscreen"></iframe>
+            </div>
+        </div>
+
+        <!-- WS-99 Channel Loading Overlay -->
+        <div id="wii-loading-overlay" class="wii-loading-overlay">
+            <div class="wii-loading-grid">
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
+                <div class="wii-loading-box">WS-99</div>
             </div>
         </div>
 
