@@ -5,11 +5,11 @@ const customFontStyles = document.createElement('style');
 customFontStyles.innerHTML = `
     @font-face {
         font-family: 'Persona5Font';
-        src: url('/assets/Persona5MenuFontPrototype-Regular.ttf') format('truetype');
+        src: url('https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/Persona5MenuFontPrototype-Regular.ttf') format('truetype');
     }
     @font-face {
         font-family: 'P5HattyFont';
-        src: url('/assets/p5hatty-1.ttf') format('truetype');
+        src: url('https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/p5hatty-1.ttf') format('truetype');
     }
 
     /* Apply p5hatty-1.ttf across the site when any Persona theme is active */
@@ -211,7 +211,7 @@ function recommendGame() {
     const randomGame = allChannels[Math.floor(Math.random() * allChannels.length)];
     const img = randomGame.querySelector('img');
     const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Random Game');
-    const imgSrc = isJakeJuniorActive ? '/assets/IMG_0430.webp' : (img ? img.src : '');
+    const imgSrc = isJakeJuniorActive ? 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0430.webp' : (img ? img.src : '');
     const href = randomGame.getAttribute('href');
 
     const card = document.getElementById('recommendation-card');
@@ -271,12 +271,12 @@ function toggleMusicMenu() {
 
 // --- Music Player Playlist Configuration ---
 const musicPlaylist = [
-    { title: "Safe Haven", artist: "Garoad", src: "/Music/Garoad - Safe Haven.mp3", cover: "/assets/IMG_0703.webp" },
-    { title: "Beneath the Mask (Instrumental)", artist: "Lyn", src: "/Music/Beneath the Mask -instrumental version- - Lyn.mp3", cover: "/assets/IMG_0703.webp" },
-    { title: "Little Man Legends", artist: "Sleepville", src: "/Music/Sleepville - Little Man Legends.mp3", cover: "/assets/IMG_0703.webp" },
-    { title: "Camera (Album)", artist: "Nintendo DSi Music", src: "/Music/Nintendo DSi Music - Camera (Album) - GeralbD1985.mp3", cover: "/assets/IMG_0703.webp" },
-    { title: "Training Day", artist: "MTraining", src: "/Music/MTraining Day.mp3", cover: "/assets/IMG_0703.webp" },
-    { title: "On Melancholy Hill", artist: "Gorillaz", src: "/Music/On Melancholy Hill - Gorillaz.mp3", cover: "/assets/IMG_0703.webp" }
+    { title: "Safe Haven", artist: "Garoad", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/Garoad - Safe Haven.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" },
+    { title: "Beneath the Mask (Instrumental)", artist: "Lyn", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/Beneath the Mask -instrumental version- - Lyn.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" },
+    { title: "Little Man Legends", artist: "Sleepville", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/Sleepville - Little Man Legends.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" },
+    { title: "Camera (Album)", artist: "Nintendo DSi Music", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/Nintendo DSi Music - Camera (Album) - GeralbD1985.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" },
+    { title: "Training Day", artist: "MTraining", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/MTraining Day.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" },
+    { title: "On Melancholy Hill", artist: "Gorillaz", src: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/Music/On Melancholy Hill - Gorillaz.mp3", cover: "https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp" }
 ];
 
 let currentTrackIndex = 0;
@@ -500,26 +500,26 @@ const themes = {
     'halloween': { bg: '#0c0513', channel: '#1f102e', accent: '#ff7518', barBg: '#150a21', barGrad: 'linear-gradient(to bottom, #150a21, #08030d)', dark: true, effect: 'halloween' },
     'christmas': { bg: '#0f172a', channel: '#1e293b', accent: '#ef4444', barBg: '#1e293b', barGrad: 'linear-gradient(to bottom, #1e293b, #0f172a)', dark: true, effect: 'christmas' },
 
-    // Vocaloid Mascots (with Custom Wallpapers)[cite: 3]
-    'miku': { bg: '#1a1a24', bgImg: '/assets/IMG_0697.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: true, mascotImg: '/assets/IMG_0155.png' },
-    'teto': { bg: '#1a1a24', bgImg: '/assets/IMG_0698.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: true, mascotImg: '/assets/IMG_0156.png' },
-    'rin':  { bg: '#1a1a24', bgImg: '/assets/IMG_0699.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: true, mascotImg: '/assets/IMG_0154.png' },
-    'gumi': { bg: '#1a1a24', bgImg: '/assets/IMG_0700.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: true, mascotImg: '/assets/IMG_0158.webp' },
+    // Vocaloid Mascots (with Custom Wallpapers)
+    'miku': { bg: '#1a1a24', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0697.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#39c5bb', barBg: '#b2ece7', barGrad: 'linear-gradient(to bottom, #b2ece7, #80dfd7)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0155.png' },
+    'teto': { bg: '#1a1a24', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0698.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#e6005c', barBg: '#f9c2d1', barGrad: 'linear-gradient(to bottom, #f9c2d1, #f498b2)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0156.png' },
+    'rin':  { bg: '#1a1a24', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0699.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffb700', barBg: '#fff3b3', barGrad: 'linear-gradient(to bottom, #fff3b3, #ffe066)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0154.png' },
+    'gumi': { bg: '#1a1a24', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0700.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#76c800', barBg: '#d9f2c2', barGrad: 'linear-gradient(to bottom, #d9f2c2, #b5e68d)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0158.webp' },
     
-    // Anime & Game Mascots[cite: 1]
-    'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: '/assets/IMG_0521.webp' },
-    'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
-    'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
+    // Anime & Game Mascots
+    'bleach': { bg: '#050505', channel: '#222222', accent: '#ffffff', barBg: '#111111', barGrad: 'linear-gradient(to bottom, #111111, #000000)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0521.webp' },
+    'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0522.webp' },
+    'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0523.webp' },
     
-    // Persona Themes (Updated with menu styles matching the reference image)[cite: 4, 6]
-    'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona5' },
-    'persona4': { bg: '#003366', bgImg: '/assets/IMG_0710.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: '/assets/IMG_0712.png', themeClass: 'theme-persona4' },
-    'persona3': { bg: '#001a33', bgImg: '/assets/IMG_0709.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: '/assets/IMG_0713.webp', themeClass: 'theme-persona3' },
+    // Persona Themes
+    'persona5': { bg: '#1a0000', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0703.webp', themeClass: 'theme-persona5' },
+    'persona4': { bg: '#003366', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0710.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0712.png', themeClass: 'theme-persona4' },
+    'persona3': { bg: '#001a33', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0709.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0713.webp', themeClass: 'theme-persona3' },
     
-    // Custom Background Themes[cite: 1]
-    'img0121': { bg: '#1a1a24', bgImg: '/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
-    'img0122': { bg: '#181825', bgImg: '/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
-    'jakejunior': { bg: '#111111', bgImg: '/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
+    // Custom Background Themes
+    'img0121': { bg: '#1a1a24', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0121.png', channel: 'rgba(255, 255, 255, 0.85)', accent: '#3b82f6', barBg: '#1e1e2d', barGrad: 'linear-gradient(to bottom, #1e1e2d, #11111b)', dark: true },
+    'img0122': { bg: '#181825', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0122.gif', channel: 'rgba(255, 255, 255, 0.85)', accent: '#cba6f7', barBg: '#1e1e2e', barGrad: 'linear-gradient(to bottom, #1e1e2e, #11111b)', dark: true },
+    'jakejunior': { bg: '#111111', bgImg: 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0430.webp', channel: 'rgba(255, 255, 255, 0.85)', accent: '#5ce1e6', barBg: '#f5f5f5', barGrad: 'linear-gradient(to bottom, #f5f5f5, #d0d0d0)', dark: false }
 };
 
 function setTheme(themeName) {
@@ -578,7 +578,7 @@ function setTheme(themeName) {
             ch.classList.remove('empty');
             ch.innerHTML = '';
             const img = document.createElement('img');
-            img.src = '/assets/IMG_0430.webp';
+            img.src = 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0430.webp';
             img.alt = 'Jake junior';
             ch.appendChild(img);
 
@@ -589,7 +589,7 @@ function setTheme(themeName) {
         });
 
         document.querySelectorAll('img').forEach(img => {
-            img.src = '/assets/IMG_0430.webp'; 
+            img.src = 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0430.webp'; 
             img.srcset = ''; 
             img.alt = 'Jake junior';
         });
@@ -626,7 +626,7 @@ function setTheme(themeName) {
             opt.textContent = 'Jake junior';
         });
 
-        setTabIdentity('Jake junior', '/assets/IMG_0430.webp');
+        setTabIdentity('Jake junior', 'https://cdn.jsdelivr.net/gh/captainoreo/Webstring@main/assets/IMG_0430.webp');
 
         setTimeout(() => {
             alert("Disclaimer: To get rid of this theme and restore the original page, you will have to refresh the page.");
