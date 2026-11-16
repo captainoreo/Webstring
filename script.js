@@ -124,6 +124,18 @@ function updatePaginationUI() {
     document.querySelectorAll('.page-dots .dot').forEach((dot, idx) => {
         dot.classList.toggle('active', idx === currentPage);
     });
+
+    // Re-trigger active physics modifiers when changing pages
+    if (activeModifiers.gravity) {
+        stopGravityEngine();
+        startGravityEngine();
+    } else if (activeModifiers.tetris) {
+        stopTetrisEngine();
+        startTetrisEngine();
+    } else if (activeModifiers.bubbles) {
+        stopBubblesEngine();
+        startBubblesEngine();
+    }
 }
 
 function changePage(direction) {
@@ -177,6 +189,10 @@ function handleSearch() {
         const title = img ? img.alt.toLowerCase() : '';
         if (title.includes(query)) {
             const clone = ch.cloneNode(true);
+            clone.style.transform = '';
+            clone.style.position = '';
+            clone.style.left = '';
+            clone.style.top = '';
             searchGrid.appendChild(clone);
             matchCount++;
         }
@@ -203,7 +219,17 @@ function toggleHideGameScreen() {
     }
 }
 
-// --- Game Recommendation Functionality ---
+// --- Modal Toggles ---
+function closeAllModals(exceptId) {
+    const modals = ['theme-menu', 'settings-menu', 'recommendation-modal', 'credits-modal', 'music-menu', 'modifiers-menu'];
+    modals.forEach(id => {
+        if (id !== exceptId) {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('active');
+        }
+    });
+}
+
 function recommendGame() {
     const allChannels = Array.from(document.querySelectorAll('.pages-container .channel:not(.empty)'));
     if (allChannels.length === 0) return;
@@ -222,11 +248,8 @@ function recommendGame() {
         <button class="play-btn" onclick="openGamePlayer('${href}', '${escapedTitle}'); toggleRecommendationModal();">${isJakeJuniorActive ? 'Jake junior' : 'Play Now'}</button>
     `;
 
+    closeAllModals('recommendation-modal');
     document.getElementById('recommendation-modal').classList.add('active');
-    document.getElementById('theme-menu').classList.remove('active');
-    document.getElementById('settings-menu').classList.remove('active');
-    document.getElementById('credits-modal').classList.remove('active');
-    document.getElementById('music-menu').classList.remove('active');
 }
 
 function toggleRecommendationModal() {
@@ -234,39 +257,501 @@ function toggleRecommendationModal() {
 }
 
 function toggleThemeMenu() {
-    const menu = document.getElementById('theme-menu');
-    menu.classList.toggle('active');
-    document.getElementById('settings-menu').classList.remove('active');
-    document.getElementById('recommendation-modal').classList.remove('active');
-    document.getElementById('credits-modal').classList.remove('active');
-    document.getElementById('music-menu').classList.remove('active');
+    closeAllModals('theme-menu');
+    document.getElementById('theme-menu').classList.toggle('active');
 }
 
 function toggleSettingsMenu() {
-    const menu = document.getElementById('settings-menu');
-    menu.classList.toggle('active');
-    document.getElementById('theme-menu').classList.remove('active');
-    document.getElementById('recommendation-modal').classList.remove('active');
-    document.getElementById('credits-modal').classList.remove('active');
-    document.getElementById('music-menu').classList.remove('active');
+    closeAllModals('settings-menu');
+    document.getElementById('settings-menu').classList.toggle('active');
 }
 
 function toggleCreditsModal() {
-    const menu = document.getElementById('credits-modal');
-    menu.classList.toggle('active');
-    document.getElementById('theme-menu').classList.remove('active');
-    document.getElementById('settings-menu').classList.remove('active');
-    document.getElementById('recommendation-modal').classList.remove('active');
-    document.getElementById('music-menu').classList.remove('active');
+    closeAllModals('credits-modal');
+    document.getElementById('credits-modal').classList.toggle('active');
 }
 
 function toggleMusicMenu() {
-    const menu = document.getElementById('music-menu');
-    menu.classList.toggle('active');
-    document.getElementById('theme-menu').classList.remove('active');
-    document.getElementById('settings-menu').classList.remove('active');
-    document.getElementById('recommendation-modal').classList.remove('active');
-    document.getElementById('credits-modal').classList.remove('active');
+    closeAllModals('music-menu');
+    document.getElementById('music-menu').classList.toggle('active');
+}
+
+function toggleModifiersMenu() {
+    closeAllModals('modifiers-menu');
+    document.getElementById('modifiers-menu').classList.toggle('active');
+}
+
+// ==========================================
+// --- FUN MODIFIERS SYSTEM ---
+// ==========================================
+const activeModifiers = {
+    gravity: false,
+    tetris: false,
+    bubbles: false,
+    mirror: false
+};
+
+let gravityAnimId = null;
+let tetrisAnimId = null;
+let bubblesAnimId = null;
+let physicsItems = [];
+let draggedPhysicsItem = null;
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let dragVelX = 0;
+let dragVelY = 0;
+
+// Inject Modifiers UI & Effect Styles
+const modifiersStyles = document.createElement('style');
+modifiersStyles.innerHTML = `
+    .modifiers-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .modifier-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.04);
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .modifier-card:hover {
+        border-color: var(--accent-color, #5ce1e6);
+        transform: translateY(-2px);
+    }
+
+    .modifier-card.active {
+        background: rgba(92, 225, 230, 0.15);
+        border-color: var(--accent-color, #5ce1e6);
+        box-shadow: 0 4px 12px rgba(92, 225, 230, 0.25);
+    }
+
+    body.theme-dark .modifier-card {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: #444;
+    }
+
+    body.theme-dark .modifier-card.active {
+        background: rgba(92, 225, 230, 0.2);
+        border-color: var(--accent-color, #5ce1e6);
+    }
+
+    .mod-icon {
+        font-size: 1.8rem;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    body.theme-dark .mod-icon {
+        background: #222;
+    }
+
+    .mod-info {
+        flex: 1;
+    }
+
+    .mod-title {
+        font-weight: bold;
+        font-size: 1rem;
+        color: #222;
+    }
+
+    body.theme-dark .mod-title {
+        color: #f0f0f0;
+    }
+
+    .mod-desc {
+        font-size: 0.78rem;
+        color: #666;
+        margin-top: 2px;
+    }
+
+    body.theme-dark .mod-desc {
+        color: #aaa;
+    }
+
+    .mod-status {
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: #ccc;
+        color: #333;
+    }
+
+    .modifier-card.active .mod-status {
+        background: var(--accent-color, #5ce1e6);
+        color: #000;
+    }
+
+    /* Mirror Modifier */
+    body.mod-mirror .screen {
+        transform: scaleX(-1);
+    }
+
+    /* Bubbles Modifier */
+    body.mod-bubbles .channel {
+        border-radius: 50% !important;
+        aspect-ratio: 1 / 1;
+        box-shadow: inset -6px -6px 15px rgba(0, 0, 0, 0.2),
+                    inset 6px 6px 15px rgba(255, 255, 255, 0.8),
+                    0 8px 20px rgba(92, 225, 230, 0.35) !important;
+        border: 2px solid rgba(255, 255, 255, 0.75) !important;
+        overflow: hidden;
+    }
+
+    body.mod-bubbles .channel img {
+        border-radius: 50% !important;
+        opacity: 0.9;
+    }
+
+    /* Tetris Row Flash Animation */
+    @keyframes tetrisFlash {
+        0% { filter: brightness(2.5) contrast(1.5); }
+        100% { filter: brightness(1) contrast(1); }
+    }
+    .tetris-locked {
+        animation: tetrisFlash 0.35s ease-out;
+    }
+`;
+document.head.appendChild(modifiersStyles);
+
+function getActiveChannels() {
+    const searchGrid = document.getElementById('search-results-grid');
+    if (searchGrid && searchGrid.style.display === 'grid') {
+        return Array.from(searchGrid.querySelectorAll('.channel:not(.empty)'));
+    }
+    const activePage = document.querySelector('.pages-container .grid.active');
+    return activePage ? Array.from(activePage.querySelectorAll('.channel:not(.empty)')) : [];
+}
+
+function updateModifierCardsUI() {
+    Object.keys(activeModifiers).forEach(mod => {
+        const isOn = activeModifiers[mod];
+        const card = document.getElementById(`mod-card-${mod}`);
+        const status = document.getElementById(`mod-status-${mod}`);
+        if (card) card.classList.toggle('active', isOn);
+        if (status) status.innerText = isOn ? 'ON' : 'OFF';
+    });
+}
+
+function toggleModifier(modName) {
+    const newState = !activeModifiers[modName];
+
+    // Physics-based modes (gravity, tetris, bubbles) are mutually exclusive so they don't fight each other
+    if (newState && ['gravity', 'tetris', 'bubbles'].includes(modName)) {
+        if (activeModifiers.gravity) { activeModifiers.gravity = false; stopGravityEngine(); }
+        if (activeModifiers.tetris) { activeModifiers.tetris = false; stopTetrisEngine(); }
+        if (activeModifiers.bubbles) { activeModifiers.bubbles = false; stopBubblesEngine(); }
+    }
+
+    activeModifiers[modName] = newState;
+
+    if (modName === 'mirror') {
+        document.body.classList.toggle('mod-mirror', newState);
+    } else if (modName === 'gravity') {
+        if (newState) startGravityEngine();
+        else stopGravityEngine();
+    } else if (modName === 'tetris') {
+        if (newState) startTetrisEngine();
+        else stopTetrisEngine();
+    } else if (modName === 'bubbles') {
+        if (newState) startBubblesEngine();
+        else stopBubblesEngine();
+    }
+
+    updateModifierCardsUI();
+}
+
+function resetAllModifiers() {
+    activeModifiers.gravity = false;
+    activeModifiers.tetris = false;
+    activeModifiers.bubbles = false;
+    activeModifiers.mirror = false;
+
+    stopGravityEngine();
+    stopTetrisEngine();
+    stopBubblesEngine();
+    document.body.classList.remove('mod-mirror', 'mod-bubbles');
+
+    updateModifierCardsUI();
+}
+
+function clearPhysicsStyles() {
+    document.querySelectorAll('.channel').forEach(ch => {
+        ch.style.transform = '';
+        ch.style.zIndex = '';
+        ch.style.cursor = '';
+        ch.classList.remove('tetris-locked');
+    });
+    physicsItems = [];
+    draggedPhysicsItem = null;
+}
+
+// --- 1. GRAVITY ENGINE (Bounce + Click & Drag Toss) ---
+function startGravityEngine() {
+    clearPhysicsStyles();
+    const channels = getActiveChannels();
+    const screen = document.querySelector('.screen');
+    const bottomBar = document.querySelector('.bottom-bar');
+    const floorY = screen.clientHeight - (bottomBar ? bottomBar.offsetHeight : 90) - 10;
+
+    physicsItems = channels.map(el => {
+        const rect = el.getBoundingClientRect();
+        const screenRect = screen.getBoundingClientRect();
+        return {
+            el,
+            origLeft: rect.left - screenRect.left,
+            origTop: rect.top - screenRect.top,
+            width: rect.width,
+            height: rect.height,
+            x: 0,
+            y: 0,
+            vx: (Math.random() - 0.5) * 8,
+            vy: (Math.random() - 0.5) * 4,
+            rot: 0,
+            vRot: (Math.random() - 0.5) * 4,
+            isDragging: false,
+            wasDragged: false
+        };
+    });
+
+    physicsItems.forEach(item => {
+        item.el.style.zIndex = '50';
+        item.el.style.cursor = 'grab';
+        item.el.onmousedown = (e) => {
+            e.preventDefault();
+            draggedPhysicsItem = item;
+            item.isDragging = true;
+            item.wasDragged = false;
+            item.el.style.cursor = 'grabbing';
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+            dragOffsetX = e.clientX - item.x;
+            dragOffsetY = e.clientY - item.y;
+        };
+    });
+
+    function step() {
+        if (!activeModifiers.gravity) return;
+        const maxWidth = screen.clientWidth;
+
+        physicsItems.forEach(item => {
+            if (item.isDragging) return;
+
+            item.vy += 0.65; // Gravity acceleration
+            item.vx *= 0.99; // Air friction
+            item.x += item.vx;
+            item.y += item.vy;
+            item.rot += item.vRot;
+
+            const currentBottom = item.origTop + item.y + item.height;
+            const currentLeft = item.origLeft + item.x;
+            const currentRight = currentLeft + item.width;
+
+            // Floor bounce
+            if (currentBottom > floorY) {
+                item.y = floorY - item.origTop - item.height;
+                item.vy *= -0.62;
+                item.vx *= 0.88;
+                item.vRot = item.vx * 0.6;
+                if (Math.abs(item.vy) < 1.2) item.vy = 0;
+                if (Math.abs(item.vx) < 0.2) item.vRot = 0;
+            }
+
+            // Wall bounces
+            if (currentLeft < 10) {
+                item.x = 10 - item.origLeft;
+                item.vx *= -0.7;
+            } else if (currentRight > maxWidth - 10) {
+                item.x = maxWidth - 10 - item.origLeft - item.width;
+                item.vx *= -0.7;
+            }
+
+            item.el.style.transform = `translate(${item.x}px, ${item.y}px) rotate(${item.rot}deg)`;
+        });
+
+        gravityAnimId = requestAnimationFrame(step);
+    }
+
+    gravityAnimId = requestAnimationFrame(step);
+}
+
+function stopGravityEngine() {
+    if (gravityAnimId) cancelAnimationFrame(gravityAnimId);
+    gravityAnimId = null;
+    physicsItems.forEach(item => {
+        if (item.el) item.el.onmousedown = null;
+    });
+    clearPhysicsStyles();
+}
+
+// Global mouse handlers for throwing tiles in Gravity Mode
+window.addEventListener('mousemove', (e) => {
+    if (!draggedPhysicsItem) return;
+    const dx = e.clientX - lastMouseX;
+    const dy = e.clientY - lastMouseY;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        draggedPhysicsItem.wasDragged = true;
+    }
+    // Invert horizontal drag delta if Mirror mode is also active
+    const mirrorSign = activeModifiers.mirror ? -1 : 1;
+    dragVelX = dx * mirrorSign;
+    dragVelY = dy;
+    draggedPhysicsItem.x += dx * mirrorSign;
+    draggedPhysicsItem.y += dy;
+    draggedPhysicsItem.el.style.transform = `translate(${draggedPhysicsItem.x}px, ${draggedPhysicsItem.y}px) rotate(${draggedPhysicsItem.rot}deg)`;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+});
+
+window.addEventListener('mouseup', () => {
+    if (!draggedPhysicsItem) return;
+    draggedPhysicsItem.isDragging = false;
+    draggedPhysicsItem.el.style.cursor = 'grab';
+    draggedPhysicsItem.vx = dragVelX * 0.8;
+    draggedPhysicsItem.vy = dragVelY * 0.8;
+    const releasedItem = draggedPhysicsItem;
+    draggedPhysicsItem = null;
+    setTimeout(() => { releasedItem.wasDragged = false; }, 50);
+});
+
+// --- 2. TETRIS DROP ENGINE ---
+function startTetrisEngine() {
+    clearPhysicsStyles();
+    const channels = getActiveChannels();
+    const screen = document.querySelector('.screen');
+    const screenRect = screen.getBoundingClientRect();
+    const bottomBar = document.querySelector('.bottom-bar');
+    const floorY = screen.clientHeight - (bottomBar ? bottomBar.offsetHeight : 90) - 12;
+
+    // Sort channels from bottom-most to top-most so bottom rows land first and stack cleanly
+    const mapped = channels.map((el, index) => {
+        const rect = el.getBoundingClientRect();
+        return {
+            el,
+            origTop: rect.top - screenRect.top,
+            height: rect.height,
+            rowIndex: Math.floor(index / 4) // 4 columns per row
+        };
+    });
+
+    // Calculate target Y so rows stack snugly at the bottom of the screen
+    const maxRow = Math.max(...mapped.map(m => m.rowIndex), 0);
+    physicsItems = mapped.map((item, idx) => {
+        const rowsFromBottom = maxRow - item.rowIndex;
+        const targetAbsTop = floorY - ((rowsFromBottom + 1) * (item.height + 8));
+        const targetOffsetY = targetAbsTop - item.origTop;
+        const startOffsetY = -item.origTop - item.height - (rowsFromBottom * 160) - ((idx % 4) * 55);
+
+        item.el.style.transform = `translateY(${startOffsetY}px)`;
+        return {
+            el: item.el,
+            currentY: startOffsetY,
+            targetY: targetOffsetY,
+            speed: 9 + (rowsFromBottom * 1.5),
+            locked: false
+        };
+    });
+
+    function step() {
+        if (!activeModifiers.tetris) return;
+        let allLocked = true;
+
+        physicsItems.forEach(item => {
+            if (!item.locked) {
+                allLocked = false;
+                item.currentY += item.speed;
+                if (item.currentY >= item.targetY) {
+                    item.currentY = item.targetY;
+                    item.locked = true;
+                    item.el.classList.add('tetris-locked');
+                }
+                item.el.style.transform = `translateY(${item.currentY}px)`;
+            }
+        });
+
+        if (!allLocked) {
+            tetrisAnimId = requestAnimationFrame(step);
+        }
+    }
+
+    tetrisAnimId = requestAnimationFrame(step);
+}
+
+function stopTetrisEngine() {
+    if (tetrisAnimId) cancelAnimationFrame(tetrisAnimId);
+    tetrisAnimId = null;
+    clearPhysicsStyles();
+}
+
+// --- 3. BUBBLES ENGINE ---
+function startBubblesEngine() {
+    clearPhysicsStyles();
+    document.body.classList.add('mod-bubbles');
+    const channels = getActiveChannels();
+    const screen = document.querySelector('.screen');
+    const screenHeight = screen.clientHeight;
+
+    physicsItems = channels.map((el, i) => ({
+        el,
+        yOffset: 0,
+        floatSpeed: 0.6 + Math.random() * 0.9,
+        wobblePhase: i * 0.9 + Math.random() * 2,
+        wobbleSpeed: 0.03 + Math.random() * 0.02,
+        wobbleAmp: 12 + Math.random() * 14,
+        scalePhase: Math.random() * Math.PI * 2
+    }));
+
+    function step() {
+        if (!activeModifiers.bubbles) return;
+
+        physicsItems.forEach(item => {
+            item.yOffset -= item.floatSpeed;
+            item.wobblePhase += item.wobbleSpeed;
+            item.scalePhase += 0.04;
+
+            // Wrap seamlessly from top back to bottom
+            if (item.yOffset < -screenHeight * 0.75) {
+                item.yOffset = screenHeight * 0.45;
+            }
+
+            const swayX = Math.sin(item.wobblePhase) * item.wobbleAmp;
+            const scaleX = 1 + Math.sin(item.scalePhase) * 0.04;
+            const scaleY = 1 + Math.cos(item.scalePhase) * 0.04;
+
+            item.el.style.transform = `translate(${swayX}px, ${item.yOffset}px) scale(${scaleX}, ${scaleY})`;
+        });
+
+        bubblesAnimId = requestAnimationFrame(step);
+    }
+
+    bubblesAnimId = requestAnimationFrame(step);
+}
+
+function stopBubblesEngine() {
+    if (bubblesAnimId) cancelAnimationFrame(bubblesAnimId);
+    bubblesAnimId = null;
+    document.body.classList.remove('mod-bubbles');
+    clearPhysicsStyles();
 }
 
 // --- Music Player Playlist Configuration ---
@@ -425,11 +910,14 @@ function toggleIframeFullscreen() {
     }
 }
 
-// Click Event Listener for Channel Tiles
+// Click Event Listener for Channel Tiles (ignores drags in Gravity Mode)
 document.addEventListener('click', function (e) {
     const channel = e.target.closest('.channel');
     if (channel && channel.hasAttribute('href')) {
         e.preventDefault();
+        const physItem = physicsItems.find(p => p.el === channel);
+        if (physItem && physItem.wasDragged) return;
+
         const img = channel.querySelector('img');
         const title = isJakeJuniorActive ? 'Jake junior' : (img ? img.alt : 'Game Player');
         openGamePlayer(channel.getAttribute('href'), title);
@@ -511,7 +999,7 @@ const themes = {
     'blue exorcist': { bg: '#02040a', channel: '#0b1329', accent: '#3b82f6', barBg: '#050a14', barGrad: 'linear-gradient(to bottom, #050a14, #010205)', dark: true, mascotImg: '/assets/IMG_0522.webp' },
     'assassination classroom': { bg: '#1b3322', channel: '#2d4f37', accent: '#facc15', barBg: '#15281a', barGrad: 'linear-gradient(to bottom, #15281a, #0b140e)', dark: true, mascotImg: '/assets/IMG_0523.webp' },
     
-    // Persona Themes (Updated with menu styles matching the reference image)
+    // Persona Themes
     'persona5': { bg: '#1a0000', bgImg: '/assets/IMG_0702.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ff0033', barBg: '#2b0000', barGrad: 'linear-gradient(to bottom, #2b0000, #100000)', dark: true, mascotImg: '/assets/IMG_0703.webp', themeClass: 'theme-persona5' },
     'persona4': { bg: '#003366', bgImg: '/assets/IMG_0710.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#ffcc00', barBg: '#002244', barGrad: 'linear-gradient(to bottom, #002244, #001122)', dark: false, mascotImg: '/assets/IMG_0712.png', themeClass: 'theme-persona4' },
     'persona3': { bg: '#001a33', bgImg: '/assets/IMG_0709.jpeg', channel: 'rgba(255, 255, 255, 0.85)', accent: '#00ccff', barBg: '#001122', barGrad: 'linear-gradient(to bottom, #001122, #00050f)', dark: true, mascotImg: '/assets/IMG_0713.webp', themeClass: 'theme-persona3' },
@@ -544,10 +1032,8 @@ function setTheme(themeName) {
         }
     }
 
-    // Trigger dynamic special effects animation handler
     handleThemeEffects(t.effect);
 
-    // Shared Mascot Handler Logic
     const mascot = document.getElementById('vocaloid-mascot');
     if (t.mascotImg) {
         mascot.src = t.mascotImg;
@@ -557,7 +1043,6 @@ function setTheme(themeName) {
         mascot.src = '';
     }
 
-    // Toggle custom font classes for Persona themes
     document.body.classList.remove('theme-persona5', 'theme-persona4', 'theme-persona3');
     if (t.themeClass) {
         document.body.classList.add(t.themeClass);
