@@ -250,6 +250,53 @@
             <button class="close-btn" onclick="toggleThemeMenu()">Close</button>
         </div>
 
+        <!-- Fun Modifiers Menu -->
+        <div id="modifiers-menu" class="theme-menu">
+            <h3>✨ Fun Modifiers</h3>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">Warp the Webstring menu with physics and visual chaos!</p>
+            
+            <div class="modifiers-grid">
+                <div class="modifier-card" id="mod-card-gravity" onclick="toggleModifier('gravity')">
+                    <div class="mod-icon">🪐</div>
+                    <div class="mod-info">
+                        <div class="mod-title">Gravity</div>
+                        <div class="mod-desc">Tiles fall & bounce! Drag to throw them.</div>
+                    </div>
+                    <div class="mod-status" id="mod-status-gravity">OFF</div>
+                </div>
+
+                <div class="modifier-card" id="mod-card-tetris" onclick="toggleModifier('tetris')">
+                    <div class="mod-icon">🧱</div>
+                    <div class="mod-info">
+                        <div class="mod-title">Tetris Drop</div>
+                        <div class="mod-desc">Blocks drop from the sky & stack up.</div>
+                    </div>
+                    <div class="mod-status" id="mod-status-tetris">OFF</div>
+                </div>
+
+                <div class="modifier-card" id="mod-card-bubbles" onclick="toggleModifier('bubbles')">
+                    <div class="mod-icon">🫧</div>
+                    <div class="mod-info">
+                        <div class="mod-title">Bubbles</div>
+                        <div class="mod-desc">Channels turn into floating, wobbly bubbles.</div>
+                    </div>
+                    <div class="mod-status" id="mod-status-bubbles">OFF</div>
+                </div>
+
+                <div class="modifier-card" id="mod-card-mirror" onclick="toggleModifier('mirror')">
+                    <div class="mod-icon">🪞</div>
+                    <div class="mod-info">
+                        <div class="mod-title">Mirror Version</div>
+                        <div class="mod-desc">Flips the entire screen horizontally.</div>
+                    </div>
+                    <div class="mod-status" id="mod-status-mirror">OFF</div>
+                </div>
+            </div>
+
+            <button onclick="resetAllModifiers()" class="action-btn" style="width: 100%; margin-top: 12px; background: #ef4444; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-weight: bold;">🔄 Reset All Modifiers</button>
+            <button class="close-btn" onclick="toggleModifiersMenu()">Close</button>
+        </div>
+
         <!-- Categorized Settings & Advanced Tab Cloaking Menu -->
         <div id="settings-menu" class="theme-menu">
             <h3>⚙ Settings & Privacy</h3>
@@ -309,7 +356,6 @@
                         </button>
                     </div>
                 </div>
-
 
                 <!-- Data Backup & Restore Category -->
                 <div class="settings-category">
@@ -429,6 +475,7 @@
                 <div style="display: flex; gap: 8px; align-items: center;">
                     <div class="round-btn" onclick="toggleThemeMenu()" title="Themes">🎨</div>
                     <div class="round-btn" onclick="toggleMusicMenu()" title="Music Player" style="width: 36px; height: 36px; font-size: 1rem; display: flex; align-items: center; justify-content: center;">🎵</div>
+                    <div class="round-btn" onclick="toggleModifiersMenu()" title="Fun Modifiers" style="width: 36px; height: 36px; font-size: 1rem; display: flex; align-items: center; justify-content: center;">✨</div>
                 </div>
                 
                 <div class="time-date">
